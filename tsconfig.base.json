@@ -1,0 +1,19 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "moduleResolution": "bundler",
+    "emitDecoratorMetadata": false,
+    "target": "es2022",
+    "module": "preserve",
+    "lib": ["es2020", "dom"],
+    "baseUrl": ".",
+    "paths": {
+      "@base-nx-angular/layout": ["libs/layout/src/index.ts"],
+      "@base-nx-angular/shared/models": ["libs/shared/models/src/index.ts"],
+      "@base-nx-angular/shared/services": ["libs/shared/services/src/index.ts"],
+      "@base-nx-angular/shared/ui": ["libs/shared/ui/src/index.ts"],
+      "@base-nx-angular/shared/utils": ["libs/shared/utils/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}
