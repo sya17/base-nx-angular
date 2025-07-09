@@ -1,1 +1,1 @@
-export * from './lib/models/models';
+export * from './lib/shared-models/shared-models';

@@ -8,7 +8,30 @@
     "lib": ["es2020", "dom"],
     "baseUrl": ".",
     "paths": {
+      "@base-nx-angular/features/auth": ["libs/features/auth/src/index.ts"],
+      "@base-nx-angular/features/auth/data-access": [
+        "libs/features/auth/data-access/src/index.ts"
+      ],
+      "@base-nx-angular/features/auth/ui": [
+        "libs/features/auth/ui/src/index.ts"
+      ],
+      "@base-nx-angular/features/dashboard": [
+        "libs/features/dashboard/src/index.ts"
+      ],
+      "@base-nx-angular/features/dashboard/data-access": [
+        "libs/features/dashboard/data-access/src/index.ts"
+      ],
+      "@base-nx-angular/features/dashboard/ui": [
+        "libs/features/dashboard/ui/src/index.ts"
+      ],
       "@base-nx-angular/layout": ["libs/layout/src/index.ts"],
+      "@base-nx-angular/shared/constants": [
+        "libs/shared/constants/src/index.ts"
+      ],
+      "@base-nx-angular/shared/guards": ["libs/shared/guards/src/index.ts"],
+      "@base-nx-angular/shared/interceptors": [
+        "libs/shared/interceptors/src/index.ts"
+      ],
       "@base-nx-angular/shared/models": ["libs/shared/models/src/index.ts"],
       "@base-nx-angular/shared/services": ["libs/shared/services/src/index.ts"],
       "@base-nx-angular/shared/ui": ["libs/shared/ui/src/index.ts"],
