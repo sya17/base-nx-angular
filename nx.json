@@ -48,7 +48,7 @@
       "unitTestRunner": "none"
     },
     "@nx/angular:component": {
-      "style": "css"
+      "style": "scss"
     }
   },
   "defaultProject": "base-nx-angular",
