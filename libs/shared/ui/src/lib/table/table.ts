@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'lib-alert',
+  selector: 'lib-table',
   imports: [CommonModule],
-  templateUrl: './alert.html',
-  styleUrl: './alert.css',
+  templateUrl: './table.html',
+  styleUrl: './table.scss',
 })
-export class Alert {}
+export class Table {}

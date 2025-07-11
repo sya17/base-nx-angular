@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'lib-card',
+  selector: 'lib-pagination',
   imports: [CommonModule],
-  templateUrl: './card.html',
-  styleUrl: './card.css',
+  templateUrl: './pagination.html',
+  styleUrl: './pagination.scss',
 })
-export class Card {}
+export class Pagination {}

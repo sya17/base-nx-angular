@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'lib-pagination',
+  selector: 'lib-button',
   imports: [CommonModule],
-  templateUrl: './pagination.html',
-  styleUrl: './pagination.css',
+  templateUrl: './button.html',
+  styleUrl: './button.scss',
 })
-export class Pagination {}
+export class Button {}

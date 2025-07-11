@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'lib-input',
+  selector: 'lib-modal',
   imports: [CommonModule],
-  templateUrl: './input.html',
-  styleUrl: './input.css',
+  templateUrl: './modal.html',
+  styleUrl: './modal.scss',
 })
-export class Input {}
+export class Modal {}

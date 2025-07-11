@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'lib-modal',
+  selector: 'lib-alert',
   imports: [CommonModule],
-  templateUrl: './modal.html',
-  styleUrl: './modal.css',
+  templateUrl: './alert.html',
+  styleUrl: './alert.scss',
 })
-export class Modal {}
+export class Alert {}

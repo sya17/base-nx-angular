@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'lib-loading',
+  selector: 'lib-input',
   imports: [CommonModule],
-  templateUrl: './loading.html',
-  styleUrl: './loading.css',
+  templateUrl: './input.html',
+  styleUrl: './input.scss',
 })
-export class Loading {}
+export class Input {}

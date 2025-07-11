@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'lib-table',
+  selector: 'lib-loading',
   imports: [CommonModule],
-  templateUrl: './table.html',
-  styleUrl: './table.css',
+  templateUrl: './loading.html',
+  styleUrl: './loading.scss',
 })
-export class Table {}
+export class Loading {}

@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'lib-button',
+  selector: 'lib-card',
   imports: [CommonModule],
-  templateUrl: './button.html',
-  styleUrl: './button.css',
+  templateUrl: './card.html',
+  styleUrl: './card.scss',
 })
-export class Button {}
+export class Card {}
