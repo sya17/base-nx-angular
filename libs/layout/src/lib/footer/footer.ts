@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'lib-auth-layout',
+  selector: 'lib-footer',
   imports: [CommonModule],
-  templateUrl: './auth-layout.html',
-  styleUrl: './auth-layout.css',
+  templateUrl: './footer.html',
+  styleUrl: './footer.scss',
 })
-export class AuthLayout {}
+export class Footer {}

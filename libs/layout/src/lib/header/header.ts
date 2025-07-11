@@ -5,6 +5,6 @@ import { CommonModule } from '@angular/common';
   selector: 'lib-header',
   imports: [CommonModule],
   templateUrl: './header.html',
-  styleUrl: './header.css',
+  styleUrl: './header.scss',
 })
 export class Header {}

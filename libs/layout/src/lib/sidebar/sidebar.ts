@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'lib-footer',
+  selector: 'lib-sidebar',
   imports: [CommonModule],
-  templateUrl: './footer.html',
-  styleUrl: './footer.css',
+  templateUrl: './sidebar.html',
+  styleUrl: './sidebar.scss',
 })
-export class Footer {}
+export class Sidebar {}
