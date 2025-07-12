@@ -1,0 +1,393 @@
+// Switch component styles
+.switch {
+  display: flex;
+  align-items: flex-start;
+
+  // Switch button (main control)
+  &__button {
+    position: relative;
+    display: inline-flex;
+    flex-shrink: 0;
+    cursor: pointer;
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-color: #e5e7eb;
+    transition: all 200ms ease-in-out;
+    outline: none;
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2),
+        0 0 0 4px rgba(99, 102, 241, 0.5);
+    }
+
+    // Size variants
+    &--sm {
+      height: 20px;
+      width: 36px;
+
+      &:focus {
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2),
+          0 0 0 4px rgba(99, 102, 241, 0.5);
+      }
+    }
+
+    &--md {
+      height: 24px;
+      width: 44px;
+
+      &:focus {
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2),
+          0 0 0 4px rgba(99, 102, 241, 0.5);
+      }
+    }
+
+    &--lg {
+      height: 28px;
+      width: 48px;
+
+      &:focus {
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2),
+          0 0 0 4px rgba(99, 102, 241, 0.5);
+      }
+    }
+
+    // Active state with colors
+    &--active {
+      &.switch__button--primary {
+        background-color: #6366f1;
+
+        &:focus {
+          box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2),
+            0 0 0 4px rgba(99, 102, 241, 0.5);
+        }
+      }
+
+      &.switch__button--success {
+        background-color: #10b981;
+
+        &:focus {
+          box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2),
+            0 0 0 4px rgba(16, 185, 129, 0.5);
+        }
+      }
+
+      &.switch__button--warning {
+        background-color: #fbbf24;
+
+        &:focus {
+          box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2),
+            0 0 0 4px rgba(251, 191, 36, 0.5);
+        }
+      }
+
+      &.switch__button--danger {
+        background-color: #ef4444;
+
+        &:focus {
+          box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2),
+            0 0 0 4px rgba(239, 68, 68, 0.5);
+        }
+      }
+    }
+
+    // Disabled state
+    &--disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+  }
+
+  // Track (visual container)
+  &__track {
+    pointer-events: none;
+    position: relative;
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    border-radius: 9999px;
+    box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+    transform: scale(1);
+    transition: all 200ms ease-in-out;
+  }
+
+  // Thumb (movable part)
+  &__thumb {
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    border-radius: 50%;
+    background-color: white;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+    transform: translateX(0);
+    transition: all 200ms ease-in-out;
+
+    // Size variants
+    &--sm {
+      height: 16px;
+      width: 16px;
+    }
+
+    &--md {
+      height: 20px;
+      width: 20px;
+    }
+
+    &--lg {
+      height: 24px;
+      width: 24px;
+    }
+
+    // Active position
+    &--active {
+      &.switch__thumb--sm {
+        transform: translateX(16px);
+      }
+
+      &.switch__thumb--md {
+        transform: translateX(20px);
+      }
+
+      &.switch__thumb--lg {
+        transform: translateX(20px);
+      }
+    }
+  }
+
+  // Icon container
+  &__icon-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 200ms ease-in-out;
+  }
+
+  // Icons
+  &__icon {
+    transition: color 200ms ease-in-out;
+
+    // Size variants
+    &--sm {
+      height: 8px;
+      width: 8px;
+    }
+
+    &--md {
+      height: 12px;
+      width: 12px;
+    }
+
+    &--lg {
+      height: 14px;
+      width: 14px;
+    }
+
+    // Color variants
+    &--active {
+      color: white;
+    }
+
+    &:not(&--active) {
+      color: #9ca3af;
+    }
+  }
+
+  // Content area (label and description)
+  &__content {
+    margin-left: 12px;
+    flex: 1;
+  }
+
+  // Label
+  &__label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #111827;
+    cursor: pointer;
+    display: block;
+
+    &--disabled {
+      color: #9ca3af;
+      cursor: not-allowed;
+    }
+  }
+
+  &__required {
+    color: #ef4444;
+    margin-left: 4px;
+  }
+
+  // Description
+  &__description {
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 4px;
+    line-height: 1.4;
+
+    &--disabled {
+      color: #d1d5db;
+    }
+  }
+}
+
+// Hover effects
+.switch__button:hover:not(.switch__button--disabled) {
+  .switch__track {
+    transform: scale(1.05);
+  }
+
+  .switch__thumb {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
+  }
+}
+
+// Active/pressed state
+.switch__button:active:not(.switch__button--disabled) {
+  .switch__track {
+    transform: scale(0.95);
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .switch {
+    &__button {
+      // Slightly larger touch targets on mobile
+      &--sm {
+        height: 24px;
+        width: 40px;
+      }
+
+      &--md {
+        height: 28px;
+        width: 48px;
+      }
+
+      &--lg {
+        height: 32px;
+        width: 52px;
+      }
+    }
+
+    &__thumb {
+      &--sm {
+        height: 20px;
+        width: 20px;
+      }
+
+      &--md {
+        height: 24px;
+        width: 24px;
+      }
+
+      &--lg {
+        height: 28px;
+        width: 28px;
+      }
+
+      &--active {
+        &.switch__thumb--sm {
+          transform: translateX(16px);
+        }
+
+        &.switch__thumb--md {
+          transform: translateX(20px);
+        }
+
+        &.switch__thumb--lg {
+          transform: translateX(20px);
+        }
+      }
+    }
+
+    &__content {
+      margin-left: 16px;
+    }
+
+    &__label {
+      font-size: 16px;
+    }
+
+    &__description {
+      font-size: 14px;
+      margin-top: 2px;
+    }
+  }
+}
+
+// Accessibility - Reduced motion
+@media (prefers-reduced-motion: reduce) {
+  .switch__button,
+  .switch__track,
+  .switch__thumb,
+  .switch__icon-container {
+    transition: none;
+  }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  .switch {
+    &__button {
+      border: 2px solid #000;
+      background-color: #fff;
+
+      &--active {
+        background-color: #000;
+        border-color: #000;
+
+        .switch__thumb {
+          background-color: #fff;
+        }
+      }
+    }
+
+    &__thumb {
+      border: 1px solid #000;
+    }
+
+    &__label {
+      color: #000;
+
+      &--disabled {
+        color: #666;
+      }
+    }
+  }
+}
+
+// Focus visible for better keyboard navigation
+.switch__button:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+}
+
+// Animation for smooth state transitions
+@keyframes switchOn {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(20px);
+  }
+}
+
+@keyframes switchOff {
+  from {
+    transform: translateX(20px);
+  }
+  to {
+    transform: translateX(0);
+  }
+}

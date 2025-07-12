@@ -1,0 +1,68 @@
+<div [class]="containerClasses">
+  <!-- Label -->
+  <div *ngIf="showLabel || showPercentage" class="progress__header">
+    <span *ngIf="showLabel && label" [class]="labelClasses"> {{ label }} </span>
+    <span *ngIf="showPercentage" [class]="percentageClasses">
+      {{ displayValue }}{{ unit }}
+    </span>
+  </div>
+
+  <!-- Progress Bar -->
+  <div
+    [class]="trackClasses"
+    role="progressbar"
+    [attr.aria-valuenow]="value"
+    [attr.aria-valuemin]="min"
+    [attr.aria-valuemax]="max"
+    [attr.aria-label]="label || 'Progress'"
+  >
+    <!-- Progress Fill -->
+    <div [class]="fillClasses" [style.width.%]="percentage">
+      <!-- Striped Pattern -->
+      <div *ngIf="variant === 'striped'" class="progress__stripes"></div>
+
+      <!-- Glow Effect -->
+      <div *ngIf="variant === 'glow'" class="progress__glow"></div>
+
+      <!-- Inner Label -->
+      <span *ngIf="showInnerLabel" [class]="innerLabelClasses">
+        {{ displayValue }}{{ unit }}
+      </span>
+    </div>
+
+    <!-- Buffer Bar (for indeterminate loading) -->
+    <div *ngIf="indeterminate" [class]="bufferClasses"></div>
+  </div>
+
+  <!-- Steps (for step progress) -->
+  <div *ngIf="steps && steps.length > 0" class="progress__steps">
+    <div
+      *ngFor="let step of steps; let i = index"
+      [class]="getStepClasses(i)"
+      [title]="step.label"
+    >
+      <div [class]="stepDotClasses(i)">
+        <!-- Step Icon -->
+        <svg
+          *ngIf="getStepProgress(i) === 'completed'"
+          class="progress__step-icon"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+            clip-rule="evenodd"
+          ></path>
+        </svg>
+        <span
+          *ngIf="getStepProgress(i) !== 'completed'"
+          class="progress__step-number"
+        >
+          {{ i + 1 }}
+        </span>
+      </div>
+      <span [class]="stepLabelClasses(i)">{{ step.label }}</span>
+    </div>
+  </div>
+</div>

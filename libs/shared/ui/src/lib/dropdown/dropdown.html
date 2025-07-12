@@ -1,0 +1,109 @@
+<div class="dropdown">
+  <!-- Label -->
+  <label *ngIf="label" [for]="inputId" class="dropdown__label">
+    {{ label }}
+    <span *ngIf="required" class="dropdown__required">*</span>
+  </label>
+
+  <!-- Dropdown Button -->
+  <button
+    [id]="inputId"
+    type="button"
+    (click)="toggleDropdown()"
+    (blur)="onBlur()"
+    [disabled]="disabled"
+    [class]="buttonClasses"
+  >
+    <div class="dropdown__button-content">
+      <div class="dropdown__selected-area">
+        <!-- Selected Option Icon -->
+        <div *ngIf="selectedOption?.icon" class="dropdown__icon">
+          <i [class]="selectedOption?.icon"></i>
+        </div>
+
+        <!-- Selected Option Text -->
+        <span [class]="selectedTextClasses">
+          {{ selectedOption?.label || placeholder }}
+        </span>
+      </div>
+
+      <!-- Dropdown Arrow -->
+      <svg
+        [class]="arrowClasses"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M19 9l-7 7-7-7"
+        ></path>
+      </svg>
+    </div>
+  </button>
+
+  <!-- Dropdown Menu -->
+  <div *ngIf="isOpen" [class]="menuClasses">
+    <!-- Search Input -->
+    <div *ngIf="searchable" class="dropdown__search">
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()"
+        placeholder="Search options..."
+        class="dropdown__search-input"
+      />
+    </div>
+
+    <!-- Options List -->
+    <div [class]="optionsContainerClasses" [style.max-height]="maxHeight">
+      <div *ngIf="filteredOptions.length === 0" class="dropdown__no-options">
+        {{ searchTerm ? 'No options found' : 'No options available' }}
+      </div>
+
+      <button
+        *ngFor="let option of filteredOptions; trackBy: trackByValue"
+        type="button"
+        (click)="selectOption(option)"
+        [disabled]="option.disabled"
+        [class]="getOptionClasses(option)"
+      >
+        <div class="dropdown__option-content">
+          <!-- Option Icon -->
+          <div *ngIf="option.icon" class="dropdown__option-icon">
+            <i [class]="option.icon"></i>
+          </div>
+
+          <!-- Option Label -->
+          <span class="dropdown__option-label">{{ option.label }}</span>
+
+          <!-- Selected Check -->
+          <svg
+            *ngIf="isSelected(option)"
+            class="dropdown__check-icon"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <!-- Backdrop -->
+  <div
+    *ngIf="isOpen"
+    class="dropdown__backdrop"
+    (click)="closeDropdown()"
+  ></div>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="dropdown__error">{{ errorMessage }}</div>
+</div>

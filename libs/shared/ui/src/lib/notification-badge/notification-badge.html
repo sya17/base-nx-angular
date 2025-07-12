@@ -1,0 +1,16 @@
+<div class="notification-badge">
+  <!-- Content -->
+  <ng-content></ng-content>
+
+  <!-- Badge -->
+  <lib-badge
+    *ngIf="count > 0 || showDot"
+    [variant]="showDot && count === 0 ? 'dot' : 'solid'"
+    [color]="color"
+    [size]="size"
+    [pulse]="pulse"
+    [class]="badgePositionClasses"
+  >
+    {{ displayCount }}
+  </lib-badge>
+</div>

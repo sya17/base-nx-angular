@@ -1,0 +1,80 @@
+<div class="input">
+  <!-- Standard Label -->
+  <label
+    *ngIf="label && variant !== 'floating'"
+    [for]="inputId"
+    [class]="labelClasses"
+  >
+    {{ label }}
+    <span *ngIf="required" class="input__required">*</span>
+  </label>
+
+  <!-- Input Container -->
+  <div [class]="containerClasses">
+    <!-- Left Icon -->
+    <div *ngIf="iconLeft" class="input__icon input__icon--left">
+      <ng-content select="[slot=icon-left]"></ng-content>
+    </div>
+
+    <!-- Input Field -->
+    <input
+      [id]="inputId"
+      [type]="type"
+      [placeholder]="variant === 'floating' ? ' ' : placeholder"
+      [disabled]="disabled"
+      [readonly]="readonly"
+      [value]="value"
+      [class]="inputClasses"
+      (input)="onInput($event)"
+      (blur)="onBlur()"
+      (focus)="onFocus()"
+      #inputElement
+    />
+
+    <!-- Floating Label -->
+    <label
+      *ngIf="variant === 'floating'"
+      [for]="inputId"
+      [class]="floatingLabelClasses"
+    >
+      {{ label || placeholder }}
+      <span *ngIf="required" class="input__required">*</span>
+    </label>
+
+    <!-- Right Icon/Clear Button -->
+    <div
+      *ngIf="iconRight || (clearable && value)"
+      class="input__icon input__icon--right"
+    >
+      <button
+        *ngIf="clearable && value"
+        type="button"
+        (click)="clearValue()"
+        class="input__clear-btn"
+      >
+        <svg
+          class="input__clear-icon"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          ></path>
+        </svg>
+      </button>
+
+      <div *ngIf="iconRight" class="input__icon-content">
+        <ng-content select="[slot=icon-right]"></ng-content>
+      </div>
+    </div>
+  </div>
+
+  <!-- Helper Text -->
+  <div *ngIf="helperText || errorMessage" [class]="helperClasses">
+    {{ errorMessage || helperText }}
+  </div>
+</div>

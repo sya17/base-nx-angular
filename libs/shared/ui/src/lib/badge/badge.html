@@ -1,0 +1,37 @@
+<span [class]="badgeClasses">
+  <!-- Icon Left -->
+  <ng-content select="[slot=icon-left]"></ng-content>
+
+  <!-- Dot (for dot variant) -->
+  <span *ngIf="variant === 'dot'" [class]="dotClasses"></span>
+
+  <!-- Content -->
+  <span *ngIf="variant !== 'dot'" class="badge__content">
+    <ng-content></ng-content>
+  </span>
+
+  <!-- Icon Right -->
+  <ng-content select="[slot=icon-right]"></ng-content>
+
+  <!-- Remove Button -->
+  <button
+    *ngIf="removable"
+    type="button"
+    (click)="onRemove()"
+    [class]="removeButtonClasses"
+  >
+    <svg
+      class="badge__remove-icon"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M6 18L18 6M6 6l12 12"
+      ></path>
+    </svg>
+  </button>
+</span>

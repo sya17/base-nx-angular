@@ -1,0 +1,38 @@
+<div [class]="containerClasses">
+  <!-- Tab Navigation -->
+  <div [class]="navClasses" role="tablist">
+    <button
+      *ngFor="let tab of tabs; trackBy: trackByTab"
+      type="button"
+      role="tab"
+      [attr.aria-selected]="tab.id === activeTabId"
+      [attr.aria-controls]="'panel-' + tab.id"
+      [id]="'tab-' + tab.id"
+      [disabled]="tab.disabled"
+      [class]="getTabClasses(tab)"
+      (click)="selectTab(tab.id)"
+    >
+      <!-- Icon -->
+      <i *ngIf="tab.icon" [class]="tab.icon + ' tabs__icon'"></i>
+
+      <!-- Label -->
+      <span class="tabs__label">{{ tab.label }}</span>
+
+      <!-- Badge -->
+      <span *ngIf="tab.badge" [class]="badgeClasses"> {{ tab.badge }} </span>
+    </button>
+
+    <!-- Active Tab Indicator -->
+    <div
+      *ngIf="variant === 'underline'"
+      class="tabs__indicator"
+      [style.left.px]="indicatorLeft"
+      [style.width.px]="indicatorWidth"
+    ></div>
+  </div>
+
+  <!-- Tab Content -->
+  <div [class]="contentClasses">
+    <ng-content></ng-content>
+  </div>
+</div>

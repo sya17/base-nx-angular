@@ -1,0 +1,187 @@
+// Base button styles
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  transition: all 200ms ease-out;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2), 0 0 0 4px var(--focus-color);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.95);
+  }
+
+  // Content wrapper
+  &__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  // Text content
+  &__text {
+    transition: opacity 200ms ease-out;
+
+    &--hidden {
+      opacity: 0;
+    }
+  }
+
+  // Loading spinner
+  &__spinner {
+    border: 2px solid currentColor;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+}
+
+// Spinner animation
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// Size variants
+.btn--sm {
+  height: 32px;
+  padding: 0 12px;
+  font-size: 14px;
+  border-radius: 8px;
+
+  &.btn--icon-only {
+    width: 32px;
+    padding: 0;
+  }
+
+  .btn__spinner {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+.btn--md {
+  height: 40px;
+  padding: 0 16px;
+  font-size: 14px;
+  border-radius: 12px;
+
+  &.btn--icon-only {
+    width: 40px;
+    padding: 0;
+  }
+
+  .btn__spinner {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.btn--lg {
+  height: 48px;
+  padding: 0 24px;
+  font-size: 16px;
+  border-radius: 12px;
+
+  &.btn--icon-only {
+    width: 48px;
+    padding: 0;
+  }
+
+  .btn__spinner {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+// Width variant
+.btn--full-width {
+  width: 100%;
+}
+
+// Color variants
+.btn--primary {
+  --focus-color: rgba(99, 102, 241, 0.5);
+  background: linear-gradient(135deg, #6366f1 0%, #9333ea 100%);
+  color: white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+  &:hover:not(:disabled) {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+      0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+}
+
+.btn--secondary {
+  --focus-color: rgba(156, 163, 175, 0.5);
+  background: white;
+  color: #374151;
+  border: 2px solid #e5e7eb;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+
+  &:hover:not(:disabled) {
+    background: #f9fafb;
+    border-color: #d1d5db;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  }
+}
+
+.btn--accent {
+  --focus-color: rgba(251, 146, 60, 0.5);
+  background: linear-gradient(90deg, #fb923c 0%, #ec4899 100%);
+  color: white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+  &:hover:not(:disabled) {
+    background: linear-gradient(90deg, #f97316 0%, #db2777 100%);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+      0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+}
+
+.btn--ghost {
+  --focus-color: rgba(156, 163, 175, 0.5);
+  background: transparent;
+  color: #4b5563;
+
+  &:hover:not(:disabled) {
+    background: #f3f4f6;
+    color: #111827;
+  }
+}
+
+.btn--danger {
+  --focus-color: rgba(239, 68, 68, 0.5);
+  background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+  &:hover:not(:disabled) {
+    background: linear-gradient(90deg, #dc2626 0%, #b91c1c 100%);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+      0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+}

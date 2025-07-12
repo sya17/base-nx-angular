@@ -1,0 +1,108 @@
+<div [class]="containerClasses">
+  <!-- Label -->
+  <div *ngIf="label || showValue" class="slider__header">
+    <label *ngIf="label" [for]="sliderId" class="slider__label">
+      {{ label }}
+      <span *ngIf="required" class="slider__required">*</span>
+    </label>
+    <span *ngIf="showValue" class="slider__value">
+      {{ range ? displayRangeValue : displayValue }}{{ unit }}
+    </span>
+  </div>
+
+  <!-- Slider Container -->
+  <div
+    #sliderContainer
+    [class]="sliderContainerClasses"
+    (mousedown)="onMouseDown($event)"
+    (touchstart)="onTouchStart($event)"
+  >
+    <!-- Track -->
+    <div [class]="trackClasses">
+      <!-- Fill -->
+      <div [class]="fillClasses" [style]="fillStyle"></div>
+
+      <!-- Marks -->
+      <div *ngIf="marks && marks.length > 0" class="slider__marks">
+        <div
+          *ngFor="let mark of marks"
+          [class]="markClasses"
+          [style]="getMarkStyle(mark.value)"
+        >
+          <div [class]="markDotClasses"></div>
+          <span *ngIf="mark.label" [class]="markLabelClasses"
+            >{{ mark.label }}</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Thumb(s) -->
+    <div
+      *ngIf="!range"
+      #thumb
+      [class]="thumbClasses"
+      [style]="getThumbStyle(value)"
+      [attr.aria-valuemin]="min"
+      [attr.aria-valuemax]="max"
+      [attr.aria-valuenow]="value"
+      [attr.aria-label]="label || 'Slider'"
+      role="slider"
+      tabindex="0"
+      (keydown)="onKeyDown($event, 'single')"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+    >
+      <!-- Tooltip -->
+      <div *ngIf="showTooltip" [class]="tooltipClasses">
+        {{ value }}{{ unit }}
+      </div>
+    </div>
+
+    <!-- Range Thumbs -->
+    <div
+      *ngIf="range"
+      #thumbLow
+      [class]="thumbClasses"
+      [style]="getThumbStyle(rangeLow)"
+      [attr.aria-valuemin]="min"
+      [attr.aria-valuemax]="max"
+      [attr.aria-valuenow]="rangeLow"
+      [attr.aria-label]="(label || 'Slider') + ' minimum'"
+      role="slider"
+      tabindex="0"
+      (keydown)="onKeyDown($event, 'low')"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+    >
+      <div *ngIf="showTooltip" [class]="tooltipClasses">
+        {{ rangeLow }}{{ unit }}
+      </div>
+    </div>
+
+    <div
+      *ngIf="range"
+      #thumbHigh
+      [class]="thumbClasses"
+      [style]="getThumbStyle(rangeHigh)"
+      [attr.aria-valuemin]="min"
+      [attr.aria-valuemax]="max"
+      [attr.aria-valuenow]="rangeHigh"
+      [attr.aria-label]="(label || 'Slider') + ' maximum'"
+      role="slider"
+      tabindex="0"
+      (keydown)="onKeyDown($event, 'high')"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+    >
+      <div *ngIf="showTooltip" [class]="tooltipClasses">
+        {{ rangeHigh }}{{ unit }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Helper Text -->
+  <div *ngIf="helperText || errorMessage" [class]="helperClasses">
+    {{ errorMessage || helperText }}
+  </div>
+</div>

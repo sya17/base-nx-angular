@@ -1,1 +1,45 @@
-<p>modal works!</p>
+<!-- Backdrop -->
+<div *ngIf="isOpen" [class]="backdropClasses" (click)="onBackdropClick()">
+  <!-- Modal Container -->
+  <div [class]="modalClasses" (click)="$event.stopPropagation()">
+    <!-- Header -->
+    <div *ngIf="hasHeader" [class]="headerClasses">
+      <div class="modal__header-content">
+        <div class="modal__header-text">
+          <ng-content select="[slot=header]"></ng-content>
+        </div>
+
+        <button
+          *ngIf="closable"
+          type="button"
+          (click)="close()"
+          class="modal__close-btn"
+        >
+          <svg
+            class="modal__close-icon"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            ></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div [class]="contentClasses">
+      <ng-content></ng-content>
+    </div>
+
+    <!-- Footer -->
+    <div *ngIf="hasFooter" [class]="footerClasses">
+      <ng-content select="[slot=footer]"></ng-content>
+    </div>
+  </div>
+</div>

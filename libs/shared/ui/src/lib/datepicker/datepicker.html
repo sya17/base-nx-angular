@@ -1,0 +1,180 @@
+<div class="datepicker">
+  <!-- Label -->
+  <label *ngIf="label" [for]="inputId" class="datepicker__label">
+    {{ label }}
+    <span *ngIf="required" class="datepicker__required">*</span>
+  </label>
+
+  <!-- Input Field -->
+  <div class="datepicker__input-wrapper">
+    <input
+      [id]="inputId"
+      type="text"
+      [value]="displayValue"
+      [placeholder]="placeholder"
+      [disabled]="disabled"
+      [readonly]="true"
+      (click)="toggleCalendar()"
+      [class]="inputClasses"
+    />
+
+    <button
+      type="button"
+      (click)="toggleCalendar()"
+      class="datepicker__trigger"
+    >
+      <svg
+        class="datepicker__trigger-icon"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+        ></path>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Calendar Dropdown -->
+  <div *ngIf="isOpen" [class]="calendarClasses">
+    <!-- Calendar Header -->
+    <div class="datepicker__header">
+      <button
+        type="button"
+        (click)="previousMonth()"
+        class="datepicker__nav-btn"
+      >
+        <svg
+          class="datepicker__nav-icon"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 19l-7-7 7-7"
+          ></path>
+        </svg>
+      </button>
+
+      <div class="datepicker__header-controls">
+        <button
+          type="button"
+          (click)="toggleMonthPicker()"
+          class="datepicker__header-btn"
+        >
+          {{ monthNames[currentMonth] }}
+        </button>
+        <button
+          type="button"
+          (click)="toggleYearPicker()"
+          class="datepicker__header-btn"
+        >
+          {{ currentYear }}
+        </button>
+      </div>
+
+      <button type="button" (click)="nextMonth()" class="datepicker__nav-btn">
+        <svg
+          class="datepicker__nav-icon"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 5l7 7-7 7"
+          ></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Month Picker -->
+    <div *ngIf="showMonthPicker" class="datepicker__month-picker">
+      <button
+        *ngFor="let month of monthNames; let i = index"
+        type="button"
+        (click)="selectMonth(i)"
+        [class]="getMonthButtonClasses(i)"
+      >
+        {{ month.slice(0, 3) }}
+      </button>
+    </div>
+
+    <!-- Year Picker -->
+    <div *ngIf="showYearPicker" class="datepicker__year-picker">
+      <div class="datepicker__year-grid">
+        <button
+          *ngFor="let year of yearRange"
+          type="button"
+          (click)="selectYear(year)"
+          [class]="getYearButtonClasses(year)"
+        >
+          {{ year }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Calendar Grid -->
+    <div
+      *ngIf="!showMonthPicker && !showYearPicker"
+      class="datepicker__calendar-grid"
+    >
+      <!-- Day Headers -->
+      <div class="datepicker__day-headers">
+        <div *ngFor="let day of dayNames" class="datepicker__day-header">
+          {{ day }}
+        </div>
+      </div>
+
+      <!-- Calendar Days -->
+      <div class="datepicker__days">
+        <button
+          *ngFor="let day of calendarDays"
+          type="button"
+          (click)="selectDate(day)"
+          [class]="getDayButtonClasses(day)"
+          [disabled]="day.isDisabled"
+        >
+          {{ day.date.getDate() }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="datepicker__footer">
+      <button
+        type="button"
+        (click)="selectToday()"
+        class="datepicker__footer-btn datepicker__footer-btn--primary"
+      >
+        Today
+      </button>
+      <button
+        type="button"
+        (click)="clearDate()"
+        class="datepicker__footer-btn datepicker__footer-btn--secondary"
+      >
+        Clear
+      </button>
+    </div>
+  </div>
+
+  <!-- Backdrop -->
+  <div
+    *ngIf="isOpen"
+    class="datepicker__backdrop"
+    (click)="closeCalendar()"
+  ></div>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="datepicker__error">{{ errorMessage }}</div>
+</div>

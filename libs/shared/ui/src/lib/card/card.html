@@ -1,1 +1,21 @@
-<p>card works!</p>
+<div [class]="cardClasses">
+  <!-- Header -->
+  <div *ngIf="hasHeader" [class]="headerClasses">
+    <ng-content select="[slot=header]"></ng-content>
+  </div>
+
+  <!-- Image -->
+  <div *ngIf="hasImage" [class]="imageClasses">
+    <ng-content select="[slot=image]"></ng-content>
+  </div>
+
+  <!-- Content -->
+  <div [class]="contentClasses">
+    <ng-content></ng-content>
+  </div>
+
+  <!-- Footer -->
+  <div *ngIf="hasFooter" [class]="footerClasses">
+    <ng-content select="[slot=footer]"></ng-content>
+  </div>
+</div>

@@ -1,0 +1,390 @@
+// Tabs component styles
+.tabs {
+  width: 100%;
+
+  // Navigation container
+  &__nav {
+    position: relative;
+    display: flex;
+
+    &--full-width {
+      width: 100%;
+    }
+
+    // Variant styles
+    &--default {
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    &--pills {
+      padding: 4px;
+      background-color: #f3f4f6;
+      border-radius: 12px;
+    }
+
+    &--underline {
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    &--cards {
+      border-bottom: 1px solid #e5e7eb;
+    }
+  }
+
+  // Individual tab button
+  &__tab {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    font-weight: 500;
+    transition: all 200ms ease-out;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    outline: none;
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px #6366f1, 0 0 0 4px rgba(99, 102, 241, 0.2);
+      border-radius: 6px;
+    }
+
+    // Size variants
+    &--sm {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+
+    &--md {
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+
+    &--lg {
+      padding: 12px 24px;
+      font-size: 16px;
+    }
+
+    // Full width
+    &--full-width {
+      flex: 1;
+      justify-content: center;
+    }
+
+    // Disabled state
+    &--disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    // Default variant
+    &--default {
+      color: #6b7280;
+      border-bottom: 2px solid transparent;
+
+      &:hover:not(&--disabled) {
+        color: #374151;
+        border-bottom-color: #d1d5db;
+      }
+
+      &.tabs__tab--active {
+        color: #6366f1;
+        border-bottom-color: #6366f1;
+      }
+    }
+
+    // Pills variant
+    &--pills {
+      color: #4b5563;
+      border-radius: 8px;
+
+      &:hover:not(&--disabled) {
+        color: #111827;
+        background-color: rgba(255, 255, 255, 0.5);
+      }
+
+      &.tabs__tab--active {
+        color: #6366f1;
+        background-color: white;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      }
+    }
+
+    // Underline variant
+    &--underline {
+      color: #6b7280;
+
+      &:hover:not(&--disabled) {
+        color: #374151;
+      }
+
+      &.tabs__tab--active {
+        color: #6366f1;
+      }
+    }
+
+    // Cards variant
+    &--cards {
+      color: #6b7280;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+
+      &:hover:not(&--disabled) {
+        color: #374151;
+        background-color: #f9fafb;
+      }
+
+      &.tabs__tab--active {
+        color: #6366f1;
+        background-color: white;
+        border: 1px solid #e5e7eb;
+        border-bottom: 1px solid white;
+        margin-bottom: -1px;
+      }
+    }
+  }
+
+  // Tab icon
+  &__icon {
+    margin-right: 8px;
+    font-size: 16px;
+  }
+
+  // Tab label
+  &__label {
+    display: inline-block;
+  }
+
+  // Badge
+  &__badge {
+    margin-left: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    border-radius: 9999px;
+    background-color: #e5e7eb;
+    color: #374151;
+
+    &--sm {
+      min-width: 16px;
+      height: 16px;
+      padding: 0 6px;
+      font-size: 10px;
+    }
+
+    &--md {
+      min-width: 20px;
+      height: 20px;
+      padding: 0 8px;
+      font-size: 11px;
+    }
+
+    &--lg {
+      min-width: 24px;
+      height: 24px;
+      padding: 0 10px;
+      font-size: 12px;
+    }
+  }
+
+  // Underline indicator
+  &__indicator {
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    background-color: #6366f1;
+    transition: all 300ms ease-out;
+  }
+
+  // Content area
+  &__content {
+    margin-top: 16px;
+
+    &--cards {
+      background-color: white;
+      border: 1px solid #e5e7eb;
+      border-top: none;
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
+      padding: 24px;
+      margin-top: 0;
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .tabs {
+    &__nav {
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      &--pills {
+        padding: 2px;
+      }
+    }
+
+    &__tab {
+      flex-shrink: 0;
+
+      &--sm {
+        padding: 8px 12px;
+        font-size: 13px;
+      }
+
+      &--md {
+        padding: 10px 16px;
+        font-size: 14px;
+      }
+
+      &--lg {
+        padding: 12px 20px;
+        font-size: 15px;
+      }
+
+      &--full-width {
+        min-width: 120px;
+      }
+    }
+
+    &__icon {
+      margin-right: 6px;
+      font-size: 14px;
+    }
+
+    &__badge {
+      margin-left: 6px;
+
+      &--sm {
+        min-width: 18px;
+        height: 18px;
+        font-size: 10px;
+      }
+
+      &--md {
+        min-width: 22px;
+        height: 22px;
+        font-size: 11px;
+      }
+
+      &--lg {
+        min-width: 26px;
+        height: 26px;
+        font-size: 12px;
+      }
+    }
+
+    &__content {
+      &--cards {
+        padding: 16px;
+        border-radius: 8px;
+      }
+    }
+  }
+}
+
+// Accessibility - Reduced motion
+@media (prefers-reduced-motion: reduce) {
+  .tabs__tab,
+  .tabs__indicator {
+    transition: none;
+  }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  .tabs {
+    &__nav {
+      &--default,
+      &--underline,
+      &--cards {
+        border-bottom-color: #000;
+      }
+
+      &--pills {
+        background-color: #e5e7eb;
+        border: 1px solid #000;
+      }
+    }
+
+    &__tab {
+      &--default {
+        &.tabs__tab--active {
+          color: #000;
+          border-bottom-color: #000;
+        }
+      }
+
+      &--pills {
+        &.tabs__tab--active {
+          color: #000;
+          background-color: #fff;
+          border: 1px solid #000;
+        }
+      }
+
+      &--underline {
+        &.tabs__tab--active {
+          color: #000;
+        }
+      }
+
+      &--cards {
+        &.tabs__tab--active {
+          color: #000;
+          border-color: #000;
+        }
+      }
+    }
+
+    &__indicator {
+      background-color: #000;
+    }
+
+    &__badge {
+      background-color: #fff;
+      color: #000;
+      border: 1px solid #000;
+    }
+  }
+}
+
+// Focus visible for better keyboard navigation
+.tabs__tab:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+// Animation for indicator
+@keyframes slideIndicator {
+  from {
+    transform: translateX(var(--from-position));
+    width: var(--from-width);
+  }
+  to {
+    transform: translateX(var(--to-position));
+    width: var(--to-width);
+  }
+}
+
+// Smooth scrolling for mobile navigation
+.tabs__nav {
+  scroll-behavior: smooth;
+}
+
+// Enhanced active state for better UX
+.tabs__tab--active {
+  &.tabs__tab--pills {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+}

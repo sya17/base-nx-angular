@@ -1,1 +1,20 @@
-<p>button works!</p>
+<button
+  [class]="buttonClasses"
+  [disabled]="disabled || loading"
+  (click)="handleClick($event)"
+>
+  <div class="btn__content">
+    <div
+      *ngIf="loading"
+      class="btn__spinner"
+    ></div>
+
+    <ng-content select="[slot=icon-left]"></ng-content>
+
+    <span *ngIf="!iconOnly" class="btn__text" [class.btn__text--hidden]="loading">
+      <ng-content></ng-content>
+    </span>
+
+    <ng-content select="[slot=icon-right]"></ng-content>
+  </div>
+</button>
