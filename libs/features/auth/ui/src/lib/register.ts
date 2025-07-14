@@ -5,6 +5,6 @@ import { CommonModule } from '@angular/common';
   selector: 'lib-register',
   imports: [CommonModule],
   templateUrl: './register.html',
-  styleUrl: './register.css',
+  styleUrl: './register.scss',
 })
 export class Register {}

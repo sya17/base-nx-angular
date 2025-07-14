@@ -1,70 +1,142 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Icon, Card, Switch, Button, FormField, TextField, Dropdown, Badge } from '@base-nx-angular/shared/ui';
+import { Icon, Card, Button, Switch, TextField } from '@base-nx-angular/shared/ui';
 
 @Component({
   selector: 'lib-settings',
-  imports: [CommonModule, FormsModule, Icon, Card, Switch, Button, FormField, TextField, Dropdown, Badge],
+  imports: [CommonModule, FormsModule, Icon, Card, Button, Switch, TextField],
   templateUrl: './settings.html',
-  styleUrl: './settings.css',
+  styleUrl: './settings.scss',
 })
 export class Settings {
   protected activeTab = 'general';
 
   protected generalSettings = {
-    siteName: 'Base NX Angular',
-    siteDescription: 'Modern Angular application with NX workspace',
-    language: 'en',
-    timezone: 'UTC',
-    dateFormat: 'MM/DD/YYYY'
+    companyName: 'Acme Corporation',
+    companyEmail: 'admin@acme.com',
+    timezone: 'UTC-8',
+    language: 'English',
+    dateFormat: 'MM/DD/YYYY',
+    currency: 'USD'
+  };
+
+  protected securitySettings = {
+    twoFactorAuth: true,
+    passwordExpiry: false,
+    sessionTimeout: true,
+    ipWhitelist: false,
+    auditLogging: true,
+    encryptionEnabled: true
   };
 
   protected notificationSettings = {
     emailNotifications: true,
-    pushNotifications: false,
+    pushNotifications: true,
     smsNotifications: false,
     weeklyReports: true,
+    projectUpdates: true,
+    teamMentions: true,
+    systemAlerts: true,
     marketingEmails: false
   };
 
-  protected securitySettings = {
-    twoFactorAuth: false,
-    sessionTimeout: 30,
-    passwordExpiry: 90,
-    loginAttempts: 5
+  protected integrationSettings = [
+    {
+      name: 'Slack',
+      description: 'Team communication and notifications',
+      icon: 'chat',
+      connected: true,
+      status: 'active'
+    },
+    {
+      name: 'GitHub',
+      description: 'Code repository and version control',
+      icon: 'code',
+      connected: true,
+      status: 'active'
+    },
+    {
+      name: 'Google Drive',
+      description: 'File storage and document sharing',
+      icon: 'folder',
+      connected: false,
+      status: 'inactive'
+    },
+    {
+      name: 'Jira',
+      description: 'Project management and issue tracking',
+      icon: 'bug_report',
+      connected: true,
+      status: 'active'
+    },
+    {
+      name: 'Zoom',
+      description: 'Video conferencing and meetings',
+      icon: 'videocam',
+      connected: false,
+      status: 'inactive'
+    }
+  ];
+
+  protected billingInfo = {
+    plan: 'Professional',
+    price: '$29/month',
+    nextBilling: '2024-08-15',
+    paymentMethod: '**** **** **** 4532',
+    billingEmail: 'billing@acme.com'
   };
 
-  protected integrations = [
-    { name: 'Slack', description: 'Team communication', connected: true },
-    { name: 'GitHub', description: 'Code repository', connected: true },
-    { name: 'Google Analytics', description: 'Website analytics', connected: false },
-    { name: 'Stripe', description: 'Payment processing', connected: false }
+  protected tabs = [
+    { id: 'general', label: 'General', icon: 'tune' },
+    { id: 'security', label: 'Security', icon: 'shield' },
+    { id: 'notifications', label: 'Notifications', icon: 'notifications' },
+    { id: 'integrations', label: 'Integrations', icon: 'extension' },
+    { id: 'billing', label: 'Billing', icon: 'payment' }
   ];
 
-  protected notificationSettingsArray = [
-    {key: 'emailNotifications' as keyof typeof this.notificationSettings, label: 'Email Notifications', desc: 'Receive notifications via email'},
-    {key: 'pushNotifications' as keyof typeof this.notificationSettings, label: 'Push Notifications', desc: 'Receive browser push notifications'},
-    {key: 'smsNotifications' as keyof typeof this.notificationSettings, label: 'SMS Notifications', desc: 'Receive notifications via SMS'},
-    {key: 'weeklyReports' as keyof typeof this.notificationSettings, label: 'Weekly Reports', desc: 'Get weekly summary reports'},
-    {key: 'marketingEmails' as keyof typeof this.notificationSettings, label: 'Marketing Emails', desc: 'Receive promotional emails'}
-  ];
-
-  setActiveTab(tab: string): void {
-    this.activeTab = tab;
+  protected setActiveTab(tabId: string) {
+    this.activeTab = tabId;
   }
 
-  toggleNotification(setting: keyof typeof this.notificationSettings): void {
-    this.notificationSettings[setting] = !this.notificationSettings[setting];
+  protected onGeneralSettingChange(field: string, value: any) {
+    (this.generalSettings as any)[field] = value;
+    console.log(`General setting changed: ${field} = ${value}`);
   }
 
-  toggleSecurity(setting: keyof typeof this.securitySettings): void {
-    if (typeof this.securitySettings[setting] === 'boolean') {
-      (this.securitySettings[setting] as boolean) = !(this.securitySettings[setting] as boolean);
-    }
+  protected onSecuritySettingChange(field: string, value: boolean) {
+    (this.securitySettings as any)[field] = value;
+    console.log(`Security setting changed: ${field} = ${value}`);
   }
 
-  toggleIntegration(integration: any): void {
+  protected onNotificationSettingChange(field: string, value: boolean) {
+    (this.notificationSettings as any)[field] = value;
+    console.log(`Notification setting changed: ${field} = ${value}`);
+  }
+
+  protected toggleIntegration(integration: any) {
     integration.connected = !integration.connected;
+    integration.status = integration.connected ? 'active' : 'inactive';
+    console.log(`Integration ${integration.name} ${integration.connected ? 'connected' : 'disconnected'}`);
+  }
+
+  protected saveSettings() {
+    console.log('Settings saved successfully');
+    // Here you would typically call an API to save the settings
+  }
+
+  protected resetSettings() {
+    console.log('Settings reset to defaults');
+    // Here you would reset all settings to their default values
+  }
+
+  protected exportSettings() {
+    console.log('Exporting settings...');
+    // Here you would export the current settings
+  }
+
+  protected importSettings() {
+    console.log('Importing settings...');
+    // Here you would import settings from a file
   }
 }

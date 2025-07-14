@@ -5,5 +5,5 @@ import { Injectable } from '@angular/core';
 })
 export class Dashboard {
 
-  constructor() { }
+  // Constructor intentionally empty - service will be extended with methods
 }

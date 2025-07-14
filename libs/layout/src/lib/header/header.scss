@@ -622,3 +622,20 @@
     }
   }
 }
+/* Enhanced button styling for header */
+.header-actions {
+  button, lib-button {
+    background: transparent !important;
+    border: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    
+    &:focus {
+      outline: 2px solid #3b82f6 !important;
+      outline-offset: 2px !important;
+    }
+  }
+}

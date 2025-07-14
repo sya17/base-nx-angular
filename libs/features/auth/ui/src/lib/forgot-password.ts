@@ -5,6 +5,6 @@ import { CommonModule } from '@angular/common';
   selector: 'lib-forgot-password',
   imports: [CommonModule],
   templateUrl: './forgot-password.html',
-  styleUrl: './forgot-password.css',
+  styleUrl: './forgot-password.scss',
 })
 export class ForgotPassword {}

@@ -16,15 +16,47 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'projects',
-    loadComponent: () => import('@base-nx-angular/projects').then(m => m.Projects)
+    loadComponent: () => import('@base-nx-angular/features/projects').then(m => m.Projects)
+  },
+  {
+    path: 'projects/active',
+    loadComponent: () => import('@base-nx-angular/features/projects').then(m => m.Projects)
+  },
+  {
+    path: 'projects/completed',
+    loadComponent: () => import('@base-nx-angular/features/projects').then(m => m.Projects)
+  },
+  {
+    path: 'projects/archived',
+    loadComponent: () => import('@base-nx-angular/features/projects').then(m => m.Projects)
   },
   {
     path: 'team',
-    loadComponent: () => import('@base-nx-angular/team').then(m => m.Team)
+    loadComponent: () => import('@base-nx-angular/features/team').then(m => m.Team)
+  },
+  {
+    path: 'team/members',
+    loadComponent: () => import('@base-nx-angular/features/team').then(m => m.Team)
+  },
+  {
+    path: 'team/roles',
+    loadComponent: () => import('@base-nx-angular/features/team').then(m => m.Team)
   },
   {
     path: 'settings',
-    loadComponent: () => import('@base-nx-angular/settings').then(m => m.Settings)
+    loadComponent: () => import('@base-nx-angular/features/settings').then(m => m.Settings)
+  },
+  {
+    path: 'settings/general',
+    loadComponent: () => import('@base-nx-angular/features/settings').then(m => m.Settings)
+  },
+  {
+    path: 'settings/security',
+    loadComponent: () => import('@base-nx-angular/features/settings').then(m => m.Settings)
+  },
+  {
+    path: 'settings/notifications',
+    loadComponent: () => import('@base-nx-angular/features/settings').then(m => m.Settings)
   },
   {
     path: 'home',

@@ -74,7 +74,7 @@ export class Layout implements OnInit, OnDestroy {
 
   // Layout Configuration
   @Input() showFooter = true;
-  @Input() contentPadding = '32px';
+  @Input() contentPadding = '16px';
 
   // Internal state
   isMobile = false;
@@ -209,6 +209,6 @@ export class Layout implements OnInit, OnDestroy {
     if (this.isMobile) {
       return '0';
     }
-    return this.sidebarCollapsed ? '80px' : '280px';
+    return this.sidebarCollapsed ? '72px' : '280px';
   }
 }

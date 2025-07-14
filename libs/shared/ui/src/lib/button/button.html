@@ -9,12 +9,17 @@
       class="btn__spinner"
     ></div>
 
+    <!-- Icon left slot -->
     <ng-content select="[slot=icon-left]"></ng-content>
 
-    <span *ngIf="!iconOnly" class="btn__text" [class.btn__text--hidden]="loading">
-      <ng-content></ng-content>
-    </span>
+    <!-- Content wrapper for proper spacing -->
+    <div class="btn__main-content" *ngIf="!iconOnly">
+      <span class="btn__text" [class.btn__text--hidden]="loading">
+        <ng-content></ng-content>
+      </span>
+    </div>
 
+    <!-- Icon right slot -->
     <ng-content select="[slot=icon-right]"></ng-content>
   </div>
 </button>

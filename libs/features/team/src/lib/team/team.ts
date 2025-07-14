@@ -1,105 +1,176 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Icon, Card, Chips, Button, Badge } from '@base-nx-angular/shared/ui';
+import { Icon, Card, Button, Badge, type BadgeColor } from '@base-nx-angular/shared/ui';
 
 @Component({
   selector: 'lib-team',
-  imports: [CommonModule, Icon, Card, Chips, Button, Badge],
+  imports: [CommonModule, Icon, Card, Button, Badge],
   templateUrl: './team.html',
-  styleUrl: './team.css',
+  styleUrl: './team.scss',
 })
 export class Team {
   protected teamMembers = [
     {
       id: 1,
       name: 'John Doe',
-      role: 'Senior Frontend Developer',
       email: 'john.doe@company.com',
+      role: 'Senior Developer',
+      department: 'Engineering',
+      status: 'active',
+      joinDate: '2022-03-15',
+      projects: ['E-commerce Platform', 'Mobile Banking App'],
+      skills: ['React', 'Node.js', 'TypeScript', 'AWS'],
       avatar: 'JD',
-      status: 'online',
-      projects: 3,
-      skills: ['React', 'TypeScript', 'Angular'],
-      joinDate: '2022-01-15'
+      lastActive: '2 hours ago'
     },
     {
       id: 2,
       name: 'Jane Smith',
-      role: 'UI/UX Designer',
       email: 'jane.smith@company.com',
+      role: 'Product Manager',
+      department: 'Product',
+      status: 'active',
+      joinDate: '2021-11-20',
+      projects: ['E-commerce Platform', 'Data Analytics Dashboard'],
+      skills: ['Product Strategy', 'Agile', 'User Research', 'Analytics'],
       avatar: 'JS',
-      status: 'away',
-      projects: 2,
-      skills: ['Figma', 'Adobe XD', 'Sketch'],
-      joinDate: '2022-03-20'
+      lastActive: '1 hour ago'
     },
     {
       id: 3,
       name: 'Mike Johnson',
-      role: 'Backend Developer',
       email: 'mike.johnson@company.com',
+      role: 'UI/UX Designer',
+      department: 'Design',
+      status: 'active',
+      joinDate: '2023-01-10',
+      projects: ['Mobile Banking App', 'IoT Device Management'],
+      skills: ['Figma', 'Adobe Creative Suite', 'Prototyping', 'User Testing'],
       avatar: 'MJ',
-      status: 'online',
-      projects: 4,
-      skills: ['Node.js', 'Python', 'MongoDB'],
-      joinDate: '2021-11-10'
+      lastActive: '30 minutes ago'
     },
     {
       id: 4,
       name: 'Sarah Wilson',
-      role: 'Project Manager',
       email: 'sarah.wilson@company.com',
+      role: 'DevOps Engineer',
+      department: 'Engineering',
+      status: 'active',
+      joinDate: '2022-08-05',
+      projects: ['Mobile Banking App', 'AI Chatbot Platform'],
+      skills: ['Docker', 'Kubernetes', 'AWS', 'CI/CD'],
       avatar: 'SW',
-      status: 'offline',
-      projects: 5,
-      skills: ['Agile', 'Scrum', 'Leadership'],
-      joinDate: '2021-08-05'
+      lastActive: '4 hours ago'
     },
     {
       id: 5,
-      name: 'David Brown',
-      role: 'DevOps Engineer',
-      email: 'david.brown@company.com',
-      avatar: 'DB',
-      status: 'online',
-      projects: 2,
-      skills: ['Docker', 'Kubernetes', 'AWS'],
-      joinDate: '2022-05-12'
+      name: 'Tom Brown',
+      email: 'tom.brown@company.com',
+      role: 'QA Engineer',
+      department: 'Quality Assurance',
+      status: 'inactive',
+      joinDate: '2021-05-12',
+      projects: ['Data Analytics Dashboard'],
+      skills: ['Selenium', 'Jest', 'Cypress', 'Manual Testing'],
+      avatar: 'TB',
+      lastActive: '2 days ago'
     },
     {
       id: 6,
-      name: 'Emily Davis',
-      role: 'Data Analyst',
-      email: 'emily.davis@company.com',
-      avatar: 'ED',
-      status: 'away',
-      projects: 1,
-      skills: ['Python', 'SQL', 'Tableau'],
-      joinDate: '2022-07-18'
+      name: 'Alex Chen',
+      email: 'alex.chen@company.com',
+      role: 'Data Scientist',
+      department: 'Analytics',
+      status: 'active',
+      joinDate: '2023-02-28',
+      projects: ['Data Analytics Dashboard', 'AI Chatbot Platform'],
+      skills: ['Python', 'Machine Learning', 'SQL', 'TensorFlow'],
+      avatar: 'AC',
+      lastActive: '1 hour ago'
     }
   ];
 
-  protected getStatusClass(status: string): string {
-    switch (status.toLowerCase()) {
-      case 'online': return 'online';
-      case 'away': return 'away';
-      case 'offline': return 'offline';
-      default: return '';
+  protected teamStats = [
+    { label: 'Total Members', value: '24', change: '+3', isPositive: true },
+    { label: 'Active Members', value: '22', change: '+2', isPositive: true },
+    { label: 'Departments', value: '6', change: '0', isPositive: true },
+    { label: 'Avg. Experience', value: '3.2y', change: '+0.3y', isPositive: true }
+  ];
+
+  protected departments = [
+    { name: 'Engineering', count: 12, color: '#667eea' },
+    { name: 'Product', count: 4, color: '#10b981' },
+    { name: 'Design', count: 3, color: '#f59e0b' },
+    { name: 'Quality Assurance', count: 3, color: '#ef4444' },
+    { name: 'Analytics', count: 2, color: '#8b5cf6' }
+  ];
+
+  protected filterDepartment = 'all';
+  protected filterStatus = 'all';
+  protected searchTerm = '';
+
+  get filteredMembers() {
+    let filtered = this.teamMembers;
+    
+    if (this.filterDepartment !== 'all') {
+      filtered = filtered.filter(member => member.department === this.filterDepartment);
+    }
+    
+    if (this.filterStatus !== 'all') {
+      filtered = filtered.filter(member => member.status === this.filterStatus);
+    }
+    
+    if (this.searchTerm) {
+      const term = this.searchTerm.toLowerCase();
+      filtered = filtered.filter(member => 
+        member.name.toLowerCase().includes(term) ||
+        member.email.toLowerCase().includes(term) ||
+        member.role.toLowerCase().includes(term)
+      );
+    }
+    
+    return filtered;
+  }
+
+  protected setDepartmentFilter(department: string) {
+    this.filterDepartment = department;
+  }
+
+  protected setStatusFilter(status: string) {
+    this.filterStatus = status;
+  }
+
+  protected onSearch(event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.searchTerm = target.value;
+  }
+
+  protected getStatusColor(status: string): BadgeColor {
+    switch (status) {
+      case 'active': return 'success';
+      case 'inactive': return 'warning';
+      default: return 'secondary';
     }
   }
 
-  protected getOnlineCount(): number {
-    return this.teamMembers.filter(member => member.status === 'online').length;
+  protected getDepartmentColor(department: string): string {
+    const dept = this.departments.find(d => d.name === department);
+    return dept?.color || '#6b7280';
   }
 
-  protected getTotalProjects(): number {
-    return this.teamMembers.reduce((sum, member) => sum + member.projects, 0);
+  protected formatDate(dateString: string): string {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
   }
 
-  protected getSkillsAsChips(skills: string[]) {
-    return skills.map((skill, index) => ({
-      id: index,
-      label: skill,
-      removable: false
-    }));
+  protected getExperienceYears(joinDate: string): number {
+    const join = new Date(joinDate);
+    const now = new Date();
+    const diffTime = Math.abs(now.getTime() - join.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return Math.floor(diffDays / 365 * 10) / 10;
   }
 }

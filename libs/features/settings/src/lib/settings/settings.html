@@ -4,207 +4,400 @@
       <lib-icon name="settings"></lib-icon>
       Settings
     </h1>
-    <p>Manage your application preferences and configurations.</p>
+    <p>Manage your application preferences, security settings, and integrations.</p>
   </div>
 
-  <div class="settings-container">
-    <lib-card class="settings-sidebar">
-      <nav class="settings-nav">
-        <lib-button 
-          variant="ghost"
-          class="nav-item"
-          [class.active]="activeTab === 'general'"
-          (clicked)="setActiveTab('general')"
-        >
+  <!-- Settings Navigation -->
+  <div class="settings-nav">
+    <button 
+      *ngFor="let tab of tabs"
+      class="nav-tab"
+      [class.active]="activeTab === tab.id"
+      (click)="setActiveTab(tab.id)"
+    >
+      <lib-icon [name]="tab.icon"></lib-icon>
+      <span>{{ tab.label }}</span>
+    </button>
+  </div>
+
+  <!-- General Settings -->
+  <div class="settings-content" *ngIf="activeTab === 'general'">
+    <lib-card class="settings-section">
+      <div class="section-header">
+        <h2>
           <lib-icon name="tune"></lib-icon>
-          General
-        </lib-button>
-        <lib-button 
-          variant="ghost"
-          class="nav-item"
-          [class.active]="activeTab === 'notifications'"
-          (clicked)="setActiveTab('notifications')"
-        >
+          General Settings
+        </h2>
+        <p>Configure basic application settings and preferences.</p>
+      </div>
+
+      <div class="settings-grid">
+        <div class="setting-item">
+          <label>Company Name</label>
+          <lib-text-field 
+            [(ngModel)]="generalSettings.companyName"
+            placeholder="Enter company name"
+          ></lib-text-field>
+        </div>
+
+        <div class="setting-item">
+          <label>Company Email</label>
+          <lib-text-field 
+            [(ngModel)]="generalSettings.companyEmail"
+            placeholder="Enter company email"
+            type="email"
+          ></lib-text-field>
+        </div>
+
+        <div class="setting-item">
+          <label>Timezone</label>
+          <select 
+            class="setting-select"
+            [(ngModel)]="generalSettings.timezone"
+          >
+            <option value="UTC-12">UTC-12</option>
+            <option value="UTC-8">UTC-8 (PST)</option>
+            <option value="UTC-5">UTC-5 (EST)</option>
+            <option value="UTC+0">UTC+0 (GMT)</option>
+            <option value="UTC+7">UTC+7 (WIB)</option>
+            <option value="UTC+9">UTC+9 (JST)</option>
+          </select>
+        </div>
+
+        <div class="setting-item">
+          <label>Language</label>
+          <select 
+            class="setting-select"
+            [(ngModel)]="generalSettings.language"
+          >
+            <option value="English">English</option>
+            <option value="Spanish">Spanish</option>
+            <option value="French">French</option>
+            <option value="German">German</option>
+            <option value="Indonesian">Indonesian</option>
+          </select>
+        </div>
+
+        <div class="setting-item">
+          <label>Date Format</label>
+          <select 
+            class="setting-select"
+            [(ngModel)]="generalSettings.dateFormat"
+          >
+            <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+            <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+            <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+          </select>
+        </div>
+
+        <div class="setting-item">
+          <label>Currency</label>
+          <select 
+            class="setting-select"
+            [(ngModel)]="generalSettings.currency"
+          >
+            <option value="USD">USD ($)</option>
+            <option value="EUR">EUR (€)</option>
+            <option value="GBP">GBP (£)</option>
+            <option value="IDR">IDR (Rp)</option>
+            <option value="JPY">JPY (¥)</option>
+          </select>
+        </div>
+      </div>
+    </lib-card>
+  </div>
+
+  <!-- Security Settings -->
+  <div class="settings-content" *ngIf="activeTab === 'security'">
+    <lib-card class="settings-section">
+      <div class="section-header">
+        <h2>
+          <lib-icon name="shield"></lib-icon>
+          Security Settings
+        </h2>
+        <p>Configure security features to protect your account and data.</p>
+      </div>
+
+      <div class="security-settings">
+        <div class="security-item">
+          <div class="security-info">
+            <h4>Two-Factor Authentication</h4>
+            <p>Add an extra layer of security to your account</p>
+          </div>
+          <lib-switch 
+            [(ngModel)]="securitySettings.twoFactorAuth"
+          ></lib-switch>
+        </div>
+
+        <div class="security-item">
+          <div class="security-info">
+            <h4>Password Expiry</h4>
+            <p>Require password changes every 90 days</p>
+          </div>
+          <lib-switch 
+            [(ngModel)]="securitySettings.passwordExpiry"
+          ></lib-switch>
+        </div>
+
+        <div class="security-item">
+          <div class="security-info">
+            <h4>Session Timeout</h4>
+            <p>Automatically log out inactive users</p>
+          </div>
+          <lib-switch 
+            [(ngModel)]="securitySettings.sessionTimeout"
+          ></lib-switch>
+        </div>
+
+        <div class="security-item">
+          <div class="security-info">
+            <h4>IP Whitelist</h4>
+            <p>Restrict access to specific IP addresses</p>
+          </div>
+          <lib-switch 
+            [(ngModel)]="securitySettings.ipWhitelist"
+          ></lib-switch>
+        </div>
+
+        <div class="security-item">
+          <div class="security-info">
+            <h4>Audit Logging</h4>
+            <p>Track all user activities and changes</p>
+          </div>
+          <lib-switch 
+            [(ngModel)]="securitySettings.auditLogging"
+          ></lib-switch>
+        </div>
+
+        <div class="security-item">
+          <div class="security-info">
+            <h4>Data Encryption</h4>
+            <p>Encrypt sensitive data at rest and in transit</p>
+          </div>
+          <lib-switch 
+            [(ngModel)]="securitySettings.encryptionEnabled"
+          ></lib-switch>
+        </div>
+      </div>
+    </lib-card>
+  </div>
+
+  <!-- Notification Settings -->
+  <div class="settings-content" *ngIf="activeTab === 'notifications'">
+    <lib-card class="settings-section">
+      <div class="section-header">
+        <h2>
           <lib-icon name="notifications"></lib-icon>
-          Notifications
-        </lib-button>
-        <lib-button 
-          variant="ghost"
-          class="nav-item"
-          [class.active]="activeTab === 'security'"
-          (clicked)="setActiveTab('security')"
-        >
-          <lib-icon name="security"></lib-icon>
-          Security
-        </lib-button>
-        <lib-button 
-          variant="ghost"
-          class="nav-item"
-          [class.active]="activeTab === 'integrations'"
-          (clicked)="setActiveTab('integrations')"
-        >
+          Notification Settings
+        </h2>
+        <p>Choose how and when you want to receive notifications.</p>
+      </div>
+
+      <div class="notification-settings">
+        <div class="notification-group">
+          <h3>Communication Channels</h3>
+          
+          <div class="notification-item">
+            <div class="notification-info">
+              <h4>Email Notifications</h4>
+              <p>Receive notifications via email</p>
+            </div>
+            <lib-switch 
+              [(ngModel)]="notificationSettings.emailNotifications"
+            ></lib-switch>
+          </div>
+
+          <div class="notification-item">
+            <div class="notification-info">
+              <h4>Push Notifications</h4>
+              <p>Receive browser push notifications</p>
+            </div>
+            <lib-switch 
+              [(ngModel)]="notificationSettings.pushNotifications"
+            ></lib-switch>
+          </div>
+
+          <div class="notification-item">
+            <div class="notification-info">
+              <h4>SMS Notifications</h4>
+              <p>Receive notifications via SMS</p>
+            </div>
+            <lib-switch 
+              [(ngModel)]="notificationSettings.smsNotifications"
+            ></lib-switch>
+          </div>
+        </div>
+
+        <div class="notification-group">
+          <h3>Content Types</h3>
+          
+          <div class="notification-item">
+            <div class="notification-info">
+              <h4>Weekly Reports</h4>
+              <p>Receive weekly summary reports</p>
+            </div>
+            <lib-switch 
+              [(ngModel)]="notificationSettings.weeklyReports"
+            ></lib-switch>
+          </div>
+
+          <div class="notification-item">
+            <div class="notification-info">
+              <h4>Project Updates</h4>
+              <p>Get notified about project changes</p>
+            </div>
+            <lib-switch 
+              [(ngModel)]="notificationSettings.projectUpdates"
+            ></lib-switch>
+          </div>
+
+          <div class="notification-item">
+            <div class="notification-info">
+              <h4>Team Mentions</h4>
+              <p>Get notified when mentioned by team members</p>
+            </div>
+            <lib-switch 
+              [(ngModel)]="notificationSettings.teamMentions"
+            ></lib-switch>
+          </div>
+
+          <div class="notification-item">
+            <div class="notification-info">
+              <h4>System Alerts</h4>
+              <p>Receive important system notifications</p>
+            </div>
+            <lib-switch 
+              [(ngModel)]="notificationSettings.systemAlerts"
+            ></lib-switch>
+          </div>
+
+          <div class="notification-item">
+            <div class="notification-info">
+              <h4>Marketing Emails</h4>
+              <p>Receive promotional and marketing content</p>
+            </div>
+            <lib-switch 
+              [(ngModel)]="notificationSettings.marketingEmails"
+            ></lib-switch>
+          </div>
+        </div>
+      </div>
+    </lib-card>
+  </div>
+
+  <!-- Integrations -->
+  <div class="settings-content" *ngIf="activeTab === 'integrations'">
+    <lib-card class="settings-section">
+      <div class="section-header">
+        <h2>
           <lib-icon name="extension"></lib-icon>
           Integrations
-        </lib-button>
-        <lib-button 
-          variant="ghost"
-          class="nav-item"
-          [class.active]="activeTab === 'account'"
-          (clicked)="setActiveTab('account')"
+        </h2>
+        <p>Connect with third-party services to enhance your workflow.</p>
+      </div>
+
+      <div class="integrations-grid">
+        <div 
+          class="integration-card" 
+          *ngFor="let integration of integrationSettings"
+          [class.connected]="integration.connected"
         >
-          <lib-icon name="account_circle"></lib-icon>
-          Account
-        </lib-button>
-      </nav>
-    </lib-card>
-
-    <lib-card class="settings-content">
-      <!-- General Settings -->
-      <div class="settings-panel" *ngIf="activeTab === 'general'">
-        <h2>General Settings</h2>
-        <div class="settings-group">
-          <lib-form-field label="Site Name" appearance="outline">
-            <lib-text-field [ngModel]="generalSettings.siteName"></lib-text-field>
-          </lib-form-field>
-          
-          <lib-form-field label="Site Description" appearance="outline">
-            <lib-text-field [ngModel]="generalSettings.siteDescription" type="textarea"></lib-text-field>
-          </lib-form-field>
-          
-          <div class="form-row">
-            <lib-form-field label="Language" appearance="outline">
-              <lib-dropdown [ngModel]="generalSettings.language">
-                <option value="en">English</option>
-                <option value="es">Spanish</option>
-                <option value="fr">French</option>
-              </lib-dropdown>
-            </lib-form-field>
-            
-            <lib-form-field label="Timezone" appearance="outline">
-              <lib-dropdown [ngModel]="generalSettings.timezone">
-                <option value="UTC">UTC</option>
-                <option value="EST">Eastern</option>
-                <option value="PST">Pacific</option>
-              </lib-dropdown>
-            </lib-form-field>
-          </div>
-        </div>
-      </div>
-
-      <!-- Notification Settings -->
-      <div class="settings-panel" *ngIf="activeTab === 'notifications'">
-        <h2>Notification Settings</h2>
-        <div class="settings-group">
-          <div class="toggle-field" *ngFor="let setting of notificationSettingsArray">
-            <div class="toggle-content">
-              <div class="toggle-info">
-                <h4>{{ setting.label }}</h4>
-                <p>{{ setting.desc }}</p>
-              </div>
-              <lib-switch 
-                [ngModel]="notificationSettings[setting.key]"
-                (valueChange)="toggleNotification(setting.key)"
-              ></lib-switch>
+          <div class="integration-header">
+            <div class="integration-icon">
+              <lib-icon [name]="integration.icon"></lib-icon>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Security Settings -->
-      <div class="settings-panel" *ngIf="activeTab === 'security'">
-        <h2>Security Settings</h2>
-        <div class="settings-group">
-          <div class="toggle-field">
-            <div class="toggle-content">
-              <div class="toggle-info">
-                <h4>Two-Factor Authentication</h4>
-                <p>Add an extra layer of security to your account</p>
-              </div>
-              <lib-switch 
-                [ngModel]="securitySettings.twoFactorAuth"
-                (valueChange)="toggleSecurity('twoFactorAuth')"
-              ></lib-switch>
-            </div>
-          </div>
-          
-          <lib-form-field label="Session Timeout (minutes)" appearance="outline">
-            <lib-text-field type="number" [ngModel]="securitySettings.sessionTimeout"></lib-text-field>
-          </lib-form-field>
-          
-          <lib-form-field label="Password Expiry (days)" appearance="outline">
-            <lib-text-field type="number" [ngModel]="securitySettings.passwordExpiry"></lib-text-field>
-          </lib-form-field>
-          
-          <lib-form-field label="Max Login Attempts" appearance="outline">
-            <lib-text-field type="number" [ngModel]="securitySettings.loginAttempts"></lib-text-field>
-          </lib-form-field>
-        </div>
-      </div>
-
-      <!-- Integrations -->
-      <div class="settings-panel" *ngIf="activeTab === 'integrations'">
-        <h2>Integrations</h2>
-        <div class="settings-group">
-          <div class="integration-item" *ngFor="let integration of integrations">
             <div class="integration-info">
               <h4>{{ integration.name }}</h4>
               <p>{{ integration.description }}</p>
             </div>
             <div class="integration-status">
-              <lib-badge 
-                [variant]="integration.connected ? 'solid' : 'outline'"
-                [color]="integration.connected ? 'success' : 'danger'"
+              <span 
                 class="status-badge"
+                [class.active]="integration.status === 'active'"
+                [class.inactive]="integration.status === 'inactive'"
               >
-                <lib-icon [name]="integration.connected ? 'check_circle' : 'cancel'" slot="icon-left"></lib-icon>
-                {{ integration.connected ? 'Connected' : 'Disconnected' }}
-              </lib-badge>
-              <lib-button 
-                [variant]="integration.connected ? 'danger' : 'primary'"
-                (clicked)="toggleIntegration(integration)"
-              >
-                {{ integration.connected ? 'Disconnect' : 'Connect' }}
-              </lib-button>
+                {{ integration.status }}
+              </span>
             </div>
           </div>
-        </div>
-      </div>
-
-      <!-- Account Settings -->
-      <div class="settings-panel" *ngIf="activeTab === 'account'">
-        <h2>Account Settings</h2>
-        <div class="settings-group">
-          <lib-form-field label="Full Name" appearance="outline">
-            <lib-text-field value="John Doe"></lib-text-field>
-          </lib-form-field>
           
-          <lib-form-field label="Email Address" appearance="outline">
-            <lib-text-field type="email" value="john.doe@company.com"></lib-text-field>
-          </lib-form-field>
-          
-          <lib-form-field label="Current Password" appearance="outline">
-            <lib-text-field type="password" placeholder="Enter current password"></lib-text-field>
-          </lib-form-field>
-          
-          <lib-form-field label="New Password" appearance="outline">
-            <lib-text-field type="password" placeholder="Enter new password"></lib-text-field>
-          </lib-form-field>
-          
-          <div class="danger-zone">
-            <h3>
-              <lib-icon name="warning" color="#ef4444"></lib-icon>
-              Danger Zone
-            </h3>
-            <p>Once you delete your account, there is no going back.</p>
-            <lib-button variant="danger">Delete Account</lib-button>
+          <div class="integration-actions">
+            <lib-button 
+              [variant]="integration.connected ? 'secondary' : 'primary'"
+              (clicked)="toggleIntegration(integration)"
+            >
+              {{ integration.connected ? 'Disconnect' : 'Connect' }}
+            </lib-button>
+            <lib-button variant="secondary" *ngIf="integration.connected">
+              Configure
+            </lib-button>
           </div>
         </div>
       </div>
+    </lib-card>
+  </div>
 
-      <div class="settings-actions">
-        <lib-button variant="primary">Save Changes</lib-button>
-        <lib-button variant="ghost">Cancel</lib-button>
+  <!-- Billing -->
+  <div class="settings-content" *ngIf="activeTab === 'billing'">
+    <lib-card class="settings-section">
+      <div class="section-header">
+        <h2>
+          <lib-icon name="payment"></lib-icon>
+          Billing & Subscription
+        </h2>
+        <p>Manage your subscription plan and billing information.</p>
+      </div>
+
+      <div class="billing-content">
+        <div class="billing-info">
+          <div class="plan-info">
+            <h3>Current Plan: {{ billingInfo.plan }}</h3>
+            <p class="plan-price">{{ billingInfo.price }}</p>
+            <p class="next-billing">Next billing date: {{ billingInfo.nextBilling }}</p>
+          </div>
+
+          <div class="payment-info">
+            <h4>Payment Method</h4>
+            <p>{{ billingInfo.paymentMethod }}</p>
+            <p class="billing-email">Billing email: {{ billingInfo.billingEmail }}</p>
+          </div>
+        </div>
+
+        <div class="billing-actions">
+          <lib-button variant="primary">
+            <lib-icon slot="icon-left" name="credit_card"></lib-icon>
+            Update Payment Method
+          </lib-button>
+          <lib-button variant="secondary">
+            <lib-icon slot="icon-left" name="upgrade"></lib-icon>
+            Upgrade Plan
+          </lib-button>
+          <lib-button variant="secondary">
+            <lib-icon slot="icon-left" name="receipt"></lib-icon>
+            View Invoices
+          </lib-button>
+        </div>
       </div>
     </lib-card>
+  </div>
+
+  <!-- Settings Actions -->
+  <div class="settings-actions">
+    <lib-button variant="primary" (clicked)="saveSettings()">
+      <lib-icon slot="icon-left" name="save"></lib-icon>
+      Save Changes
+    </lib-button>
+    <lib-button variant="secondary" (clicked)="resetSettings()">
+      <lib-icon slot="icon-left" name="refresh"></lib-icon>
+      Reset to Defaults
+    </lib-button>
+    <lib-button variant="secondary" (clicked)="exportSettings()">
+      <lib-icon slot="icon-left" name="file_download"></lib-icon>
+      Export Settings
+    </lib-button>
+    <lib-button variant="secondary" (clicked)="importSettings()">
+      <lib-icon slot="icon-left" name="file_upload"></lib-icon>
+      Import Settings
+    </lib-button>
   </div>
 </div>

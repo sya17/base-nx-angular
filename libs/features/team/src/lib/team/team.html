@@ -1,121 +1,195 @@
 <div class="team">
   <div class="team-header">
-    <div class="header-content">
-      <h1>
-        <lib-icon name="group"></lib-icon>
-        Team
-      </h1>
-      <p>Meet our talented team members and their expertise.</p>
-    </div>
-    <lib-button variant="primary" class="invite-btn">
-      <lib-icon name="person_add"></lib-icon>
-      Invite Member
-    </lib-button>
+    <h1>
+      <lib-icon name="group"></lib-icon>
+      Team Management
+    </h1>
+    <p>Manage your team members, track their progress, and organize departments efficiently.</p>
   </div>
 
-  <div class="team-stats">
-    <lib-card class="stat-card">
-      <div class="stat-icon">
-        <lib-icon name="group"></lib-icon>
-      </div>
+  <!-- Team Statistics -->
+  <div class="stats-grid">
+    <lib-card class="stat-card" *ngFor="let stat of teamStats">
       <div class="stat-content">
-        <h3>{{ teamMembers.length }}</h3>
-        <p>Total Members</p>
-      </div>
-    </lib-card>
-    <lib-card class="stat-card">
-      <div class="stat-icon">
-        <lib-icon name="circle" class="online"></lib-icon>
-      </div>
-      <div class="stat-content">
-        <h3>{{ getOnlineCount() }}</h3>
-        <p>Online Now</p>
-      </div>
-    </lib-card>
-    <lib-card class="stat-card">
-      <div class="stat-icon">
-        <lib-icon name="work"></lib-icon>
-      </div>
-      <div class="stat-content">
-        <h3>{{ getTotalProjects() }}</h3>
-        <p>Active Projects</p>
+        <h3>{{ stat.value }}</h3>
+        <p>{{ stat.label }}</p>
+        <span 
+          class="stat-change"
+          [class.positive]="stat.isPositive"
+          [class.negative]="!stat.isPositive"
+        >
+          <lib-icon [name]="stat.isPositive ? 'trending_up' : 'trending_down'"></lib-icon>
+          {{ stat.change }}
+        </span>
       </div>
     </lib-card>
   </div>
 
-  <div class="team-filters">
-    <div class="filter-group">
-      <lib-button variant="ghost" class="filter-btn active">All Members</lib-button>
-      <lib-button variant="ghost" class="filter-btn">Online</lib-button>
-      <lib-button variant="ghost" class="filter-btn">Developers</lib-button>
-      <lib-button variant="ghost" class="filter-btn">Designers</lib-button>
+  <!-- Department Overview -->
+  <lib-card class="departments-card">
+    <div class="card-header">
+      <h2>
+        <lib-icon name="business"></lib-icon>
+        Departments Overview
+      </h2>
     </div>
-    <div class="search-box">
-      <lib-icon name="search"></lib-icon>
-      <input type="text" placeholder="Search team members...">
+    <div class="departments-grid">
+      <div 
+        class="department-item" 
+        *ngFor="let dept of departments"
+        [style.border-left-color]="dept.color"
+      >
+        <div class="department-info">
+          <h4>{{ dept.name }}</h4>
+          <span class="member-count">{{ dept.count }} members</span>
+        </div>
+        <div class="department-chart">
+          <div 
+            class="chart-bar"
+            [style.background-color]="dept.color"
+            [style.width.%]="(dept.count / 24) * 100"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </lib-card>
+
+  <!-- Filters and Search -->
+  <div class="team-controls">
+    <div class="search-section">
+      <div class="search-input">
+        <lib-icon name="search"></lib-icon>
+        <input 
+          type="text" 
+          placeholder="Search team members..."
+          (input)="onSearch($event)"
+        />
+      </div>
+    </div>
+
+    <div class="filters">
+      <select class="filter-select" (change)="setDepartmentFilter($any($event.target).value)">
+        <option value="all">All Departments</option>
+        <option *ngFor="let dept of departments" [value]="dept.name">{{ dept.name }}</option>
+      </select>
+
+      <select class="filter-select" (change)="setStatusFilter($any($event.target).value)">
+        <option value="all">All Status</option>
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+      </select>
+
+      <lib-button variant="primary">
+        <lib-icon slot="icon-left" name="person_add"></lib-icon>
+        Add Member
+      </lib-button>
     </div>
   </div>
 
-  <div class="team-grid">
-    <lib-card class="member-card" *ngFor="let member of teamMembers">
+  <!-- Team Members Grid -->
+  <div class="members-grid">
+    <lib-card 
+      class="member-card" 
+      *ngFor="let member of filteredMembers"
+      variant="elevated"
+      [hover]="true"
+    >
       <div class="member-header">
-        <div class="member-avatar">
-          <div class="avatar-circle">
+        <div class="member-title">
+          <div class="member-avatar" [style.background-color]="getDepartmentColor(member.department)">
             {{ member.avatar }}
-            <div 
-              class="status-indicator"
-              [class]="getStatusClass(member.status)"
-            ></div>
+          </div>
+          <div class="member-info">
+            <h3>{{ member.name }}</h3>
+            <p class="member-role">{{ member.role }}</p>
+            <p class="member-email">{{ member.email }}</p>
           </div>
         </div>
-        <div class="member-actions">
-          <lib-button variant="ghost" size="sm" [iconOnly]="true" class="action-btn">
-            <lib-icon name="email"></lib-icon>
-          </lib-button>
-          <lib-button variant="ghost" size="sm" [iconOnly]="true" class="action-btn">
-            <lib-icon name="phone"></lib-icon>
-          </lib-button>
-          <lib-button variant="ghost" size="sm" [iconOnly]="true" class="action-btn">
-            <lib-icon name="more_vert"></lib-icon>
-          </lib-button>
+        <div class="member-status">
+          <lib-badge [color]="getStatusColor(member.status)">
+            {{ member.status | titlecase }}
+          </lib-badge>
         </div>
       </div>
 
-      <div class="member-info">
-        <h3>{{ member.name }}</h3>
-        <p class="member-role">{{ member.role }}</p>
-        <p class="member-email">{{ member.email }}</p>
-      </div>
-
-      <div class="member-stats">
-        <div class="stat-item">
-          <span class="stat-label">Projects</span>
-          <lib-badge variant="solid" color="secondary">{{ member.projects }}</lib-badge>
+      <div class="member-content">
+        <div class="member-details">
+          <div class="detail-row">
+            <lib-icon name="business"></lib-icon>
+            <span>{{ member.department }}</span>
+          </div>
+          <div class="detail-row">
+            <lib-icon name="schedule"></lib-icon>
+            <span>Joined {{ formatDate(member.joinDate) }}</span>
+          </div>
+          <div class="detail-row">
+            <lib-icon name="work"></lib-icon>
+            <span>{{ getExperienceYears(member.joinDate) }} years experience</span>
+          </div>
+          <div class="detail-row">
+            <lib-icon name="access_time"></lib-icon>
+            <span>Last active {{ member.lastActive }}</span>
+          </div>
         </div>
-        <div class="stat-item">
-          <span class="stat-label">Joined</span>
-          <span class="stat-value">{{ member.joinDate | date:'MMM yyyy' }}</span>
-        </div>
-      </div>
 
-      <div class="member-skills">
-        <span class="skills-label">Skills:</span>
-        <div class="skills-list">
-          <lib-chips 
-            [items]="getSkillsAsChips(member.skills)"
-            variant="outline"
-            size="sm"
-            [removable]="false"
-          ></lib-chips>
+        <div class="member-projects">
+          <h4>Current Projects</h4>
+          <div class="project-tags">
+            <span class="project-tag" *ngFor="let project of member.projects">
+              {{ project }}
+            </span>
+          </div>
+        </div>
+
+        <div class="member-skills">
+          <h4>Skills</h4>
+          <div class="skill-tags">
+            <span class="skill-tag" *ngFor="let skill of member.skills.slice(0, 4)">
+              {{ skill }}
+            </span>
+            <span class="skill-tag more" *ngIf="member.skills.length > 4">
+              +{{ member.skills.length - 4 }}
+            </span>
+          </div>
         </div>
       </div>
 
       <div class="member-footer">
-        <lib-button variant="ghost" class="view-profile-btn">
-          <lib-icon name="person"></lib-icon>
-          View Profile
-        </lib-button>
+        <div class="member-meta">
+          <span class="experience-badge">{{ getExperienceYears(member.joinDate) }}y exp</span>
+          <span class="project-count">{{ member.projects.length }} projects</span>
+        </div>
+        <div class="member-actions">
+          <lib-button variant="secondary" [size]="'sm'">
+            <lib-icon slot="icon-left" name="visibility"></lib-icon>
+            View Profile
+          </lib-button>
+          <lib-button variant="secondary" [size]="'sm'">
+            <lib-icon slot="icon-left" name="message"></lib-icon>
+            Message
+          </lib-button>
+          <lib-button variant="primary" [size]="'sm'">
+            <lib-icon slot="icon-left" name="edit"></lib-icon>
+            Edit
+          </lib-button>
+        </div>
       </div>
     </lib-card>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-actions">
+    <lib-button variant="secondary" class="action-btn">
+      <lib-icon slot="icon-left" name="file_download"></lib-icon>
+      Export Team Data
+    </lib-button>
+    <lib-button variant="secondary" class="action-btn">
+      <lib-icon slot="icon-left" name="group_add"></lib-icon>
+      Bulk Import
+    </lib-button>
+    <lib-button variant="secondary" class="action-btn">
+      <lib-icon slot="icon-left" name="analytics"></lib-icon>
+      Team Analytics
+    </lib-button>
   </div>
 </div>

@@ -1,98 +1,175 @@
 <div class="projects">
   <div class="projects-header">
-    <div class="header-content">
-      <h1>
-        <lib-icon name="folder"></lib-icon>
-        Projects
-      </h1>
-      <p>Manage and track all your ongoing projects.</p>
-    </div>
-    <lib-button variant="primary" class="create-btn">
-      <lib-icon name="add"></lib-icon>
-      New Project
-    </lib-button>
+    <h1>
+      <lib-icon name="folder"></lib-icon>
+      Projects
+    </h1>
+    <p>Manage and track your project portfolio with detailed insights and progress monitoring.</p>
   </div>
 
-  <div class="projects-filters">
-    <div class="filter-group">
-      <lib-button variant="ghost" class="filter-btn active">All Projects</lib-button>
-      <lib-button variant="ghost" class="filter-btn">In Progress</lib-button>
-      <lib-button variant="ghost" class="filter-btn">Completed</lib-button>
-      <lib-button variant="ghost" class="filter-btn">Planning</lib-button>
+  <!-- Project Statistics -->
+  <div class="stats-grid">
+    <lib-card class="stat-card" *ngFor="let stat of projectStats">
+      <div class="stat-content">
+        <h3>{{ stat.value }}</h3>
+        <p>{{ stat.label }}</p>
+        <span 
+          class="stat-change"
+          [class.positive]="stat.isPositive"
+          [class.negative]="!stat.isPositive"
+        >
+          <lib-icon [name]="stat.isPositive ? 'trending_up' : 'trending_down'"></lib-icon>
+          {{ stat.change }}
+        </span>
+      </div>
+    </lib-card>
+  </div>
+
+  <!-- Filters and Actions -->
+  <div class="projects-controls">
+    <div class="filters">
+      <button 
+        class="filter-btn"
+        [class.active]="filterStatus === 'all'"
+        (click)="setFilter('all')"
+      >
+        All Projects
+      </button>
+      <button 
+        class="filter-btn"
+        [class.active]="filterStatus === 'active'"
+        (click)="setFilter('active')"
+      >
+        Active
+      </button>
+      <button 
+        class="filter-btn"
+        [class.active]="filterStatus === 'completed'"
+        (click)="setFilter('completed')"
+      >
+        Completed
+      </button>
+      <button 
+        class="filter-btn"
+        [class.active]="filterStatus === 'archived'"
+        (click)="setFilter('archived')"
+      >
+        Archived
+      </button>
     </div>
-    <div class="search-box">
-      <lib-icon name="search"></lib-icon>
-      <input type="text" placeholder="Search projects...">
+
+    <div class="actions">
+      <select class="sort-select" (change)="setSortBy($any($event.target).value)">
+        <option value="deadline">Sort by Deadline</option>
+        <option value="progress">Sort by Progress</option>
+        <option value="name">Sort by Name</option>
+      </select>
+      <lib-button variant="primary">
+        <lib-icon slot="icon-left" name="add"></lib-icon>
+        New Project
+      </lib-button>
     </div>
   </div>
 
+  <!-- Projects Grid -->
   <div class="projects-grid">
-    <lib-card class="project-card" *ngFor="let project of projects">
+    <lib-card 
+      class="project-card" 
+      *ngFor="let project of filteredProjects"
+      variant="elevated"
+      [hover]="true"
+    >
       <div class="project-header">
         <div class="project-title">
           <h3>{{ project.name }}</h3>
-          <lib-badge 
-            variant="solid"
-            [color]="getStatusColor(project.status)"
-            class="project-status"
-          >
-            {{ project.status }}
-          </lib-badge>
-        </div>
-        <div class="project-priority">
-          <lib-badge 
-            variant="outline"
-            [color]="getPriorityColor(project.priority)"
-            class="priority-badge"
-          >
-            {{ project.priority }}
-          </lib-badge>
-        </div>
-      </div>
-
-      <p class="project-description">{{ project.description }}</p>
-
-      <div class="project-progress">
-        <div class="progress-header">
-          <span>Progress</span>
-          <span>{{ project.progress }}%</span>
-        </div>
-        <lib-progress 
-          [value]="project.progress"
-          [max]="100"
-        ></lib-progress>
-      </div>
-
-      <div class="project-team">
-        <span class="team-label">Team:</span>
-        <div class="team-avatars">
-          <div 
-            class="team-avatar"
-            *ngFor="let member of project.team"
-            [title]="member"
-          >
-            {{ getInitials(member) }}
+          <div class="project-badges">
+            <lib-badge [color]="getStatusColor(project.status)">
+              {{ project.status | titlecase }}
+            </lib-badge>
+            <lib-badge [color]="getPriorityColor(project.priority)">
+              {{ project.priority | titlecase }} Priority
+            </lib-badge>
           </div>
+        </div>
+        <div class="project-menu">
+          <lib-icon name="more_vert"></lib-icon>
+        </div>
+      </div>
+
+      <div class="project-content">
+        <p class="project-description">{{ project.description }}</p>
+        
+        <div class="project-progress">
+          <div class="progress-header">
+            <span>Progress</span>
+            <span class="progress-value">{{ project.progress }}%</span>
+          </div>
+          <lib-progress 
+            [value]="project.progress"
+            [max]="100"
+          ></lib-progress>
+        </div>
+
+        <div class="project-details">
+          <div class="detail-item">
+            <lib-icon name="schedule"></lib-icon>
+            <span>{{ formatDate(project.deadline) }}</span>
+            <span 
+              class="days-remaining"
+              [class.urgent]="getDaysUntilDeadline(project.deadline) <= 7"
+              [class.warning]="getDaysUntilDeadline(project.deadline) <= 14 && getDaysUntilDeadline(project.deadline) > 7"
+            >
+              ({{ getDaysUntilDeadline(project.deadline) }} days)
+            </span>
+          </div>
+          
+          <div class="detail-item">
+            <lib-icon name="group"></lib-icon>
+            <span>{{ project.team.length }} members</span>
+          </div>
+        </div>
+
+        <div class="project-tags">
+          <span class="tag" *ngFor="let tag of project.tags">{{ tag }}</span>
         </div>
       </div>
 
       <div class="project-footer">
-        <div class="project-deadline">
-          <lib-icon name="event"></lib-icon>
-          <span>Due: {{ project.deadline }}</span>
+        <div class="team-avatars">
+          <div class="avatar" *ngFor="let member of project.team.slice(0, 3)">
+            {{ getMemberInitials(member) }}
+          </div>
+          <div class="avatar more" *ngIf="project.team.length > 3">
+            +{{ project.team.length - 3 }}
+          </div>
         </div>
         <div class="project-actions">
-          <lib-button variant="ghost" size="sm" [iconOnly]="true" class="action-btn">
-            <lib-icon name="visibility"></lib-icon>
+          <lib-button variant="secondary" [size]="'sm'">
+            <lib-icon slot="icon-left" name="visibility"></lib-icon>
+            View
           </lib-button>
-          <lib-button variant="ghost" size="sm" [iconOnly]="true" class="action-btn">
-            <lib-icon name="edit"></lib-icon>
-          </lib-button>
-          <lib-button variant="ghost" size="sm" [iconOnly]="true" class="action-btn">
-            <lib-icon name="more_vert"></lib-icon>
+          <lib-button variant="primary" [size]="'sm'">
+            <lib-icon slot="icon-left" name="edit"></lib-icon>
+            Edit
           </lib-button>
         </div>
       </div>
     </lib-card>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-actions">
+    <lib-button variant="secondary" class="action-btn">
+      <lib-icon slot="icon-left" name="file_download"></lib-icon>
+      Export Projects
+    </lib-button>
+    <lib-button variant="secondary" class="action-btn">
+      <lib-icon slot="icon-left" name="filter_list"></lib-icon>
+      Advanced Filters
+    </lib-button>
+    <lib-button variant="secondary" class="action-btn">
+      <lib-icon slot="icon-left" name="insights"></lib-icon>
+      Project Insights
+    </lib-button>
   </div>
 </div>

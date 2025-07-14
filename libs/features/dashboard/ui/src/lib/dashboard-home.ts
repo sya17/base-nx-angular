@@ -5,6 +5,6 @@ import { CommonModule } from '@angular/common';
   selector: 'lib-dashboard-home',
   imports: [CommonModule],
   templateUrl: './dashboard-home.html',
-  styleUrl: './dashboard-home.css',
+  styleUrl: './dashboard-home.scss',
 })
 export class DashboardHome {}

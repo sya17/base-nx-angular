@@ -5,5 +5,5 @@ import { Injectable } from '@angular/core';
 })
 export class Http {
 
-  constructor() { }
+  // Constructor intentionally empty - service will be extended with methods
 }

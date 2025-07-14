@@ -5,6 +5,6 @@ import { CommonModule } from '@angular/common';
   selector: 'lib-dashboard-stats',
   imports: [CommonModule],
   templateUrl: './dashboard-stats.html',
-  styleUrl: './dashboard-stats.css',
+  styleUrl: './dashboard-stats.scss',
 })
 export class DashboardStats {}

@@ -5,6 +5,6 @@ import { CommonModule } from '@angular/common';
   selector: 'lib-auth-data-access',
   imports: [CommonModule],
   templateUrl: './auth-data-access.html',
-  styleUrl: './auth-data-access.css',
+  styleUrl: './auth-data-access.scss',
 })
 export class AuthDataAccess {}

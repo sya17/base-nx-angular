@@ -6,7 +6,7 @@ import { Icon, Card, Progress, Button } from '@base-nx-angular/shared/ui';
   selector: 'lib-analytics',
   imports: [CommonModule, Icon, Card, Progress, Button],
   templateUrl: './analytics.html',
-  styleUrl: './analytics.css',
+  styleUrl: './analytics.scss',
 })
 export class Analytics {
   protected chartData = [

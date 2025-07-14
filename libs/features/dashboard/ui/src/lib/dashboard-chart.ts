@@ -5,6 +5,6 @@ import { CommonModule } from '@angular/common';
   selector: 'lib-dashboard-chart',
   imports: [CommonModule],
   templateUrl: './dashboard-chart.html',
-  styleUrl: './dashboard-chart.css',
+  styleUrl: './dashboard-chart.scss',
 })
 export class DashboardChart {}
