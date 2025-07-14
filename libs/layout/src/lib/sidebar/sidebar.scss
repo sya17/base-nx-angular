@@ -1,21 +1,21 @@
-// Sidebar Component Styles
+// Modern Sidebar Component Styles
 .sidebar {
   position: fixed;
-  top: 70px;
+  top: 0;
   left: 0;
   width: 280px;
-  height: calc(100vh - 70px);
+  height: 100vh;
   background: #ffffff;
-  border-right: 1px solid #e5e7eb;
+  border-right: 1px solid #f1f5f9;
   display: flex;
   flex-direction: column;
   z-index: 900;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
 
   &.collapsed {
-    width: 80px;
+    width: 72px;
 
     .nav-section h3,
     .nav-item .nav-label,
@@ -27,13 +27,13 @@
       visibility: hidden;
     }
 
-    .nav-item a {
+    .nav-item .nav-link {
       justify-content: center;
       padding: 12px;
     }
 
     .sidebar-toggle {
-      right: -12px;
+      right: -16px;
     }
   }
 
@@ -44,26 +44,30 @@
     overflow-x: hidden;
 
     &::-webkit-scrollbar {
-      width: 4px;
+      width: 2px;
     }
 
     &::-webkit-scrollbar-thumb {
-      background: #d1d5db;
-      border-radius: 2px;
+      background: #e2e8f0;
+      border-radius: 1px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: #cbd5e1;
     }
 
     .nav-section {
       margin-bottom: 32px;
 
       h3 {
-        font-size: 12px;
+        font-size: 11px;
         font-weight: 600;
-        color: #6b7280;
+        color: #64748b;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
-        margin-bottom: 16px;
-        padding: 0 24px;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        letter-spacing: 0.8px;
+        margin-bottom: 12px;
+        padding: 0 20px;
+        transition: all 0.3s ease;
       }
 
       ul {
@@ -73,33 +77,33 @@
       }
 
       .nav-item {
-        margin-bottom: 4px;
+        margin-bottom: 2px;
         position: relative;
 
-        a {
+        .nav-link {
           display: flex;
           align-items: center;
           gap: 12px;
-          padding: 12px 24px;
-          color: #6b7280;
+          padding: 10px 20px;
+          color: #475569;
           text-decoration: none;
           font-size: 14px;
           font-weight: 500;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: all 0.2s ease;
           cursor: pointer;
           position: relative;
+          border-radius: 8px;
+          margin: 0 12px;
 
           &:hover {
-            background-color: #f9fafb;
-            color: #4f46e5;
-            transform: translateX(4px);
+            background-color: #f8fafc;
+            color: #334155;
           }
 
           &:focus {
             outline: none;
-            background-color: #f9fafb;
-            color: #4f46e5;
-            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+            background-color: #f1f5f9;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
           }
 
           mat-icon {
@@ -108,29 +112,30 @@
             height: 20px;
             text-align: center;
             flex-shrink: 0;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: #64748b;
           }
 
           .nav-label {
             flex: 1;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s ease;
+            font-weight: 500;
           }
 
           .nav-badge {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
+            background: #3b82f6;
             color: #ffffff;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 600;
             padding: 2px 6px;
-            border-radius: 10px;
-            min-width: 18px;
+            border-radius: 12px;
+            min-width: 16px;
             text-align: center;
             line-height: 1.2;
             margin-left: auto;
-            box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2);
           }
 
           .expand-icon {
@@ -138,84 +143,71 @@
             width: 16px !important;
             height: 16px !important;
             margin-left: 8px;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.2s ease;
+            color: #94a3b8;
           }
         }
 
-        &.has-children.expanded > a .expand-icon {
-          transform: rotate(0deg);
+        &.has-children.expanded > .nav-link .expand-icon {
+          transform: rotate(90deg);
         }
 
-        &.active > a {
-          background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(99, 102, 241, 0.05));
-          color: #4f46e5;
+        &.active > .nav-link {
+          background: #3b82f6;
+          color: #ffffff;
           font-weight: 600;
-          transform: translateX(4px);
-
-          &::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: linear-gradient(135deg, #4f46e5, #6366f1);
-            border-radius: 0 2px 2px 0;
-          }
 
           mat-icon {
-            transform: scale(1.1);
+            color: #ffffff;
+          }
+
+          .expand-icon {
+            color: #ffffff;
           }
         }
 
         .nav-submenu {
           list-style: none;
-          margin: 0 0 0 24px;
+          margin: 4px 0 0 0;
           padding: 0;
           overflow: hidden;
-          background: rgba(249, 250, 251, 0.5);
-          border-left: 2px solid #e5e7eb;
-
-          &.expanded {
-            border-left-color: #4f46e5;
-          }
 
           .nav-subitem {
-            margin-bottom: 2px;
+            margin-bottom: 1px;
 
             .nav-sublink {
               display: flex;
               align-items: center;
               gap: 10px;
-              padding: 8px 20px;
-              color: #6b7280;
+              padding: 8px 20px 8px 48px;
+              color: #64748b;
               text-decoration: none;
               font-size: 13px;
               font-weight: 500;
-              transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+              transition: all 0.2s ease;
               cursor: pointer;
               position: relative;
+              border-radius: 6px;
+              margin: 0 12px;
 
               &:hover {
-                background-color: rgba(79, 70, 229, 0.05);
-                color: #4f46e5;
-                transform: translateX(2px);
+                background-color: #f8fafc;
+                color: #475569;
               }
 
               &:focus {
                 outline: none;
-                background-color: rgba(79, 70, 229, 0.05);
-                color: #4f46e5;
-                box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+                background-color: #f1f5f9;
+                box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
               }
 
               mat-icon {
-                font-size: 18px;
+                font-size: 16px;
                 width: 16px;
                 height: 16px;
                 text-align: center;
                 flex-shrink: 0;
-                opacity: 0.7;
+                color: #94a3b8;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -226,38 +218,25 @@
               }
 
               .nav-badge {
-                background: linear-gradient(135deg, #10b981, #059669);
+                background: #10b981;
                 color: #ffffff;
-                font-size: 10px;
+                font-size: 9px;
                 font-weight: 600;
-                padding: 2px 5px;
+                padding: 1px 4px;
                 border-radius: 8px;
-                min-width: 16px;
+                min-width: 14px;
                 text-align: center;
                 line-height: 1.2;
               }
             }
 
             &.active .nav-sublink {
-              background: linear-gradient(135deg, rgba(79, 70, 229, 0.15), rgba(99, 102, 241, 0.1));
-              color: #4f46e5;
+              background: #dbeafe;
+              color: #1d4ed8;
               font-weight: 600;
-              transform: translateX(2px);
-
-              &::before {
-                content: '';
-                position: absolute;
-                left: 0;
-                top: 0;
-                bottom: 0;
-                width: 2px;
-                background: #4f46e5;
-                border-radius: 0 1px 1px 0;
-              }
 
               mat-icon {
-                opacity: 1;
-                transform: scale(1.05);
+                color: #1d4ed8;
               }
             }
           }
@@ -267,38 +246,37 @@
   }
 
   .sidebar-footer {
-    padding: 24px;
-    border-top: 1px solid #e5e7eb;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 20px;
+    border-top: 1px solid #f1f5f9;
+    transition: all 0.3s ease;
 
     .balance-card {
-      background: linear-gradient(135deg, #4f46e5, #6366f1);
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
       color: #ffffff;
-      padding: 20px;
-      border-radius: 16px;
+      padding: 16px;
+      border-radius: 12px;
       text-align: center;
-      box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.3s ease;
 
       &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 20px 25px -5px rgba(79, 70, 229, 0.3);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
       }
 
       .balance-header {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 8px;
-        margin-bottom: 12px;
-        font-size: 14px;
+        gap: 6px;
+        margin-bottom: 8px;
+        font-size: 12px;
         opacity: 0.9;
         font-weight: 500;
 
         mat-icon {
-          font-size: 20px;
-          width: 20px;
-          height: 20px;
+          font-size: 16px;
+          width: 16px;
+          height: 16px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -306,27 +284,27 @@
       }
 
       .balance-amount {
-        font-size: 24px;
+        font-size: 20px;
         font-weight: 700;
-        margin-bottom: 4px;
+        margin-bottom: 2px;
         line-height: 1.2;
       }
 
       .balance-subtitle {
-        font-size: 12px;
+        font-size: 11px;
         opacity: 0.8;
-        margin-bottom: 12px;
+        margin-bottom: 8px;
       }
 
       .balance-change {
-        font-size: 12px;
+        font-size: 11px;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 4px;
         font-weight: 600;
-        padding: 4px 8px;
-        border-radius: 8px;
+        padding: 2px 6px;
+        border-radius: 6px;
         background: rgba(255, 255, 255, 0.15);
 
         &.positive {
@@ -338,9 +316,9 @@
         }
 
         mat-icon {
-          font-size: 14px;
-          width: 14px;
-          height: 14px;
+          font-size: 12px;
+          width: 12px;
+          height: 12px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -351,42 +329,42 @@
 
   .sidebar-toggle {
     position: absolute;
-    top: 50%;
-    right: -12px;
-    transform: translateY(-50%);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    top: 24px;
+    right: -16px;
+    transform: translateY(0);
+    transition: all 0.3s ease;
 
     .toggle-btn {
-      width: 24px;
-      height: 24px;
+      width: 32px;
+      height: 32px;
       background: #ffffff;
-      border: 1px solid #e5e7eb;
+      border: 1px solid #e2e8f0;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
       &:hover {
-        background: #4f46e5;
-        border-color: #4f46e5;
+        background: #3b82f6;
+        border-color: #3b82f6;
         color: #ffffff;
-        transform: scale(1.1);
-        box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
       }
 
       &:focus {
         outline: none;
-        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
       }
 
       mat-icon {
-        font-size: 14px;
-        width: 14px;
-        height: 14px;
-        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+        transition: transform 0.2s ease;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -400,7 +378,7 @@
   .sidebar {
     transform: translateX(-100%);
     z-index: 1100;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 
     &.collapsed {
       transform: translateX(-100%);
@@ -421,7 +399,7 @@
 @media (max-width: 768px) {
   .sidebar {
     width: 100%;
-    max-width: 320px;
+    max-width: 300px;
 
     &.collapsed {
       transform: translateX(-100%);

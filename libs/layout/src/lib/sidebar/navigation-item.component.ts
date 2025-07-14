@@ -22,19 +22,18 @@ import { NavigationItem } from './sidebar';
       [class.expanded]="item.isExpanded"
       [attr.data-level]="level"
     >
-      <a 
-        (click)="onItemClick(item)"
-        [attr.aria-label]="item.label"
-        [attr.aria-expanded]="hasChildren(item) ? item.isExpanded : null"
-        role="button"
-        tabindex="0"
-        class="nav-link"
-        [class.nav-sublink]="level > 0"
-        [class.nav-level-1]="level === 1"
-        [class.nav-level-2]="level === 2"
-        [class.nav-level-3]="level === 3"
-        [class.nav-level-4]="level >= 4"
-        [style.padding-left.px]="getLinkPadding()"
+    <div class="nav-link" 
+         (click)="onItemClick(item)"
+         [attr.aria-label]="item.label"
+         [attr.aria-expanded]="hasChildren(item) ? item.isExpanded : null"
+         role="button"
+         tabindex="0"
+         [class.nav-sublink]="level > 0"
+         [class.nav-level-1]="level === 1"
+         [class.nav-level-2]="level === 2"
+         [class.nav-level-3]="level === 3"
+         [class.nav-level-4]="level >= 4"
+         [style.padding-left.px]="getLinkPadding()"
       >
         <mat-icon [style.font-size.px]="getIconSize()" [style.width.px]="getIconSize()" [style.height.px]="getIconSize()">{{ item.icon }}</mat-icon>
         <span *ngIf="!isCollapsed" class="nav-label">{{ item.label }}</span>
@@ -55,7 +54,7 @@ import { NavigationItem } from './sidebar';
         >
           {{ item.isExpanded ? 'expand_less' : 'expand_more' }}
         </mat-icon>
-      </a>
+      </div>
       
       <!-- Recursive Children/Submenu -->
       <ul 
@@ -167,8 +166,8 @@ export class NavigationItemComponent {
   }
 
   getLinkPadding(): number {
-    const basePadding = 24;
-    const levelIndent = 20;
+    const basePadding = 20;
+    const levelIndent = 16;
     return basePadding + (this.level * levelIndent);
   }
 

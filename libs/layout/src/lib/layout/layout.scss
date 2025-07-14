@@ -10,7 +10,6 @@
 // Main Content Styles
 .main-content {
   margin-top: 40px; // Header height
-  margin-left: 280px; // Sidebar width
   min-height: calc(100vh - 70px); // Account for header height only
   transition: margin-left 0.3s ease;
   flex: 1;
@@ -50,7 +49,7 @@
 // Responsive Layout Adjustments
 @media (max-width: 1024px) {
   .main-content {
-    margin-left: 0;
+    margin-left: 0 !important;
   }
 }
 
