@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
-import { MatCardModule } from '@angular/material/card';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { Icon, Card, Progress, Button } from '@base-nx-angular/shared/ui';
 
 @Component({
   selector: 'lib-analytics',
-  imports: [CommonModule, MatIconModule, MatCardModule, MatProgressBarModule],
+  imports: [CommonModule, Icon, Card, Progress, Button],
   templateUrl: './analytics.html',
   styleUrl: './analytics.css',
 })

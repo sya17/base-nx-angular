@@ -1,17 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
-import { MatCardModule } from '@angular/material/card';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
+import { Icon, Card, Switch, Button, FormField, TextField, Dropdown, Badge } from '@base-nx-angular/shared/ui';
 
 @Component({
   selector: 'lib-settings',
-  imports: [CommonModule, MatIconModule, MatCardModule, MatTabsModule, MatSlideToggleModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule],
+  imports: [CommonModule, FormsModule, Icon, Card, Switch, Button, FormField, TextField, Dropdown, Badge],
   templateUrl: './settings.html',
   styleUrl: './settings.css',
 })

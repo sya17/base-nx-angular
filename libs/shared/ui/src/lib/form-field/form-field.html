@@ -1,0 +1,18 @@
+<div class="form-field" [ngClass]="fieldClasses">
+  <label *ngIf="label" class="form-field__label">
+    {{ label }}
+    <span *ngIf="required" class="form-field__required">*</span>
+  </label>
+  
+  <div class="form-field__wrapper">
+    <ng-content></ng-content>
+  </div>
+  
+  <div *ngIf="hint && !error" class="form-field__hint">
+    {{ hint }}
+  </div>
+  
+  <div *ngIf="error" class="form-field__error">
+    {{ error }}
+  </div>
+</div>

@@ -2,62 +2,62 @@
   <div class="team-header">
     <div class="header-content">
       <h1>
-        <mat-icon>group</mat-icon>
+        <lib-icon name="group"></lib-icon>
         Team
       </h1>
       <p>Meet our talented team members and their expertise.</p>
     </div>
-    <button mat-raised-button color="primary" class="invite-btn">
-      <mat-icon>person_add</mat-icon>
+    <lib-button variant="primary" class="invite-btn">
+      <lib-icon name="person_add"></lib-icon>
       Invite Member
-    </button>
+    </lib-button>
   </div>
 
   <div class="team-stats">
-    <mat-card class="stat-card">
+    <lib-card class="stat-card">
       <div class="stat-icon">
-        <mat-icon>group</mat-icon>
+        <lib-icon name="group"></lib-icon>
       </div>
       <div class="stat-content">
         <h3>{{ teamMembers.length }}</h3>
         <p>Total Members</p>
       </div>
-    </mat-card>
-    <mat-card class="stat-card">
+    </lib-card>
+    <lib-card class="stat-card">
       <div class="stat-icon">
-        <mat-icon class="online">circle</mat-icon>
+        <lib-icon name="circle" class="online"></lib-icon>
       </div>
       <div class="stat-content">
         <h3>{{ getOnlineCount() }}</h3>
         <p>Online Now</p>
       </div>
-    </mat-card>
-    <mat-card class="stat-card">
+    </lib-card>
+    <lib-card class="stat-card">
       <div class="stat-icon">
-        <mat-icon>work</mat-icon>
+        <lib-icon name="work"></lib-icon>
       </div>
       <div class="stat-content">
         <h3>{{ getTotalProjects() }}</h3>
         <p>Active Projects</p>
       </div>
-    </mat-card>
+    </lib-card>
   </div>
 
   <div class="team-filters">
     <div class="filter-group">
-      <button mat-button class="filter-btn active">All Members</button>
-      <button mat-button class="filter-btn">Online</button>
-      <button mat-button class="filter-btn">Developers</button>
-      <button mat-button class="filter-btn">Designers</button>
+      <lib-button variant="ghost" class="filter-btn active">All Members</lib-button>
+      <lib-button variant="ghost" class="filter-btn">Online</lib-button>
+      <lib-button variant="ghost" class="filter-btn">Developers</lib-button>
+      <lib-button variant="ghost" class="filter-btn">Designers</lib-button>
     </div>
     <div class="search-box">
-      <mat-icon>search</mat-icon>
+      <lib-icon name="search"></lib-icon>
       <input type="text" placeholder="Search team members...">
     </div>
   </div>
 
   <div class="team-grid">
-    <mat-card class="member-card" *ngFor="let member of teamMembers">
+    <lib-card class="member-card" *ngFor="let member of teamMembers">
       <div class="member-header">
         <div class="member-avatar">
           <div class="avatar-circle">
@@ -69,15 +69,15 @@
           </div>
         </div>
         <div class="member-actions">
-          <button mat-icon-button class="action-btn">
-            <mat-icon>email</mat-icon>
-          </button>
-          <button mat-icon-button class="action-btn">
-            <mat-icon>phone</mat-icon>
-          </button>
-          <button mat-icon-button class="action-btn">
-            <mat-icon>more_vert</mat-icon>
-          </button>
+          <lib-button variant="ghost" size="sm" [iconOnly]="true" class="action-btn">
+            <lib-icon name="email"></lib-icon>
+          </lib-button>
+          <lib-button variant="ghost" size="sm" [iconOnly]="true" class="action-btn">
+            <lib-icon name="phone"></lib-icon>
+          </lib-button>
+          <lib-button variant="ghost" size="sm" [iconOnly]="true" class="action-btn">
+            <lib-icon name="more_vert"></lib-icon>
+          </lib-button>
         </div>
       </div>
 
@@ -90,7 +90,7 @@
       <div class="member-stats">
         <div class="stat-item">
           <span class="stat-label">Projects</span>
-          <span class="stat-value">{{ member.projects }}</span>
+          <lib-badge variant="solid" color="secondary">{{ member.projects }}</lib-badge>
         </div>
         <div class="stat-item">
           <span class="stat-label">Joined</span>
@@ -101,21 +101,21 @@
       <div class="member-skills">
         <span class="skills-label">Skills:</span>
         <div class="skills-list">
-          <mat-chip 
-            class="skill-tag"
-            *ngFor="let skill of member.skills"
-          >
-            {{ skill }}
-          </mat-chip>
+          <lib-chips 
+            [items]="getSkillsAsChips(member.skills)"
+            variant="outline"
+            size="sm"
+            [removable]="false"
+          ></lib-chips>
         </div>
       </div>
 
       <div class="member-footer">
-        <button mat-button class="view-profile-btn">
-          <mat-icon>person</mat-icon>
+        <lib-button variant="ghost" class="view-profile-btn">
+          <lib-icon name="person"></lib-icon>
           View Profile
-        </button>
+        </lib-button>
       </div>
-    </mat-card>
+    </lib-card>
   </div>
 </div>

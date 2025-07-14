@@ -15,3 +15,9 @@ export * from './lib/tab/tab';
 export * from './lib/icon/icon';
 export * from './lib/divider/divider';
 export * from './lib/menu/menu';
+
+export * from './lib/loading/loading';
+export * from './lib/pagination/pagination';
+export * from './lib/table/table';
+export * from './lib/chips/chips';
+export * from './lib/form-field/form-field';

@@ -1,14 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
-import { MatCardModule } from '@angular/material/card';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatButtonModule } from '@angular/material/button';
+import { Icon, Card, Progress, Button, Badge, BadgeColor } from '@base-nx-angular/shared/ui';
 
 @Component({
   selector: 'lib-projects',
-  imports: [CommonModule, MatIconModule, MatCardModule, MatProgressBarModule, MatChipsModule, MatButtonModule],
+  imports: [CommonModule, Icon, Card, Progress, Button, Badge],
   templateUrl: './projects.html',
   styleUrl: './projects.css',
 })
@@ -76,5 +72,23 @@ export class Projects {
 
   protected getInitials(name: string): string {
     return name.split(' ').map(n => n[0]).join('');
+  }
+
+  protected getStatusColor(status: string): BadgeColor {
+    switch (status.toLowerCase()) {
+      case 'completed': return 'success';
+      case 'in progress': return 'primary';
+      case 'planning': return 'warning';
+      default: return 'gray';
+    }
+  }
+
+  protected getPriorityColor(priority: string): BadgeColor {
+    switch (priority.toLowerCase()) {
+      case 'high': return 'danger';
+      case 'medium': return 'warning';
+      case 'low': return 'success';
+      default: return 'gray';
+    }
   }
 }

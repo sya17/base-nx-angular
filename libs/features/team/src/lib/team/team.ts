@@ -1,14 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
-import { MatCardModule } from '@angular/material/card';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatButtonModule } from '@angular/material/button';
-import { MatBadgeModule } from '@angular/material/badge';
+import { Icon, Card, Chips, Button, Badge } from '@base-nx-angular/shared/ui';
 
 @Component({
   selector: 'lib-team',
-  imports: [CommonModule, MatIconModule, MatCardModule, MatChipsModule, MatButtonModule, MatBadgeModule],
+  imports: [CommonModule, Icon, Card, Chips, Button, Badge],
   templateUrl: './team.html',
   styleUrl: './team.css',
 })
@@ -97,5 +93,13 @@ export class Team {
 
   protected getTotalProjects(): number {
     return this.teamMembers.reduce((sum, member) => sum + member.projects, 0);
+  }
+
+  protected getSkillsAsChips(skills: string[]) {
+    return skills.map((skill, index) => ({
+      id: index,
+      label: skill,
+      removable: false
+    }));
   }
 }

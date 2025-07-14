@@ -1,96 +1,92 @@
 <div class="settings">
   <div class="settings-header">
     <h1>
-      <mat-icon>settings</mat-icon>
+      <lib-icon name="settings"></lib-icon>
       Settings
     </h1>
     <p>Manage your application preferences and configurations.</p>
   </div>
 
   <div class="settings-container">
-    <mat-card class="settings-sidebar">
+    <lib-card class="settings-sidebar">
       <nav class="settings-nav">
-        <button 
-          mat-button
+        <lib-button 
+          variant="ghost"
           class="nav-item"
           [class.active]="activeTab === 'general'"
-          (click)="setActiveTab('general')"
+          (clicked)="setActiveTab('general')"
         >
-          <mat-icon>tune</mat-icon>
+          <lib-icon name="tune"></lib-icon>
           General
-        </button>
-        <button 
-          mat-button
+        </lib-button>
+        <lib-button 
+          variant="ghost"
           class="nav-item"
           [class.active]="activeTab === 'notifications'"
-          (click)="setActiveTab('notifications')"
+          (clicked)="setActiveTab('notifications')"
         >
-          <mat-icon>notifications</mat-icon>
+          <lib-icon name="notifications"></lib-icon>
           Notifications
-        </button>
-        <button 
-          mat-button
+        </lib-button>
+        <lib-button 
+          variant="ghost"
           class="nav-item"
           [class.active]="activeTab === 'security'"
-          (click)="setActiveTab('security')"
+          (clicked)="setActiveTab('security')"
         >
-          <mat-icon>security</mat-icon>
+          <lib-icon name="security"></lib-icon>
           Security
-        </button>
-        <button 
-          mat-button
+        </lib-button>
+        <lib-button 
+          variant="ghost"
           class="nav-item"
           [class.active]="activeTab === 'integrations'"
-          (click)="setActiveTab('integrations')"
+          (clicked)="setActiveTab('integrations')"
         >
-          <mat-icon>extension</mat-icon>
+          <lib-icon name="extension"></lib-icon>
           Integrations
-        </button>
-        <button 
-          mat-button
+        </lib-button>
+        <lib-button 
+          variant="ghost"
           class="nav-item"
           [class.active]="activeTab === 'account'"
-          (click)="setActiveTab('account')"
+          (clicked)="setActiveTab('account')"
         >
-          <mat-icon>account_circle</mat-icon>
+          <lib-icon name="account_circle"></lib-icon>
           Account
-        </button>
+        </lib-button>
       </nav>
-    </mat-card>
+    </lib-card>
 
-    <mat-card class="settings-content">
+    <lib-card class="settings-content">
       <!-- General Settings -->
       <div class="settings-panel" *ngIf="activeTab === 'general'">
         <h2>General Settings</h2>
         <div class="settings-group">
-          <mat-form-field appearance="outline">
-            <mat-label>Site Name</mat-label>
-            <input matInput [value]="generalSettings.siteName">
-          </mat-form-field>
+          <lib-form-field label="Site Name" appearance="outline">
+            <lib-text-field [ngModel]="generalSettings.siteName"></lib-text-field>
+          </lib-form-field>
           
-          <mat-form-field appearance="outline">
-            <mat-label>Site Description</mat-label>
-            <textarea matInput [value]="generalSettings.siteDescription"></textarea>
-          </mat-form-field>
+          <lib-form-field label="Site Description" appearance="outline">
+            <lib-text-field [ngModel]="generalSettings.siteDescription" type="textarea"></lib-text-field>
+          </lib-form-field>
           
           <div class="form-row">
-            <mat-form-field appearance="outline">
-              <mat-label>Language</mat-label>
-              <mat-select [value]="generalSettings.language">
-                <mat-option value="en">English</mat-option>
-                <mat-option value="es">Spanish</mat-option>
-                <mat-option value="fr">French</mat-option>
-              </mat-select>
-            </mat-form-field>
+            <lib-form-field label="Language" appearance="outline">
+              <lib-dropdown [ngModel]="generalSettings.language">
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+              </lib-dropdown>
+            </lib-form-field>
             
-            <mat-form-field appearance="outline">
-              <mat-label>Timezone</mat-label>
-              <mat-select [value]="generalSettings.timezone">
-                <mat-option value="UTC">UTC</mat-option>
-                <mat-option value="EST">Eastern</mat-option>
-                <mat-option value="PST">Pacific</mat-option>
-              </mat-select>
-            </mat-form-field>
+            <lib-form-field label="Timezone" appearance="outline">
+              <lib-dropdown [ngModel]="generalSettings.timezone">
+                <option value="UTC">UTC</option>
+                <option value="EST">Eastern</option>
+                <option value="PST">Pacific</option>
+              </lib-dropdown>
+            </lib-form-field>
           </div>
         </div>
       </div>
@@ -105,10 +101,10 @@
                 <h4>{{ setting.label }}</h4>
                 <p>{{ setting.desc }}</p>
               </div>
-              <mat-slide-toggle 
-                [checked]="notificationSettings[setting.key]"
-                (change)="toggleNotification(setting.key)"
-              ></mat-slide-toggle>
+              <lib-switch 
+                [ngModel]="notificationSettings[setting.key]"
+                (valueChange)="toggleNotification(setting.key)"
+              ></lib-switch>
             </div>
           </div>
         </div>
@@ -124,27 +120,24 @@
                 <h4>Two-Factor Authentication</h4>
                 <p>Add an extra layer of security to your account</p>
               </div>
-              <mat-slide-toggle 
-                [checked]="securitySettings.twoFactorAuth"
-                (change)="toggleSecurity('twoFactorAuth')"
-              ></mat-slide-toggle>
+              <lib-switch 
+                [ngModel]="securitySettings.twoFactorAuth"
+                (valueChange)="toggleSecurity('twoFactorAuth')"
+              ></lib-switch>
             </div>
           </div>
           
-          <mat-form-field appearance="outline">
-            <mat-label>Session Timeout (minutes)</mat-label>
-            <input matInput type="number" [value]="securitySettings.sessionTimeout">
-          </mat-form-field>
+          <lib-form-field label="Session Timeout (minutes)" appearance="outline">
+            <lib-text-field type="number" [ngModel]="securitySettings.sessionTimeout"></lib-text-field>
+          </lib-form-field>
           
-          <mat-form-field appearance="outline">
-            <mat-label>Password Expiry (days)</mat-label>
-            <input matInput type="number" [value]="securitySettings.passwordExpiry">
-          </mat-form-field>
+          <lib-form-field label="Password Expiry (days)" appearance="outline">
+            <lib-text-field type="number" [ngModel]="securitySettings.passwordExpiry"></lib-text-field>
+          </lib-form-field>
           
-          <mat-form-field appearance="outline">
-            <mat-label>Max Login Attempts</mat-label>
-            <input matInput type="number" [value]="securitySettings.loginAttempts">
-          </mat-form-field>
+          <lib-form-field label="Max Login Attempts" appearance="outline">
+            <lib-text-field type="number" [ngModel]="securitySettings.loginAttempts"></lib-text-field>
+          </lib-form-field>
         </div>
       </div>
 
@@ -158,21 +151,20 @@
               <p>{{ integration.description }}</p>
             </div>
             <div class="integration-status">
-              <span 
+              <lib-badge 
+                [variant]="integration.connected ? 'solid' : 'outline'"
+                [color]="integration.connected ? 'success' : 'danger'"
                 class="status-badge"
-                [class.connected]="integration.connected"
-                [class.disconnected]="!integration.connected"
               >
-                <mat-icon>{{ integration.connected ? 'check_circle' : 'cancel' }}</mat-icon>
+                <lib-icon [name]="integration.connected ? 'check_circle' : 'cancel'" slot="icon-left"></lib-icon>
                 {{ integration.connected ? 'Connected' : 'Disconnected' }}
-              </span>
-              <button 
-                mat-button
-                [color]="integration.connected ? 'warn' : 'primary'"
-                (click)="toggleIntegration(integration)"
+              </lib-badge>
+              <lib-button 
+                [variant]="integration.connected ? 'danger' : 'primary'"
+                (clicked)="toggleIntegration(integration)"
               >
                 {{ integration.connected ? 'Disconnect' : 'Connect' }}
-              </button>
+              </lib-button>
             </div>
           </div>
         </div>
@@ -182,41 +174,37 @@
       <div class="settings-panel" *ngIf="activeTab === 'account'">
         <h2>Account Settings</h2>
         <div class="settings-group">
-          <mat-form-field appearance="outline">
-            <mat-label>Full Name</mat-label>
-            <input matInput value="John Doe">
-          </mat-form-field>
+          <lib-form-field label="Full Name" appearance="outline">
+            <lib-text-field value="John Doe"></lib-text-field>
+          </lib-form-field>
           
-          <mat-form-field appearance="outline">
-            <mat-label>Email Address</mat-label>
-            <input matInput type="email" value="john.doe@company.com">
-          </mat-form-field>
+          <lib-form-field label="Email Address" appearance="outline">
+            <lib-text-field type="email" value="john.doe@company.com"></lib-text-field>
+          </lib-form-field>
           
-          <mat-form-field appearance="outline">
-            <mat-label>Current Password</mat-label>
-            <input matInput type="password" placeholder="Enter current password">
-          </mat-form-field>
+          <lib-form-field label="Current Password" appearance="outline">
+            <lib-text-field type="password" placeholder="Enter current password"></lib-text-field>
+          </lib-form-field>
           
-          <mat-form-field appearance="outline">
-            <mat-label>New Password</mat-label>
-            <input matInput type="password" placeholder="Enter new password">
-          </mat-form-field>
+          <lib-form-field label="New Password" appearance="outline">
+            <lib-text-field type="password" placeholder="Enter new password"></lib-text-field>
+          </lib-form-field>
           
           <div class="danger-zone">
             <h3>
-              <mat-icon color="warn">warning</mat-icon>
+              <lib-icon name="warning" color="#ef4444"></lib-icon>
               Danger Zone
             </h3>
             <p>Once you delete your account, there is no going back.</p>
-            <button mat-raised-button color="warn">Delete Account</button>
+            <lib-button variant="danger">Delete Account</lib-button>
           </div>
         </div>
       </div>
 
       <div class="settings-actions">
-        <button mat-raised-button color="primary">Save Changes</button>
-        <button mat-button>Cancel</button>
+        <lib-button variant="primary">Save Changes</lib-button>
+        <lib-button variant="ghost">Cancel</lib-button>
       </div>
-    </mat-card>
+    </lib-card>
   </div>
 </div>

@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
-import { MatCardModule } from '@angular/material/card';
+import { Icon, Card, Button } from '@base-nx-angular/shared/ui';
 
 @Component({
   selector: 'lib-dashboard',
-  imports: [CommonModule, MatIconModule, MatCardModule],
+  imports: [CommonModule, Icon, Card, Button],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })

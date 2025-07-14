@@ -1,14 +1,14 @@
 <div class="analytics">
   <div class="analytics-header">
     <h1>
-      <mat-icon>analytics</mat-icon>
+      <lib-icon name="analytics"></lib-icon>
       Analytics
     </h1>
     <p>Track your website performance and user engagement metrics.</p>
   </div>
 
   <div class="metrics-grid">
-    <mat-card class="metric-card" *ngFor="let metric of metrics">
+    <lib-card class="metric-card" *ngFor="let metric of metrics">
       <div class="metric-content">
         <h3>{{ metric.value }}</h3>
         <p>{{ metric.label }}</p>
@@ -17,17 +17,17 @@
           [class.positive]="metric.isPositive"
           [class.negative]="!metric.isPositive"
         >
-          <mat-icon>{{ metric.isPositive ? 'trending_up' : 'trending_down' }}</mat-icon>
+          <lib-icon [name]="metric.isPositive ? 'trending_up' : 'trending_down'"></lib-icon>
           {{ metric.change }}
         </span>
       </div>
-    </mat-card>
+    </lib-card>
   </div>
 
   <div class="analytics-content">
-    <mat-card class="chart-section">
+    <lib-card class="chart-section">
       <h2>
-        <mat-icon>show_chart</mat-icon>
+        <lib-icon name="show_chart"></lib-icon>
         Traffic Overview
       </h2>
       <div class="chart-container">
@@ -42,11 +42,11 @@
           </div>
         </div>
       </div>
-    </mat-card>
+    </lib-card>
 
-    <mat-card class="top-pages">
+    <lib-card class="top-pages">
       <h2>
-        <mat-icon>web</mat-icon>
+        <lib-icon name="web"></lib-icon>
         Top Pages
       </h2>
       <div class="pages-list">
@@ -56,29 +56,29 @@
             <span class="page-views">{{ page.views | number }} views</span>
           </div>
           <div class="page-progress">
-            <mat-progress-bar 
-              mode="determinate" 
+            <lib-progress 
               [value]="page.percentage"
-            ></mat-progress-bar>
+              [max]="100"
+            ></lib-progress>
             <span class="page-percentage">{{ page.percentage }}%</span>
           </div>
         </div>
       </div>
-    </mat-card>
+    </lib-card>
   </div>
 
   <div class="analytics-actions">
-    <button class="action-btn primary">
-      <mat-icon>download</mat-icon>
+    <lib-button variant="primary" class="action-btn">
+      <lib-icon name="download"></lib-icon>
       Export Report
-    </button>
-    <button class="action-btn secondary">
-      <mat-icon>date_range</mat-icon>
+    </lib-button>
+    <lib-button variant="secondary" class="action-btn">
+      <lib-icon name="date_range"></lib-icon>
       Date Range
-    </button>
-    <button class="action-btn secondary">
-      <mat-icon>filter_list</mat-icon>
+    </lib-button>
+    <lib-button variant="secondary" class="action-btn">
+      <lib-icon name="filter_list"></lib-icon>
       Filter Data
-    </button>
+    </lib-button>
   </div>
 </div>
