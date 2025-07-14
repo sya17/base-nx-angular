@@ -159,6 +159,20 @@ export class Sidebar {
           label: 'Notifications',
           icon: 'notifications',
           route: '/settings/notifications',
+          children: [
+            {
+              id: 'email-notifications',
+              label: 'Email',
+              icon: 'email',
+              route: '/settings/notifications/email',
+            },
+            {
+              id: 'push-notifications',
+              label: 'Push',
+              icon: 'push_pin',
+              route: '/settings/notifications/push',
+            },
+          ],
         },
       ],
       isExpanded: false,

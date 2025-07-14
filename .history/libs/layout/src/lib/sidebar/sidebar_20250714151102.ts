@@ -99,12 +99,69 @@ export class Sidebar {
           label: 'Active Projects',
           icon: 'play_arrow',
           route: '/projects/active',
+          children: [
+            {
+              id: 'web-projects',
+              label: 'Web Applications',
+              icon: 'web',
+              route: '/projects/active/web',
+              children: [
+                {
+                  id: 'ecommerce-app',
+                  label: 'E-commerce Platform',
+                  icon: 'shopping_cart',
+                  route: '/projects/active/web/ecommerce',
+                  badge: 'New',
+                },
+                {
+                  id: 'blog-platform',
+                  label: 'Blog Platform',
+                  icon: 'article',
+                  route: '/projects/active/web/blog',
+                },
+              ],
+            },
+            {
+              id: 'mobile-projects',
+              label: 'Mobile Applications',
+              icon: 'phone_android',
+              route: '/projects/active/mobile',
+              children: [
+                {
+                  id: 'ios-app',
+                  label: 'iOS App',
+                  icon: 'phone_iphone',
+                  route: '/projects/active/mobile/ios',
+                },
+                {
+                  id: 'android-app',
+                  label: 'Android App',
+                  icon: 'android',
+                  route: '/projects/active/mobile/android',
+                },
+              ],
+            },
+          ],
         },
         {
           id: 'completed-projects',
           label: 'Completed',
           icon: 'check_circle',
           route: '/projects/completed',
+          children: [
+            {
+              id: 'legacy-systems',
+              label: 'Legacy Systems',
+              icon: 'history',
+              route: '/projects/completed/legacy',
+            },
+            {
+              id: 'client-work',
+              label: 'Client Work',
+              icon: 'business',
+              route: '/projects/completed/client',
+            },
+          ],
         },
         {
           id: 'archived-projects',
@@ -126,12 +183,46 @@ export class Sidebar {
           label: 'Members',
           icon: 'person',
           route: '/team/members',
+          children: [
+            {
+              id: 'developers',
+              label: 'Developers',
+              icon: 'code',
+              route: '/team/members/developers',
+            },
+            {
+              id: 'designers',
+              label: 'Designers',
+              icon: 'palette',
+              route: '/team/members/designers',
+            },
+            {
+              id: 'managers',
+              label: 'Project Managers',
+              icon: 'supervisor_account',
+              route: '/team/members/managers',
+            },
+          ],
         },
         {
           id: 'team-roles',
           label: 'Roles & Permissions',
           icon: 'security',
           route: '/team/roles',
+          children: [
+            {
+              id: 'admin-roles',
+              label: 'Admin Roles',
+              icon: 'admin_panel_settings',
+              route: '/team/roles/admin',
+            },
+            {
+              id: 'user-roles',
+              label: 'User Roles',
+              icon: 'person_outline',
+              route: '/team/roles/user',
+            },
+          ],
         },
       ],
       isExpanded: false,
@@ -147,18 +238,74 @@ export class Sidebar {
           label: 'General',
           icon: 'tune',
           route: '/settings/general',
+          children: [
+            {
+              id: 'appearance',
+              label: 'Appearance',
+              icon: 'color_lens',
+              route: '/settings/general/appearance',
+              children: [
+                {
+                  id: 'themes',
+                  label: 'Themes',
+                  icon: 'style',
+                  route: '/settings/general/appearance/themes',
+                },
+                {
+                  id: 'layout',
+                  label: 'Layout',
+                  icon: 'view_quilt',
+                  route: '/settings/general/appearance/layout',
+                },
+              ],
+            },
+            {
+              id: 'language',
+              label: 'Language',
+              icon: 'language',
+              route: '/settings/general/language',
+            },
+          ],
         },
         {
           id: 'security-settings',
           label: 'Security',
           icon: 'shield',
           route: '/settings/security',
+          children: [
+            {
+              id: 'authentication',
+              label: 'Authentication',
+              icon: 'fingerprint',
+              route: '/settings/security/auth',
+            },
+            {
+              id: 'privacy',
+              label: 'Privacy',
+              icon: 'privacy_tip',
+              route: '/settings/security/privacy',
+            },
+          ],
         },
         {
           id: 'notification-settings',
           label: 'Notifications',
           icon: 'notifications',
           route: '/settings/notifications',
+          children: [
+            {
+              id: 'email-notifications',
+              label: 'Email',
+              icon: 'email',
+              route: '/settings/notifications/email',
+            },
+            {
+              id: 'push-notifications',
+              label: 'Push',
+              icon: 'push_pin',
+              route: '/settings/notifications/push',
+            },
+          ],
         },
       ],
       isExpanded: false,

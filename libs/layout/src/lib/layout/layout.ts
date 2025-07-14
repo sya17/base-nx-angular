@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { Header, UserProfile } from '../header/header';
+import { Header, UserProfile, NotificationItem } from '../header/header';
 import { Sidebar, NavigationItem, SidebarFooterData } from '../sidebar/sidebar';
 import { Footer, FooterSection, SocialLink } from '../footer/footer';
 
@@ -23,11 +23,38 @@ export class Layout implements OnInit, OnDestroy {
   @Input() user: UserProfile | null = {
     name: 'John Doe',
     role: 'Administrator',
+    email: 'john.doe@example.com',
     avatar: ''
   };
   @Input() showHeaderSearch = true;
   @Input() showNotifications = true;
   @Input() notificationCount = 5;
+  @Input() notifications: NotificationItem[] = [
+    {
+      id: '1',
+      title: 'New Message',
+      message: 'You have received a new message from the team.',
+      time: '2 minutes ago',
+      read: false,
+      type: 'info'
+    },
+    {
+      id: '2',
+      title: 'System Update',
+      message: 'System maintenance will be performed tonight.',
+      time: '1 hour ago',
+      read: false,
+      type: 'warning'
+    },
+    {
+      id: '3',
+      title: 'Task Completed',
+      message: 'Your task has been completed successfully.',
+      time: '3 hours ago',
+      read: true,
+      type: 'success'
+    }
+  ];
   @Input() logoText = 'BaseApp';
   @Input() logoIcon = 'dashboard';
 
@@ -120,6 +147,21 @@ export class Layout implements OnInit, OnDestroy {
   onNotificationClick(): void {
     console.log('Notifications clicked');
     // Implement notification functionality
+  }
+
+  onNotificationRead(notificationId: string): void {
+    console.log('Notification read:', notificationId);
+    // Mark notification as read
+    const notification = this.notifications.find(n => n.id === notificationId);
+    if (notification) {
+      notification.read = true;
+    }
+  }
+
+  onNotificationClear(): void {
+    console.log('Clear all notifications');
+    // Clear all notifications
+    this.notifications = [];
   }
 
   onProfileClick(): void {

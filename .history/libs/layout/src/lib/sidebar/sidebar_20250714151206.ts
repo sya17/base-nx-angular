@@ -153,12 +153,40 @@ export class Sidebar {
           label: 'Security',
           icon: 'shield',
           route: '/settings/security',
+          children: [
+            {
+              id: 'authentication',
+              label: 'Authentication',
+              icon: 'fingerprint',
+              route: '/settings/security/auth',
+            },
+            {
+              id: 'privacy',
+              label: 'Privacy',
+              icon: 'privacy_tip',
+              route: '/settings/security/privacy',
+            },
+          ],
         },
         {
           id: 'notification-settings',
           label: 'Notifications',
           icon: 'notifications',
           route: '/settings/notifications',
+          children: [
+            {
+              id: 'email-notifications',
+              label: 'Email',
+              icon: 'email',
+              route: '/settings/notifications/email',
+            },
+            {
+              id: 'push-notifications',
+              label: 'Push',
+              icon: 'push_pin',
+              route: '/settings/notifications/push',
+            },
+          ],
         },
       ],
       isExpanded: false,

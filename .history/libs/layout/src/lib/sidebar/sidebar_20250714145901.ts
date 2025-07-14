@@ -8,7 +8,6 @@ import {
   animate,
 } from '@angular/animations';
 import { MatIconModule } from '@angular/material/icon';
-import { NavigationItemComponent } from './navigation-item.component';
 
 export interface NavigationItem {
   id: string;
@@ -35,7 +34,7 @@ export interface SidebarFooterData {
 
 @Component({
   selector: 'lib-sidebar',
-  imports: [CommonModule, MatIconModule, NavigationItemComponent],
+  imports: [CommonModule, MatIconModule],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.scss',
   animations: [
@@ -99,6 +98,14 @@ export class Sidebar {
           label: 'Active Projects',
           icon: 'play_arrow',
           route: '/projects/active',
+          children: [
+            {
+              id: 'active-projects-2',
+              label: 'Active Projects 2',
+              icon: 'play_arrow',
+              route: '/projects/active',
+            },
+          ],
         },
         {
           id: 'completed-projects',
@@ -200,38 +207,15 @@ export class Sidebar {
   }
 
   toggleItemExpansion(item: NavigationItem): void {
-    // Toggle the clicked item
-    item.isExpanded = !item.isExpanded;
-
-    // If collapsing, also collapse all children
-    if (!item.isExpanded) {
-      this.collapseAllChildren(item);
-    }
-  }
-
-  private collapseAllChildren(item: NavigationItem): void {
-    if (item.children) {
-      item.children.forEach((child) => {
-        child.isExpanded = false;
-        this.collapseAllChildren(child);
-      });
-    }
-  }
-
-  private closeOtherExpandedItems(
-    items: NavigationItem[],
-    targetItem: NavigationItem
-  ): void {
-    items.forEach((navItem) => {
-      if (navItem.id !== targetItem.id && navItem.isExpanded) {
+    // Close other expanded items first (accordion behavior)
+    this.currentNavigationItems.forEach((navItem) => {
+      if (navItem.id !== item.id && navItem.isExpanded) {
         navItem.isExpanded = false;
-        this.collapseAllChildren(navItem);
-      }
-      // Recursively check children
-      if (navItem.children) {
-        this.closeOtherExpandedItems(navItem.children, targetItem);
       }
     });
+
+    // Toggle the clicked item
+    item.isExpanded = !item.isExpanded;
   }
 
   setActiveItem(item: NavigationItem): void {
@@ -255,36 +239,16 @@ export class Sidebar {
   }
 
   expandParentIfChild(targetItem: NavigationItem): void {
-    this.expandParentRecursive(this.currentNavigationItems, targetItem);
-  }
-
-  private expandParentRecursive(
-    items: NavigationItem[],
-    targetItem: NavigationItem
-  ): boolean {
-    for (const item of items) {
+    this.currentNavigationItems.forEach((item) => {
       if (item.children) {
-        // Check if targetItem is a direct child
-        const isDirectChild = item.children.some(
+        const isChildActive = item.children.some(
           (child) => child.id === targetItem.id
         );
-        if (isDirectChild) {
+        if (isChildActive) {
           item.isExpanded = true;
-          return true;
-        }
-
-        // Check recursively in nested children
-        const foundInChildren = this.expandParentRecursive(
-          item.children,
-          targetItem
-        );
-        if (foundInChildren) {
-          item.isExpanded = true;
-          return true;
         }
       }
-    }
-    return false;
+    });
   }
 
   hasChildren(item: NavigationItem): boolean {
@@ -312,31 +276,12 @@ export class Sidebar {
       );
     }
 
-    // Check if any child is active recursively
+    // Check if any child is active
     if (item.children) {
-      return this.hasActiveChildRecursive(item.children);
+      return item.children.some((child) => this.isItemActive(child));
     }
 
     // Fallback to previous logic
     return this.activeItemId ? item.id === this.activeItemId : !!item.isActive;
-  }
-
-  private hasActiveChildRecursive(children: NavigationItem[]): boolean {
-    return children.some((child) => {
-      // Check if this child is active
-      if (this.currentRoute && child.route) {
-        const isChildActive =
-          this.currentRoute === child.route ||
-          this.currentRoute.startsWith(child.route + '/');
-        if (isChildActive) return true;
-      }
-
-      // Check if any grandchild is active
-      if (child.children) {
-        return this.hasActiveChildRecursive(child.children);
-      }
-
-      return false;
-    });
   }
 }

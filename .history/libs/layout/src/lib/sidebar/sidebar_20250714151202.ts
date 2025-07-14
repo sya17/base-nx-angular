@@ -147,18 +147,74 @@ export class Sidebar {
           label: 'General',
           icon: 'tune',
           route: '/settings/general',
+          children: [
+            {
+              id: 'appearance',
+              label: 'Appearance',
+              icon: 'color_lens',
+              route: '/settings/general/appearance',
+              children: [
+                {
+                  id: 'themes',
+                  label: 'Themes',
+                  icon: 'style',
+                  route: '/settings/general/appearance/themes',
+                },
+                {
+                  id: 'layout',
+                  label: 'Layout',
+                  icon: 'view_quilt',
+                  route: '/settings/general/appearance/layout',
+                },
+              ],
+            },
+            {
+              id: 'language',
+              label: 'Language',
+              icon: 'language',
+              route: '/settings/general/language',
+            },
+          ],
         },
         {
           id: 'security-settings',
           label: 'Security',
           icon: 'shield',
           route: '/settings/security',
+          children: [
+            {
+              id: 'authentication',
+              label: 'Authentication',
+              icon: 'fingerprint',
+              route: '/settings/security/auth',
+            },
+            {
+              id: 'privacy',
+              label: 'Privacy',
+              icon: 'privacy_tip',
+              route: '/settings/security/privacy',
+            },
+          ],
         },
         {
           id: 'notification-settings',
           label: 'Notifications',
           icon: 'notifications',
           route: '/settings/notifications',
+          children: [
+            {
+              id: 'email-notifications',
+              label: 'Email',
+              icon: 'email',
+              route: '/settings/notifications/email',
+            },
+            {
+              id: 'push-notifications',
+              label: 'Push',
+              icon: 'push_pin',
+              route: '/settings/notifications/push',
+            },
+          ],
         },
       ],
       isExpanded: false,

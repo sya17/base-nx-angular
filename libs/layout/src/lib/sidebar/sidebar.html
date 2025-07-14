@@ -3,71 +3,15 @@
     <div class="nav-section">
       <h3 *ngIf="!isCollapsed">Navigation</h3>
       <ul>
-        <li 
-          class="nav-item" 
+        <lib-navigation-item
           *ngFor="let item of currentNavigationItems"
-          [class.active]="isItemActive(item)"
-          [class.has-children]="hasChildren(item)"
-          [class.expanded]="item.isExpanded"
-        >
-          <a 
-            (click)="onNavigationItemClick(item)"
-            [attr.aria-label]="item.label"
-            [attr.aria-expanded]="hasChildren(item) ? item.isExpanded : null"
-            role="button"
-            tabindex="0"
-            class="nav-link"
-          >
-            <mat-icon>{{ item.icon }}</mat-icon>
-            <span *ngIf="!isCollapsed" class="nav-label">{{ item.label }}</span>
-            <span 
-              class="nav-badge" 
-              *ngIf="item.badge && !isCollapsed"
-              [attr.aria-label]="item.badge + ' items'"
-            >
-              {{ item.badge }}
-            </span>
-            <mat-icon 
-              *ngIf="hasChildren(item) && !isCollapsed"
-              class="expand-icon"
-              aria-hidden="true"
-            >
-              {{ item.isExpanded ? 'expand_less' : 'expand_more' }}
-            </mat-icon>
-          </a>
-          
-          <!-- Children/Submenu -->
-          <ul 
-            *ngIf="hasChildren(item) && !isCollapsed" 
-            class="nav-submenu"
-            [class.expanded]="item.isExpanded"
-            [@slideAnimation]="item.isExpanded ? 'expanded' : 'collapsed'"
-          >
-            <li 
-              class="nav-subitem"
-              *ngFor="let child of getVisibleChildren(item)"
-              [class.active]="isItemActive(child)"
-            >
-              <a 
-                (click)="onNavigationItemClick(child)"
-                [attr.aria-label]="child.label"
-                role="button"
-                tabindex="0"
-                class="nav-sublink"
-              >
-                <mat-icon>{{ child.icon }}</mat-icon>
-                <span class="nav-label">{{ child.label }}</span>
-                <span 
-                  class="nav-badge" 
-                  *ngIf="child.badge"
-                  [attr.aria-label]="child.badge + ' items'"
-                >
-                  {{ child.badge }}
-                </span>
-              </a>
-            </li>
-          </ul>
-        </li>
+          [item]="item"
+          [level]="0"
+          [isCollapsed]="isCollapsed"
+          [currentRoute]="currentRoute"
+          [activeItemId]="activeItemId"
+          (itemClick)="onNavigationItemClick($event)"
+        ></lib-navigation-item>
       </ul>
     </div>
 
