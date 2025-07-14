@@ -11,6 +11,7 @@
           [currentRoute]="currentRoute"
           [activeItemId]="activeItemId"
           (itemClick)="onNavigationItemClick($event)"
+          (keydown)="onKeyDown($event, item)"
         ></lib-navigation-item>
       </ul>
     </div>
@@ -20,19 +21,19 @@
       <ul>
         <li class="nav-item">
           <a role="button" tabindex="0" aria-label="Create new project" class="nav-link">
-            <mat-icon>add</mat-icon>
+            <lib-icon name="add"></lib-icon>
             <span class="nav-label">New Project</span>
           </a>
         </li>
         <li class="nav-item">
           <a role="button" tabindex="0" aria-label="View reports" class="nav-link">
-            <mat-icon>description</mat-icon>
+            <lib-icon name="description"></lib-icon>
             <span class="nav-label">Reports</span>
           </a>
         </li>
         <li class="nav-item">
           <a role="button" tabindex="0" aria-label="Help and support" class="nav-link">
-            <mat-icon>help</mat-icon>
+            <lib-icon name="help"></lib-icon>
             <span class="nav-label">Help</span>
           </a>
         </li>
@@ -44,7 +45,7 @@
   <div class="sidebar-footer" *ngIf="currentFooterData && !isCollapsed">
     <div class="balance-card">
       <div class="balance-header">
-        <mat-icon>{{ currentFooterData.icon || 'account_balance_wallet' }}</mat-icon>
+        <lib-icon [name]="currentFooterData.icon || 'account_balance_wallet'"></lib-icon>
         <span>{{ currentFooterData.title }}</span>
       </div>
       <div class="balance-amount">{{ currentFooterData.value }}</div>
@@ -55,7 +56,7 @@
         [class.positive]="currentFooterData.change.isPositive"
         [class.negative]="!currentFooterData.change.isPositive"
       >
-        <mat-icon>{{ currentFooterData.change.isPositive ? 'trending_up' : 'trending_down' }}</mat-icon>
+        <lib-icon [name]="currentFooterData.change.isPositive ? 'trending_up' : 'trending_down'"></lib-icon>
         <span>{{ currentFooterData.change.value }}</span>
       </div>
     </div>
@@ -69,7 +70,7 @@
       [attr.aria-label]="isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'"
       type="button"
     >
-      <mat-icon>{{ isCollapsed ? 'chevron_right' : 'chevron_left' }}</mat-icon>
+      <lib-icon [name]="isCollapsed ? 'chevron_right' : 'chevron_left'"></lib-icon>
     </button>
   </div>
 </aside>

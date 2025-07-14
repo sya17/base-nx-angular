@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
+import { Icon } from '@base-nx-angular/shared/ui';
 import {
   trigger,
   state,
@@ -13,7 +13,7 @@ import { NavigationItem } from './sidebar';
 @Component({
   selector: 'lib-navigation-item',
   standalone: true,
-  imports: [CommonModule, MatIconModule],
+  imports: [CommonModule, Icon],
   template: `
     <li 
       class="nav-item" 
@@ -26,6 +26,7 @@ import { NavigationItem } from './sidebar';
          (click)="onItemClick(item)"
          [attr.aria-label]="item.label"
          [attr.aria-expanded]="hasChildren(item) ? item.isExpanded : null"
+         [attr.data-tooltip]="isCollapsed ? item.label : null"
          role="button"
          tabindex="0"
          [class.nav-sublink]="level > 0"
@@ -35,7 +36,7 @@ import { NavigationItem } from './sidebar';
          [class.nav-level-4]="level >= 4"
          [style.padding-left.px]="getLinkPadding()"
       >
-        <mat-icon [style.font-size.px]="getIconSize()" [style.width.px]="getIconSize()" [style.height.px]="getIconSize()">{{ item.icon }}</mat-icon>
+        <lib-icon [name]="item.icon" [customSize]="getIconSize()"></lib-icon>
         <span *ngIf="!isCollapsed" class="nav-label">{{ item.label }}</span>
         <span 
           class="nav-badge" 
@@ -44,16 +45,13 @@ import { NavigationItem } from './sidebar';
         >
           {{ item.badge }}
         </span>
-        <mat-icon 
+        <lib-icon 
           *ngIf="hasChildren(item) && !isCollapsed"
           class="expand-icon"
           aria-hidden="true"
-          [style.font-size.px]="14"
-          [style.width.px]="14"
-          [style.height.px]="14"
-        >
-          {{ item.isExpanded ? 'expand_less' : 'expand_more' }}
-        </mat-icon>
+          [customSize]="14"
+          [name]="item.isExpanded ? 'expand_less' : 'expand_more'"
+        ></lib-icon>
       </div>
       
       <!-- Recursive Children/Submenu -->

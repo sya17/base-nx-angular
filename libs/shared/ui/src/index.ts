@@ -12,3 +12,6 @@ export * from './lib/modal/modal';
 export * from './lib/card/card';
 export * from './lib/tabs/tabs';
 export * from './lib/tab/tab';
+export * from './lib/icon/icon';
+export * from './lib/divider/divider';
+export * from './lib/menu/menu';

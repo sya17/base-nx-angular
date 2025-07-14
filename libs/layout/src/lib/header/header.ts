@@ -1,11 +1,7 @@
 import { Component, EventEmitter, Input, Output, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatBadgeModule } from '@angular/material/badge';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatMenuModule } from '@angular/material/menu';
 import { FormsModule } from '@angular/forms';
+import { Button, Icon, Badge, Divider } from '@base-nx-angular/shared/ui';
 
 export interface UserProfile {
   name: string;
@@ -25,7 +21,7 @@ export interface NotificationItem {
 
 @Component({
   selector: 'lib-header',
-  imports: [CommonModule, MatIconModule, MatButtonModule, MatBadgeModule, MatDividerModule, MatMenuModule, FormsModule],
+  imports: [CommonModule, FormsModule, Button, Icon, Badge, Divider],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })

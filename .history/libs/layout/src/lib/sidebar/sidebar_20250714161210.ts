@@ -7,7 +7,7 @@ import {
   transition,
   animate,
 } from '@angular/animations';
-import { Icon } from '@base-nx-angular/shared/ui';
+import { MatIconModule } from '@angular/material/icon';
 import { NavigationItemComponent } from './navigation-item.component';
 
 export interface NavigationItem {
@@ -35,7 +35,7 @@ export interface SidebarFooterData {
 
 @Component({
   selector: 'lib-sidebar',
-  imports: [CommonModule, Icon, NavigationItemComponent],
+  imports: [CommonModule, MatIconModule, NavigationItemComponent],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.scss',
   animations: [
@@ -164,7 +164,7 @@ export class Sidebar {
               id: 'notifnya',
               label: 'notifnya',
               icon: 'notifnya',
-              route: '/settings/notifnya',
+              route: '/settings/security',
             },
           ],
         },

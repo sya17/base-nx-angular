@@ -1,0 +1,46 @@
+// Base divider styles
+.divider {
+  border: none;
+  border-color: #e5e7eb;
+  
+  // Orientation variants
+  &--horizontal {
+    width: 100%;
+    border-top-style: solid;
+    border-top-width: 1px;
+  }
+  
+  &--vertical {
+    height: 100%;
+    border-left-style: solid;
+    border-left-width: 1px;
+  }
+  
+  // Style variants
+  &--solid {
+    &.divider--horizontal {
+      border-top-style: solid;
+    }
+    &.divider--vertical {
+      border-left-style: solid;
+    }
+  }
+  
+  &--dashed {
+    &.divider--horizontal {
+      border-top-style: dashed;
+    }
+    &.divider--vertical {
+      border-left-style: dashed;
+    }
+  }
+  
+  &--dotted {
+    &.divider--horizontal {
+      border-top-style: dotted;
+    }
+    &.divider--vertical {
+      border-left-style: dotted;
+    }
+  }
+}

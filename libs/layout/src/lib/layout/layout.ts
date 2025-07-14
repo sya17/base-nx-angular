@@ -107,9 +107,11 @@ export class Layout implements OnInit, OnDestroy {
 
   private updateSidebarState(): void {
     if (this.isMobile) {
+      // On mobile, sidebar should be hidden by default
       this.sidebarCollapsed = true;
       this.isMobileMenuOpen = false;
     } else {
+      // On desktop, maintain current collapsed state but ensure mobile menu is closed
       this.isMobileMenuOpen = false;
     }
   }
@@ -132,10 +134,15 @@ export class Layout implements OnInit, OnDestroy {
   // Event Handlers
   onMenuToggle(): void {
     if (this.isMobile) {
+      // On mobile, toggle the mobile menu open state
       this.isMobileMenuOpen = !this.isMobileMenuOpen;
+      // Sidebar collapsed state should be opposite of mobile menu open
       this.sidebarCollapsed = !this.isMobileMenuOpen;
     } else {
+      // On desktop, toggle the sidebar collapsed state
       this.sidebarCollapsed = !this.sidebarCollapsed;
+      // Ensure mobile menu is closed on desktop
+      this.isMobileMenuOpen = false;
     }
   }
 
@@ -192,6 +199,7 @@ export class Layout implements OnInit, OnDestroy {
   onSidebarCollapseToggle(collapsed: boolean): void {
     this.sidebarCollapsed = collapsed;
     
+    // Handle mobile state synchronization
     if (this.isMobile) {
       this.isMobileMenuOpen = !collapsed;
     }

@@ -1,0 +1,22 @@
+<div [class]="menuClasses" *ngIf="isOpen">
+  <div class="menu__content">
+    <ng-container *ngFor="let item of items; trackBy: trackByFn">
+      <div 
+        *ngIf="item.divider" 
+        class="menu__divider"
+      ></div>
+      <button
+        *ngIf="!item.divider"
+        class="menu__item"
+        [class.menu__item--disabled]="item.disabled"
+        [disabled]="item.disabled"
+        (click)="onItemClick(item)"
+        (keydown)="onKeyDown($event, item)"
+        tabindex="0"
+      >
+        <span *ngIf="item.icon" class="menu__item-icon material-symbols-outlined">{{ item.icon }}</span>
+        <span class="menu__item-label">{{ item.label }}</span>
+      </button>
+    </ng-container>
+  </div>
+</div>
