@@ -1,0 +1,121 @@
+<div class="team">
+  <div class="team-header">
+    <div class="header-content">
+      <h1>
+        <mat-icon>group</mat-icon>
+        Team
+      </h1>
+      <p>Meet our talented team members and their expertise.</p>
+    </div>
+    <button mat-raised-button color="primary" class="invite-btn">
+      <mat-icon>person_add</mat-icon>
+      Invite Member
+    </button>
+  </div>
+
+  <div class="team-stats">
+    <mat-card class="stat-card">
+      <div class="stat-icon">
+        <mat-icon>group</mat-icon>
+      </div>
+      <div class="stat-content">
+        <h3>{{ teamMembers.length }}</h3>
+        <p>Total Members</p>
+      </div>
+    </mat-card>
+    <mat-card class="stat-card">
+      <div class="stat-icon">
+        <mat-icon class="online">circle</mat-icon>
+      </div>
+      <div class="stat-content">
+        <h3>{{ getOnlineCount() }}</h3>
+        <p>Online Now</p>
+      </div>
+    </mat-card>
+    <mat-card class="stat-card">
+      <div class="stat-icon">
+        <mat-icon>work</mat-icon>
+      </div>
+      <div class="stat-content">
+        <h3>{{ getTotalProjects() }}</h3>
+        <p>Active Projects</p>
+      </div>
+    </mat-card>
+  </div>
+
+  <div class="team-filters">
+    <div class="filter-group">
+      <button mat-button class="filter-btn active">All Members</button>
+      <button mat-button class="filter-btn">Online</button>
+      <button mat-button class="filter-btn">Developers</button>
+      <button mat-button class="filter-btn">Designers</button>
+    </div>
+    <div class="search-box">
+      <mat-icon>search</mat-icon>
+      <input type="text" placeholder="Search team members...">
+    </div>
+  </div>
+
+  <div class="team-grid">
+    <mat-card class="member-card" *ngFor="let member of teamMembers">
+      <div class="member-header">
+        <div class="member-avatar">
+          <div class="avatar-circle">
+            {{ member.avatar }}
+            <div 
+              class="status-indicator"
+              [class]="getStatusClass(member.status)"
+            ></div>
+          </div>
+        </div>
+        <div class="member-actions">
+          <button mat-icon-button class="action-btn">
+            <mat-icon>email</mat-icon>
+          </button>
+          <button mat-icon-button class="action-btn">
+            <mat-icon>phone</mat-icon>
+          </button>
+          <button mat-icon-button class="action-btn">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <div class="member-info">
+        <h3>{{ member.name }}</h3>
+        <p class="member-role">{{ member.role }}</p>
+        <p class="member-email">{{ member.email }}</p>
+      </div>
+
+      <div class="member-stats">
+        <div class="stat-item">
+          <span class="stat-label">Projects</span>
+          <span class="stat-value">{{ member.projects }}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Joined</span>
+          <span class="stat-value">{{ member.joinDate | date:'MMM yyyy' }}</span>
+        </div>
+      </div>
+
+      <div class="member-skills">
+        <span class="skills-label">Skills:</span>
+        <div class="skills-list">
+          <mat-chip 
+            class="skill-tag"
+            *ngFor="let skill of member.skills"
+          >
+            {{ skill }}
+          </mat-chip>
+        </div>
+      </div>
+
+      <div class="member-footer">
+        <button mat-button class="view-profile-btn">
+          <mat-icon>person</mat-icon>
+          View Profile
+        </button>
+      </div>
+    </mat-card>
+  </div>
+</div>

@@ -1,1 +1,131 @@
-<p>sidebar works!</p>
+<aside class="sidebar" [class.collapsed]="isCollapsed">
+  <nav class="sidebar-nav">
+    <div class="nav-section">
+      <h3 *ngIf="!isCollapsed">Navigation</h3>
+      <ul>
+        <li 
+          class="nav-item" 
+          *ngFor="let item of currentNavigationItems"
+          [class.active]="isItemActive(item)"
+          [class.has-children]="hasChildren(item)"
+          [class.expanded]="item.isExpanded"
+        >
+          <a 
+            (click)="onNavigationItemClick(item)"
+            [attr.aria-label]="item.label"
+            [attr.aria-expanded]="hasChildren(item) ? item.isExpanded : null"
+            role="button"
+            tabindex="0"
+            class="nav-link"
+          >
+            <mat-icon>{{ item.icon }}</mat-icon>
+            <span *ngIf="!isCollapsed" class="nav-label">{{ item.label }}</span>
+            <span 
+              class="nav-badge" 
+              *ngIf="item.badge && !isCollapsed"
+              [attr.aria-label]="item.badge + ' items'"
+            >
+              {{ item.badge }}
+            </span>
+            <mat-icon 
+              *ngIf="hasChildren(item) && !isCollapsed"
+              class="expand-icon"
+              aria-hidden="true"
+            >
+              {{ item.isExpanded ? 'expand_less' : 'expand_more' }}
+            </mat-icon>
+          </a>
+          
+          <!-- Children/Submenu -->
+          <ul 
+            *ngIf="hasChildren(item) && !isCollapsed" 
+            class="nav-submenu"
+            [class.expanded]="item.isExpanded"
+            [@slideAnimation]="item.isExpanded ? 'expanded' : 'collapsed'"
+          >
+            <li 
+              class="nav-subitem"
+              *ngFor="let child of getVisibleChildren(item)"
+              [class.active]="isItemActive(child)"
+            >
+              <a 
+                (click)="onNavigationItemClick(child)"
+                [attr.aria-label]="child.label"
+                role="button"
+                tabindex="0"
+                class="nav-sublink"
+              >
+                <mat-icon>{{ child.icon }}</mat-icon>
+                <span class="nav-label">{{ child.label }}</span>
+                <span 
+                  class="nav-badge" 
+                  *ngIf="child.badge"
+                  [attr.aria-label]="child.badge + ' items'"
+                >
+                  {{ child.badge }}
+                </span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div class="nav-section" *ngIf="!isCollapsed">
+      <h3>Quick Actions</h3>
+      <ul>
+        <li class="nav-item">
+          <a role="button" tabindex="0" aria-label="Create new project" class="nav-link">
+            <mat-icon>add</mat-icon>
+            <span class="nav-label">New Project</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a role="button" tabindex="0" aria-label="View reports" class="nav-link">
+            <mat-icon>description</mat-icon>
+            <span class="nav-label">Reports</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a role="button" tabindex="0" aria-label="Help and support" class="nav-link">
+            <mat-icon>help</mat-icon>
+            <span class="nav-label">Help</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Footer Section -->
+  <div class="sidebar-footer" *ngIf="currentFooterData && !isCollapsed">
+    <div class="balance-card">
+      <div class="balance-header">
+        <mat-icon>{{ currentFooterData.icon || 'account_balance_wallet' }}</mat-icon>
+        <span>{{ currentFooterData.title }}</span>
+      </div>
+      <div class="balance-amount">{{ currentFooterData.value }}</div>
+      <div class="balance-subtitle">{{ currentFooterData.subtitle }}</div>
+      <div 
+        class="balance-change"
+        *ngIf="currentFooterData.change"
+        [class.positive]="currentFooterData.change.isPositive"
+        [class.negative]="!currentFooterData.change.isPositive"
+      >
+        <mat-icon>{{ currentFooterData.change.isPositive ? 'trending_up' : 'trending_down' }}</mat-icon>
+        <span>{{ currentFooterData.change.value }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Always show toggle button, positioned differently when collapsed -->
+  <div class="sidebar-toggle">
+    <button 
+      class="toggle-btn"
+      (click)="onToggleCollapse()"
+      [attr.aria-label]="isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'"
+      type="button"
+    >
+      <mat-icon>{{ isCollapsed ? 'chevron_right' : 'chevron_left' }}</mat-icon>
+    </button>
+  </div>
+</aside>

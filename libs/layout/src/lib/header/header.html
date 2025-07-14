@@ -1,1 +1,69 @@
-<p>header works!</p>
+<header class="header">
+  <div class="header-left">
+    <button 
+      mat-icon-button
+      class="menu-toggle" 
+      (click)="onMenuToggle()"
+      aria-label="Toggle menu"
+      type="button"
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
+    
+    <div class="logo" (click)="onLogoClick()">
+      <mat-icon>{{ logoIcon }}</mat-icon>
+      <span>{{ logoText }}</span>
+    </div>
+  </div>
+
+  <div class="header-center" *ngIf="showSearch">
+    <div class="search-box">
+      <mat-icon>search</mat-icon>
+      <input 
+        type="text" 
+        [placeholder]="searchPlaceholder"
+        (input)="onSearchInput($event)"
+        aria-label="Search"
+      />
+    </div>
+  </div>
+
+  <div class="header-right">
+    <button
+      mat-icon-button
+      class="notifications" 
+      *ngIf="showNotifications"
+      (click)="onNotificationClick()"
+      aria-label="Notifications"
+    >
+      <mat-icon>notifications</mat-icon>
+      <span 
+        class="notification-badge" 
+        *ngIf="notificationCount > 0"
+        [attr.aria-label]="notificationCount + ' notifications'"
+      >
+        {{ notificationCount > 99 ? '99+' : notificationCount }}
+      </span>
+    </button>
+
+    <div 
+      class="user-profile" 
+      *ngIf="user"
+      (click)="onProfileClick()"
+      role="button"
+      tabindex="0"
+      aria-label="User profile menu"
+    >
+      <img 
+        [src]="user.avatar || getDefaultAvatar()" 
+        [alt]="user.name + ' avatar'"
+        class="user-avatar"
+      />
+      <div class="user-info">
+        <div class="user-name">{{ user.name }}</div>
+        <div class="user-role">{{ user.role }}</div>
+      </div>
+      <mat-icon>expand_more</mat-icon>
+    </div>
+  </div>
+</header>

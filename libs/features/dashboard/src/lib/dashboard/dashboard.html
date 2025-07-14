@@ -1,1 +1,52 @@
-<p>Dashboard works!</p>
+<div class="dashboard">
+  <div class="dashboard-header">
+    <h1>Dashboard</h1>
+    <p>Welcome back! Here's what's happening with your projects today.</p>
+  </div>
+
+  <div class="stats-grid">
+    <mat-card class="stat-card" *ngFor="let stat of stats">
+      <div class="stat-icon">
+        <mat-icon>{{ stat.icon }}</mat-icon>
+      </div>
+      <div class="stat-content">
+        <h3>{{ stat.value }}</h3>
+        <p>{{ stat.label }}</p>
+        <span class="stat-trend positive">{{ stat.trend }}</span>
+      </div>
+    </mat-card>
+  </div>
+
+  <div class="dashboard-content">
+    <mat-card class="recent-activities">
+      <h2>Recent Activities</h2>
+      <div class="activity-list">
+        <div class="activity-item" *ngFor="let activity of recentActivities">
+          <div class="activity-content">
+            <p><strong>{{ activity.action }}</strong></p>
+            <p class="activity-user">by {{ activity.user }}</p>
+          </div>
+          <span class="activity-time">{{ activity.time }}</span>
+        </div>
+      </div>
+    </mat-card>
+
+    <mat-card class="quick-actions">
+      <h2>Quick Actions</h2>
+      <div class="action-buttons">
+        <button class="action-btn primary">
+          <mat-icon>add</mat-icon>
+          New Project
+        </button>
+        <button class="action-btn secondary">
+          <mat-icon>group</mat-icon>
+          Invite Team
+        </button>
+        <button class="action-btn secondary">
+          <mat-icon>bar_chart</mat-icon>
+          View Reports
+        </button>
+      </div>
+    </mat-card>
+  </div>
+</div>

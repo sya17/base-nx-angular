@@ -1,0 +1,222 @@
+<div class="settings">
+  <div class="settings-header">
+    <h1>
+      <mat-icon>settings</mat-icon>
+      Settings
+    </h1>
+    <p>Manage your application preferences and configurations.</p>
+  </div>
+
+  <div class="settings-container">
+    <mat-card class="settings-sidebar">
+      <nav class="settings-nav">
+        <button 
+          mat-button
+          class="nav-item"
+          [class.active]="activeTab === 'general'"
+          (click)="setActiveTab('general')"
+        >
+          <mat-icon>tune</mat-icon>
+          General
+        </button>
+        <button 
+          mat-button
+          class="nav-item"
+          [class.active]="activeTab === 'notifications'"
+          (click)="setActiveTab('notifications')"
+        >
+          <mat-icon>notifications</mat-icon>
+          Notifications
+        </button>
+        <button 
+          mat-button
+          class="nav-item"
+          [class.active]="activeTab === 'security'"
+          (click)="setActiveTab('security')"
+        >
+          <mat-icon>security</mat-icon>
+          Security
+        </button>
+        <button 
+          mat-button
+          class="nav-item"
+          [class.active]="activeTab === 'integrations'"
+          (click)="setActiveTab('integrations')"
+        >
+          <mat-icon>extension</mat-icon>
+          Integrations
+        </button>
+        <button 
+          mat-button
+          class="nav-item"
+          [class.active]="activeTab === 'account'"
+          (click)="setActiveTab('account')"
+        >
+          <mat-icon>account_circle</mat-icon>
+          Account
+        </button>
+      </nav>
+    </mat-card>
+
+    <mat-card class="settings-content">
+      <!-- General Settings -->
+      <div class="settings-panel" *ngIf="activeTab === 'general'">
+        <h2>General Settings</h2>
+        <div class="settings-group">
+          <mat-form-field appearance="outline">
+            <mat-label>Site Name</mat-label>
+            <input matInput [value]="generalSettings.siteName">
+          </mat-form-field>
+          
+          <mat-form-field appearance="outline">
+            <mat-label>Site Description</mat-label>
+            <textarea matInput [value]="generalSettings.siteDescription"></textarea>
+          </mat-form-field>
+          
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Language</mat-label>
+              <mat-select [value]="generalSettings.language">
+                <mat-option value="en">English</mat-option>
+                <mat-option value="es">Spanish</mat-option>
+                <mat-option value="fr">French</mat-option>
+              </mat-select>
+            </mat-form-field>
+            
+            <mat-form-field appearance="outline">
+              <mat-label>Timezone</mat-label>
+              <mat-select [value]="generalSettings.timezone">
+                <mat-option value="UTC">UTC</mat-option>
+                <mat-option value="EST">Eastern</mat-option>
+                <mat-option value="PST">Pacific</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notification Settings -->
+      <div class="settings-panel" *ngIf="activeTab === 'notifications'">
+        <h2>Notification Settings</h2>
+        <div class="settings-group">
+          <div class="toggle-field" *ngFor="let setting of notificationSettingsArray">
+            <div class="toggle-content">
+              <div class="toggle-info">
+                <h4>{{ setting.label }}</h4>
+                <p>{{ setting.desc }}</p>
+              </div>
+              <mat-slide-toggle 
+                [checked]="notificationSettings[setting.key]"
+                (change)="toggleNotification(setting.key)"
+              ></mat-slide-toggle>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Security Settings -->
+      <div class="settings-panel" *ngIf="activeTab === 'security'">
+        <h2>Security Settings</h2>
+        <div class="settings-group">
+          <div class="toggle-field">
+            <div class="toggle-content">
+              <div class="toggle-info">
+                <h4>Two-Factor Authentication</h4>
+                <p>Add an extra layer of security to your account</p>
+              </div>
+              <mat-slide-toggle 
+                [checked]="securitySettings.twoFactorAuth"
+                (change)="toggleSecurity('twoFactorAuth')"
+              ></mat-slide-toggle>
+            </div>
+          </div>
+          
+          <mat-form-field appearance="outline">
+            <mat-label>Session Timeout (minutes)</mat-label>
+            <input matInput type="number" [value]="securitySettings.sessionTimeout">
+          </mat-form-field>
+          
+          <mat-form-field appearance="outline">
+            <mat-label>Password Expiry (days)</mat-label>
+            <input matInput type="number" [value]="securitySettings.passwordExpiry">
+          </mat-form-field>
+          
+          <mat-form-field appearance="outline">
+            <mat-label>Max Login Attempts</mat-label>
+            <input matInput type="number" [value]="securitySettings.loginAttempts">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Integrations -->
+      <div class="settings-panel" *ngIf="activeTab === 'integrations'">
+        <h2>Integrations</h2>
+        <div class="settings-group">
+          <div class="integration-item" *ngFor="let integration of integrations">
+            <div class="integration-info">
+              <h4>{{ integration.name }}</h4>
+              <p>{{ integration.description }}</p>
+            </div>
+            <div class="integration-status">
+              <span 
+                class="status-badge"
+                [class.connected]="integration.connected"
+                [class.disconnected]="!integration.connected"
+              >
+                <mat-icon>{{ integration.connected ? 'check_circle' : 'cancel' }}</mat-icon>
+                {{ integration.connected ? 'Connected' : 'Disconnected' }}
+              </span>
+              <button 
+                mat-button
+                [color]="integration.connected ? 'warn' : 'primary'"
+                (click)="toggleIntegration(integration)"
+              >
+                {{ integration.connected ? 'Disconnect' : 'Connect' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Account Settings -->
+      <div class="settings-panel" *ngIf="activeTab === 'account'">
+        <h2>Account Settings</h2>
+        <div class="settings-group">
+          <mat-form-field appearance="outline">
+            <mat-label>Full Name</mat-label>
+            <input matInput value="John Doe">
+          </mat-form-field>
+          
+          <mat-form-field appearance="outline">
+            <mat-label>Email Address</mat-label>
+            <input matInput type="email" value="john.doe@company.com">
+          </mat-form-field>
+          
+          <mat-form-field appearance="outline">
+            <mat-label>Current Password</mat-label>
+            <input matInput type="password" placeholder="Enter current password">
+          </mat-form-field>
+          
+          <mat-form-field appearance="outline">
+            <mat-label>New Password</mat-label>
+            <input matInput type="password" placeholder="Enter new password">
+          </mat-form-field>
+          
+          <div class="danger-zone">
+            <h3>
+              <mat-icon color="warn">warning</mat-icon>
+              Danger Zone
+            </h3>
+            <p>Once you delete your account, there is no going back.</p>
+            <button mat-raised-button color="warn">Delete Account</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-actions">
+        <button mat-raised-button color="primary">Save Changes</button>
+        <button mat-button>Cancel</button>
+      </div>
+    </mat-card>
+  </div>
+</div>

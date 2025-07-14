@@ -1,0 +1,29 @@
+{
+  "name": "team",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/features/team/src",
+  "prefix": "lib",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:ng-packagr-lite",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "options": {
+        "project": "libs/features/team/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/features/team/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/features/team/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

@@ -8,6 +8,7 @@
     "lib": ["es2020", "dom"],
     "baseUrl": ".",
     "paths": {
+      "@base-nx-angular/analytics": ["libs/features/analytics/src/index.ts"],
       "@base-nx-angular/features/auth": ["libs/features/auth/src/index.ts"],
       "@base-nx-angular/features/auth/data-access": [
         "libs/features/auth/data-access/src/index.ts"
@@ -25,6 +26,8 @@
         "libs/features/dashboard/ui/src/index.ts"
       ],
       "@base-nx-angular/layout": ["libs/layout/src/index.ts"],
+      "@base-nx-angular/projects": ["libs/features/projects/src/index.ts"],
+      "@base-nx-angular/settings": ["libs/features/settings/src/index.ts"],
       "@base-nx-angular/shared/constants": [
         "libs/shared/constants/src/index.ts"
       ],
@@ -35,7 +38,8 @@
       "@base-nx-angular/shared/models": ["libs/shared/models/src/index.ts"],
       "@base-nx-angular/shared/services": ["libs/shared/services/src/index.ts"],
       "@base-nx-angular/shared/ui": ["libs/shared/ui/src/index.ts"],
-      "@base-nx-angular/shared/utils": ["libs/shared/utils/src/index.ts"]
+      "@base-nx-angular/shared/utils": ["libs/shared/utils/src/index.ts"],
+      "@base-nx-angular/team": ["libs/features/team/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

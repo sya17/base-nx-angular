@@ -1,0 +1,96 @@
+<div class="projects">
+  <div class="projects-header">
+    <div class="header-content">
+      <h1>
+        <mat-icon>folder</mat-icon>
+        Projects
+      </h1>
+      <p>Manage and track all your ongoing projects.</p>
+    </div>
+    <button mat-raised-button color="primary" class="create-btn">
+      <mat-icon>add</mat-icon>
+      New Project
+    </button>
+  </div>
+
+  <div class="projects-filters">
+    <div class="filter-group">
+      <button mat-button class="filter-btn active">All Projects</button>
+      <button mat-button class="filter-btn">In Progress</button>
+      <button mat-button class="filter-btn">Completed</button>
+      <button mat-button class="filter-btn">Planning</button>
+    </div>
+    <div class="search-box">
+      <mat-icon>search</mat-icon>
+      <input type="text" placeholder="Search projects...">
+    </div>
+  </div>
+
+  <div class="projects-grid">
+    <mat-card class="project-card" *ngFor="let project of projects">
+      <div class="project-header">
+        <div class="project-title">
+          <h3>{{ project.name }}</h3>
+          <mat-chip 
+            class="project-status"
+            [class]="getStatusClass(project.status)"
+          >
+            {{ project.status }}
+          </mat-chip>
+        </div>
+        <div class="project-priority">
+          <mat-chip 
+            class="priority-badge"
+            [class]="getPriorityClass(project.priority)"
+          >
+            {{ project.priority }}
+          </mat-chip>
+        </div>
+      </div>
+
+      <p class="project-description">{{ project.description }}</p>
+
+      <div class="project-progress">
+        <div class="progress-header">
+          <span>Progress</span>
+          <span>{{ project.progress }}%</span>
+        </div>
+        <mat-progress-bar 
+          mode="determinate" 
+          [value]="project.progress"
+        ></mat-progress-bar>
+      </div>
+
+      <div class="project-team">
+        <span class="team-label">Team:</span>
+        <div class="team-avatars">
+          <div 
+            class="team-avatar"
+            *ngFor="let member of project.team"
+            [title]="member"
+          >
+            {{ getInitials(member) }}
+          </div>
+        </div>
+      </div>
+
+      <div class="project-footer">
+        <div class="project-deadline">
+          <mat-icon>event</mat-icon>
+          <span>Due: {{ project.deadline }}</span>
+        </div>
+        <div class="project-actions">
+          <button mat-icon-button class="action-btn">
+            <mat-icon>visibility</mat-icon>
+          </button>
+          <button mat-icon-button class="action-btn">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button class="action-btn">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

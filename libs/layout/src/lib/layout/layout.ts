@@ -1,123 +1,164 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  Badge,
-  Button,
-  Card,
-  NotificationBadge,
-  Datepicker,
-  Dropdown,
-  DropdownOption,
-  TextField,
-  Modal,
-  Progress,
-  Slider,
-  Switch,
-  Tabs,
-  Tab,
-  Toast,
-} from '@base-nx-angular/shared/ui';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { Header, UserProfile } from '../header/header';
+import { Sidebar, NavigationItem, SidebarFooterData } from '../sidebar/sidebar';
+import { Footer, FooterSection, SocialLink } from '../footer/footer';
 
 @Component({
   selector: 'lib-layout',
   imports: [
     CommonModule,
-    Button,
-    Badge,
-    NotificationBadge,
-    Card,
-    Datepicker,
-    Dropdown,
-    TextField,
-    Modal,
-    Progress,
-    Slider,
-    Switch,
-    Tabs,
-    Tab,
-    Toast,
+    Header,
+    Sidebar,
+    Footer
   ],
   templateUrl: './layout.html',
   styleUrl: './layout.scss',
 })
-export class Layout {
-  @ViewChild('toastContainer') toastContainer!: Toast;
+export class Layout implements OnInit, OnDestroy {
+  // Header Configuration
+  @Input() user: UserProfile | null = {
+    name: 'John Doe',
+    role: 'Administrator',
+    avatar: ''
+  };
+  @Input() showHeaderSearch = true;
+  @Input() showNotifications = true;
+  @Input() notificationCount = 5;
+  @Input() logoText = 'BaseApp';
+  @Input() logoIcon = 'dashboard';
 
-  activeTab = 'tab1';
-  isLoading = false;
-  notification: string | null = null;
-  isModalOpen = false;
-  modalSize: 'sm' | 'md' | 'lg' | 'xl' | 'full' = 'md';
-  modalTitle = '';
+  // Sidebar Configuration
+  @Input() sidebarCollapsed = false;
+  @Input() navigationItems: NavigationItem[] = [];
+  @Input() sidebarFooterData: SidebarFooterData | null = null;
+  @Input() showSidebarFooter = false;
 
-  downloadProgress = 45;
+  // Footer Configuration
+  @Input() companyName = 'Base NX Angular';
+  @Input() companyDescription = 'A modern Angular application built with NX monorepo architecture.';
+  @Input() showFooterSections = true;
+  @Input() showSocialLinks = true;
+  @Input() customFooterSections: FooterSection[] = [];
+  @Input() customSocialLinks: SocialLink[] = [];
 
-  countryOptions: DropdownOption[] = [
-    { value: 'id', label: 'Indonesia', icon: 'flag-id' },
-    { value: 'us', label: 'United States', icon: 'flag-us' },
-    { value: 'sg', label: 'Singapore', icon: 'flag-sg' },
-    { value: 'my', label: 'Malaysia', icon: 'flag-my' },
-    { value: 'th', label: 'Thailand', icon: 'flag-th' },
-    { value: 'ph', label: 'Philippines', icon: 'flag-ph' },
-    { value: 'vn', label: 'Vietnam', icon: 'flag-vn' },
-  ];
+  // Layout Configuration
+  @Input() showFooter = true;
+  @Input() contentPadding = '32px';
 
-  showNotification(message: string): void {
-    this.notification = message;
-    setTimeout(() => {
-      this.notification = null;
-    }, 3000);
+  // Internal state
+  isMobile = false;
+  isMobileMenuOpen = false;
+  currentRoute = '';
+  private destroy$ = new Subject<void>();
+
+  constructor(private router: Router) {}
+
+  ngOnInit(): void {
+    this.checkScreenSize();
+    this.updateSidebarState();
+    this.setupRouteTracking();
   }
 
-  openModal(size: 'sm' | 'md' | 'lg' | 'xl' | 'full'): void {
-    this.modalSize = size;
-    this.modalTitle = `${size.toUpperCase()} Modal Demo`;
-    this.isModalOpen = true;
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
-  closeModal(): void {
-    this.isModalOpen = false;
-    this.showNotification('Modal closed');
-  }
-  onTabChange(tabId: string): void {
-    this.activeTab = tabId;
-    console.log('Active tab changed to:', tabId);
+  @HostListener('window:resize')
+  onResize(): void {
+    this.checkScreenSize();
+    this.updateSidebarState();
   }
 
-  showSuccessToast(): void {
-    this.toastContainer.success(
-      'Success!',
-      'Your action has been completed successfully.',
-      { duration: 4000 }
-    );
+  private checkScreenSize(): void {
+    this.isMobile = window.innerWidth <= 1024;
   }
 
-  showErrorToast(): void {
-    this.toastContainer.error(
-      'Error Occurred',
-      'Something went wrong. Please try again.',
-      {
-        duration: 6000,
-        action: {
-          label: 'Retry',
-          handler: () => console.log('Retry action'),
-        },
-      }
-    );
+  private updateSidebarState(): void {
+    if (this.isMobile) {
+      this.sidebarCollapsed = true;
+      this.isMobileMenuOpen = false;
+    } else {
+      this.isMobileMenuOpen = false;
+    }
   }
 
-  showWarningToast(): void {
-    this.toastContainer.warning(
-      'Warning',
-      'Please check your input data before proceeding.'
-    );
+  private setupRouteTracking(): void {
+    // Get initial route
+    this.currentRoute = this.router.url;
+    
+    // Track route changes
+    this.router.events
+      .pipe(
+        filter(event => event instanceof NavigationEnd),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((event: NavigationEnd) => {
+        this.currentRoute = event.url;
+      });
   }
 
-  showInfoToast(): void {
-    this.toastContainer.info(
-      'Information',
-      'Your data has been automatically saved.',
-      { persistent: true }
-    );
+  // Event Handlers
+  onMenuToggle(): void {
+    if (this.isMobile) {
+      this.isMobileMenuOpen = !this.isMobileMenuOpen;
+      this.sidebarCollapsed = !this.isMobileMenuOpen;
+    } else {
+      this.sidebarCollapsed = !this.sidebarCollapsed;
+    }
+  }
+
+  onSearchQuery(query: string): void {
+    console.log('Search query:', query);
+    // Implement search functionality
+  }
+
+  onNotificationClick(): void {
+    console.log('Notifications clicked');
+    // Implement notification functionality
+  }
+
+  onProfileClick(): void {
+    console.log('Profile clicked');
+    // Implement profile menu functionality
+  }
+
+  onLogoClick(): void {
+    console.log('Logo clicked');
+    this.router.navigate(['/dashboard']);
+  }
+
+  onNavigationClick(item: NavigationItem): void {
+    console.log('Navigation clicked:', item);
+    
+    // Navigate to the route
+    if (item.route) {
+      this.router.navigate([item.route]);
+    }
+    
+    // Close mobile menu after navigation
+    if (this.isMobile) {
+      this.isMobileMenuOpen = false;
+      this.sidebarCollapsed = true;
+    }
+  }
+
+  onSidebarCollapseToggle(collapsed: boolean): void {
+    this.sidebarCollapsed = collapsed;
+    
+    if (this.isMobile) {
+      this.isMobileMenuOpen = !collapsed;
+    }
+  }
+
+  get contentMarginLeft(): string {
+    if (this.isMobile) {
+      return '0';
+    }
+    return this.sidebarCollapsed ? '80px' : '280px';
   }
 }
