@@ -1,6 +1,15 @@
 <!-- <app-nx-welcome></app-nx-welcome>
 <router-outlet></router-outlet> -->
 
-<lib-layout>
+<!-- Conditional layout rendering based on route -->
+<div *ngIf="isAuthRoute(); else mainLayout">
+  <!-- Authentication pages without layout -->
+  <router-outlet></router-outlet>
+</div>
+
+<ng-template #mainLayout>
+  <!-- Main application with layout -->
+  <lib-layout>
     <router-outlet></router-outlet>
-</lib-layout>
+  </lib-layout>
+</ng-template>
