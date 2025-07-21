@@ -89,6 +89,12 @@ export class Sidebar {
       badge: '3',
     },
     {
+      id: 'data-management',
+      label: 'Data Management',
+      icon: 'storage',
+      route: '/data-management',
+    },
+    {
       id: 'projects',
       label: 'Projects',
       icon: 'folder',

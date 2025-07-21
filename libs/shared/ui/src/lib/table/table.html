@@ -1,1 +1,163 @@
-<p>table works!</p>
+<div class="table-container">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="table-loading">
+    <div class="loading-spinner"></div>
+    <p>Loading data...</p>
+  </div>
+
+  <!-- Table -->
+  <div *ngIf="!loading" class="table-wrapper">
+    <!-- Table Header Actions -->
+    <div class="table-header" *ngIf="config.selectable || actionsTemplate">
+      <div class="table-header-selection" *ngIf="config.selectable">
+        <span class="selection-count">{{ selectedRows.length }} of {{ data.length }} selected</span>
+        <lib-button 
+          *ngIf="selectedRows.length > 0" 
+          variant="secondary" 
+          size="sm"
+          (click)="selectedRows = []; selectionChange.emit([])"
+        >
+          Clear Selection
+        </lib-button>
+      </div>
+      <div class="table-header-actions" *ngIf="actionsTemplate">
+        <ng-container *ngTemplateOutlet="actionsTemplate"></ng-container>
+      </div>
+    </div>
+
+    <!-- Main Table -->
+    <table class="table">
+      <thead class="table-head">
+        <tr class="table-row">
+          <!-- Selection Column -->
+          <th *ngIf="config.selectable" class="table-cell table-cell--header table-cell--selection">
+            <input
+              type="checkbox"
+              class="table-checkbox"
+              [checked]="allSelected"
+              [indeterminate]="someSelected"
+              (change)="onSelectAll()"
+            />
+          </th>
+          
+          <!-- Data Columns -->
+          <th 
+            *ngFor="let column of columns" 
+            class="table-cell table-cell--header"
+            [class.table-cell--sortable]="column.sortable && config.sorting"
+            [style.width]="column.width"
+            [style.text-align]="getCellAlignment(column)"
+            (click)="onSort(column)"
+          >
+            <div class="table-header-content">
+              <span class="table-header-label">{{ column.label }}</span>
+              <lib-icon 
+                *ngIf="column.sortable && config.sorting" 
+                [name]="getSortIcon(column)"
+                class="table-sort-icon"
+                [class.table-sort-icon--active]="sortColumn === column.key"
+              ></lib-icon>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      
+      <tbody class="table-body">
+        <!-- Data Rows -->
+        <tr 
+          *ngFor="let row of paginatedData; trackBy: trackByFn" 
+          class="table-row table-row--data"
+          [class.table-row--selected]="isRowSelected(row)"
+          (click)="onRowClick(row)"
+        >
+          <!-- Selection Cell -->
+          <td *ngIf="config.selectable" class="table-cell table-cell--selection">
+            <input
+              type="checkbox"
+              class="table-checkbox"
+              [checked]="isRowSelected(row)"
+              (change)="onSelectRow(row)"
+              (click)="$event.stopPropagation()"
+            />
+          </td>
+          
+          <!-- Data Cells -->
+          <td 
+            *ngFor="let column of columns" 
+            class="table-cell"
+            [style.text-align]="getCellAlignment(column)"
+          >
+            <div class="table-cell-content">
+              <!-- Custom Cell Template -->
+              <ng-container *ngIf="column.type === 'custom' && customCellTemplate; else defaultCell">
+                <ng-container *ngTemplateOutlet="customCellTemplate; context: { $implicit: row, column: column, value: getNestedValue(row, column.key) }"></ng-container>
+              </ng-container>
+              
+              <!-- Default Cell -->
+              <ng-template #defaultCell>
+                <span class="table-cell-text">
+                  {{ formatCellValue(getNestedValue(row, column.key), column) }}
+                </span>
+              </ng-template>
+            </div>
+          </td>
+        </tr>
+        
+        <!-- Empty State -->
+        <tr *ngIf="paginatedData.length === 0" class="table-row table-row--empty">
+          <td [attr.colspan]="columns.length + (config.selectable ? 1 : 0)" class="table-cell table-cell--empty">
+            <div class="table-empty">
+              <lib-icon name="inbox" class="table-empty-icon"></lib-icon>
+              <p class="table-empty-message">{{ emptyMessage }}</p>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <div *ngIf="config.pagination && !loading && data.length > 0" class="table-footer">
+    <div class="table-pagination">
+      <div class="table-pagination-info">
+        <span>
+          Showing {{ (currentPage - 1) * pageSize + 1 }} to {{ Math.min(currentPage * pageSize, data.length) }} of {{ data.length }} entries
+        </span>
+      </div>
+      
+      <div class="table-pagination-size" *ngIf="config.pageSizeOptions && config.pageSizeOptions.length > 1">
+        <label for="pageSize">Show:</label>
+        <select 
+          id="pageSize" 
+          class="table-page-size-select"
+          [value]="pageSize"
+          (change)="onPageSizeChange(+$any($event.target).value)"
+        >
+          <option *ngFor="let size of config.pageSizeOptions" [value]="size">
+            {{ size }}
+          </option>
+        </select>
+      </div>
+      
+      <div class="pagination-controls">
+        <button 
+          class="pagination-btn"
+          [disabled]="currentPage === 1"
+          (click)="onPageChange(currentPage - 1)"
+        >
+          Previous
+        </button>
+        
+        <span class="pagination-info">Page {{ currentPage }} of {{ totalPages }}</span>
+        
+        <button 
+          class="pagination-btn"
+          [disabled]="currentPage === totalPages"
+          (click)="onPageChange(currentPage + 1)"
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

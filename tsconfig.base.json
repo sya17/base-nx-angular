@@ -25,15 +25,16 @@
       "@base-nx-angular/features/dashboard/ui": [
         "libs/features/dashboard/ui/src/index.ts"
       ],
+      "@base-nx-angular/features/data-management": [
+        "libs/features/data-management/src/index.ts"
+      ],
       "@base-nx-angular/features/projects": [
         "libs/features/projects/src/index.ts"
       ],
       "@base-nx-angular/features/settings": [
         "libs/features/settings/src/index.ts"
       ],
-      "@base-nx-angular/features/team": [
-        "libs/features/team/src/index.ts"
-      ],
+      "@base-nx-angular/features/team": ["libs/features/team/src/index.ts"],
       "@base-nx-angular/layout": ["libs/layout/src/index.ts"],
       "@base-nx-angular/shared/constants": [
         "libs/shared/constants/src/index.ts"

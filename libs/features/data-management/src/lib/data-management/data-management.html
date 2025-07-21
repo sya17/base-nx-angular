@@ -1,0 +1,277 @@
+<div class="data-management">
+  <!-- Header -->
+  <div class="data-management-header">
+    <div class="header-content">
+      <h1>
+        <lib-icon name="storage"></lib-icon>
+        Data Management
+      </h1>
+      <p>Manage employee data with advanced table functionality and form validation.</p>
+    </div>
+    <div class="header-actions">
+      <lib-button 
+        variant="secondary" 
+        (click)="exportData()"
+        [disabled]="data.length === 0"
+      >
+        <lib-icon slot="icon-left" name="download"></lib-icon>
+        Export CSV
+      </lib-button>
+      <lib-button 
+        variant="primary" 
+        (click)="openAddModal()"
+      >
+        <lib-icon slot="icon-left" name="add"></lib-icon>
+        Add New
+      </lib-button>
+    </div>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="stats-grid">
+    <lib-card class="stat-card">
+      <div class="stat-content">
+        <div class="stat-icon stat-icon--total">
+          <lib-icon name="people"></lib-icon>
+        </div>
+        <div class="stat-details">
+          <h3>{{ stats.total }}</h3>
+          <p>Total Employees</p>
+        </div>
+      </div>
+    </lib-card>
+    
+    <lib-card class="stat-card">
+      <div class="stat-content">
+        <div class="stat-icon stat-icon--active">
+          <lib-icon name="check_circle"></lib-icon>
+        </div>
+        <div class="stat-details">
+          <h3>{{ stats.active }}</h3>
+          <p>Active</p>
+        </div>
+      </div>
+    </lib-card>
+    
+    <lib-card class="stat-card">
+      <div class="stat-content">
+        <div class="stat-icon stat-icon--pending">
+          <lib-icon name="schedule"></lib-icon>
+        </div>
+        <div class="stat-details">
+          <h3>{{ stats.pending }}</h3>
+          <p>Pending</p>
+        </div>
+      </div>
+    </lib-card>
+    
+    <lib-card class="stat-card">
+      <div class="stat-content">
+        <div class="stat-icon stat-icon--inactive">
+          <lib-icon name="cancel"></lib-icon>
+        </div>
+        <div class="stat-details">
+          <h3>{{ stats.inactive }}</h3>
+          <p>Inactive</p>
+        </div>
+      </div>
+    </lib-card>
+  </div>
+
+  <!-- Data Table -->
+  <lib-card class="table-card">
+    <div class="table-header">
+      <h2>Employee Data</h2>
+      <div class="table-actions" *ngIf="selectedRows.length > 0">
+        <span class="selection-info">{{ selectedRows.length }} selected</span>
+        <lib-button 
+          variant="danger" 
+          size="sm"
+          (click)="deleteSelected()"
+        >
+          <lib-icon slot="icon-left" name="delete"></lib-icon>
+          Delete Selected
+        </lib-button>
+      </div>
+    </div>
+
+    <lib-table
+      [columns]="columns"
+      [data]="data"
+      [config]="tableConfig"
+      (rowClick)="onRowClick($event)"
+      (selectionChange)="onSelectionChange($event)"
+      (sortChange)="onSortChange($event)"
+      (pageChange)="onPageChange($event)"
+    >
+      <!-- Custom cell template for status column -->
+      <ng-template #customCell let-row="$implicit" let-column="column" let-value="value">
+        <ng-container [ngSwitch]="column.key">
+          <div *ngSwitchCase="'status'" class="status-cell">
+            <lib-badge [color]="getStatusColor(value)">
+              {{ value | titlecase }}
+            </lib-badge>
+          </div>
+          <div *ngSwitchCase="'salary'" class="salary-cell">
+            {{ formatSalary(value) }}
+          </div>
+        </ng-container>
+      </ng-template>
+
+      <!-- Table action buttons -->
+      <ng-template #actions let-row="$implicit">
+        <div class="table-row-actions">
+          <lib-button 
+            variant="secondary" 
+            size="sm"
+            (click)="openEditModal(row)"
+          >
+            <lib-icon slot="icon-left" name="edit"></lib-icon>
+            Edit
+          </lib-button>
+          <lib-button 
+            variant="danger" 
+            size="sm"
+            (click)="deleteItem(row)"
+          >
+            <lib-icon slot="icon-left" name="delete"></lib-icon>
+            Delete
+          </lib-button>
+        </div>
+      </ng-template>
+    </lib-table>
+  </lib-card>
+
+  <!-- Add/Edit Modal -->
+  <lib-modal 
+    [isOpen]="isModalOpen"
+    [title]="isEditMode ? 'Edit Employee' : 'Add New Employee'"
+    (close)="closeModal()"
+  >
+    <form [formGroup]="dataForm" (ngSubmit)="onSubmit()" class="data-form">
+      <div class="form-grid">
+        <!-- Name Field -->
+        <lib-form-field 
+          label="Full Name"
+          [required]="true"
+          [error]="formErrors['name']"
+          class="form-field"
+        >
+          <lib-text-field
+            formControlName="name"
+            placeholder="Enter full name"
+            [errorMessage]="formErrors['name']"
+          ></lib-text-field>
+        </lib-form-field>
+
+        <!-- Email Field -->
+        <lib-form-field 
+          label="Email Address"
+          [required]="true"
+          [error]="formErrors['email']"
+          class="form-field"
+        >
+          <lib-text-field
+            formControlName="email"
+            type="email"
+            placeholder="Enter email address"
+            [errorMessage]="formErrors['email']"
+          ></lib-text-field>
+        </lib-form-field>
+
+        <!-- Department Field -->
+        <lib-form-field 
+          label="Department"
+          [required]="true"
+          [error]="formErrors['department']"
+          class="form-field"
+        >
+          <select formControlName="department" class="form-select">
+            <option value="">Select Department</option>
+            <option value="Engineering">Engineering</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Sales">Sales</option>
+            <option value="HR">Human Resources</option>
+            <option value="Finance">Finance</option>
+            <option value="Operations">Operations</option>
+          </select>
+        </lib-form-field>
+
+        <!-- Position Field -->
+        <lib-form-field 
+          label="Position"
+          [required]="true"
+          [error]="formErrors['position']"
+          class="form-field"
+        >
+          <lib-text-field
+            formControlName="position"
+            placeholder="Enter position"
+            [errorMessage]="formErrors['position']"
+          ></lib-text-field>
+        </lib-form-field>
+
+        <!-- Salary Field -->
+        <lib-form-field 
+          label="Salary"
+          [required]="true"
+          [error]="formErrors['salary']"
+          class="form-field"
+        >
+          <lib-text-field
+            formControlName="salary"
+            type="number"
+            placeholder="Enter salary"
+            [errorMessage]="formErrors['salary']"
+          ></lib-text-field>
+        </lib-form-field>
+
+        <!-- Start Date Field -->
+        <lib-form-field 
+          label="Start Date"
+          [required]="true"
+          [error]="formErrors['startDate']"
+          class="form-field"
+        >
+          <lib-text-field
+            formControlName="startDate"
+            type="date"
+            [errorMessage]="formErrors['startDate']"
+          ></lib-text-field>
+        </lib-form-field>
+
+        <!-- Status Field -->
+        <lib-form-field 
+          label="Status"
+          [required]="true"
+          [error]="formErrors['status']"
+          class="form-field form-field--full-width"
+        >
+          <select formControlName="status" class="form-select">
+            <option value="active">Active</option>
+            <option value="pending">Pending</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </lib-form-field>
+      </div>
+
+      <!-- Modal Actions -->
+      <div class="modal-actions">
+        <lib-button 
+          type="button"
+          variant="secondary" 
+          (click)="closeModal()"
+        >
+          Cancel
+        </lib-button>
+        <lib-button 
+          type="submit"
+          variant="primary"
+          [disabled]="dataForm.invalid"
+        >
+          {{ isEditMode ? 'Update' : 'Create' }}
+        </lib-button>
+      </div>
+    </form>
+  </lib-modal>
+</div>

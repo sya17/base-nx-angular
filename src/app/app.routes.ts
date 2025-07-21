@@ -57,6 +57,11 @@ export const appRoutes: Route[] = [
       import('@base-nx-angular/features/team').then((m) => m.Team),
   },
   {
+    path: 'data-management',
+    loadComponent: () =>
+      import('@base-nx-angular/features/data-management').then((m) => m.DataManagement),
+  },
+  {
     path: 'settings',
     loadComponent: () =>
       import('@base-nx-angular/features/settings').then((m) => m.Settings),

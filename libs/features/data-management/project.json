@@ -1,0 +1,37 @@
+{
+  "name": "features-data-management",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/features/data-management/src",
+  "prefix": "lib",
+  "projectType": "library",
+  "tags": ["type:feature", "scope:data-management"],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:ng-packagr-lite",
+      "outputs": [
+        "{workspaceRoot}/dist/libs/features/data-management"
+      ],
+      "options": {
+        "project": "libs/features/data-management/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/features/data-management/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/features/data-management/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/features/data-management/**/*.ts",
+          "libs/features/data-management/**/*.html"
+        ]
+      }
+    }
+  }
+}
